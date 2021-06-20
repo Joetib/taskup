@@ -6,6 +6,7 @@ A project management solution application.
   - Oti Boateng Joseph     3587018
   - Asiedu Amos           3580818 
   - Osei Bright           3586418
+  - Okyere Richmond        3586218 
 
 ## Project setup
 ```
