@@ -1,4 +1,6 @@
 # taskup
+A project management solution application.
+
 
 ## Project setup
 ```
