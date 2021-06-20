@@ -2,6 +2,10 @@
 A project management solution application.
 
 
+## Group Members
+  - Oti Boateng Joseph     3587018
+  - Asiedu Amos           3580818 
+
 ## Project setup
 ```
 npm install
