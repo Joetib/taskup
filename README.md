@@ -9,6 +9,7 @@ A project management solution application.
   - Okyere Richmond        3586218 
   - Asante Theophilus Kofi  3580418
   - Agyemang Francis Akwasi 3578618
+  - Kpamsogah John Yaw  3584218
 
 ## Project setup
 ```
