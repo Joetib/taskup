@@ -8,6 +8,7 @@ A project management solution application.
   - Osei Bright           3586418
   - Okyere Richmond        3586218 
   - Asante Theophilus Kofi  3580418
+  - Agyemang Francis Akwasi 3578618
 
 ## Project setup
 ```
