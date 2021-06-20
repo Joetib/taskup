@@ -1,8 +1,15 @@
 # taskup
+A project management solution application.
+
 
 ## Project setup
 ```
 npm install
+```
+
+### Runs the backend server
+```
+python run.py
 ```
 
 ### Compiles and hot-reloads for development
