@@ -13,6 +13,7 @@ A project management solution application.
   - Gyabeng Elton Modestus    3583818
   - Dorglo Peter              3583118
   - Appreh Nyarko Nana Kwame  3580118
+  - Klubi Fred                3589518
 
 ## Project setup
 ```
