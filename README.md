@@ -11,6 +11,7 @@ A project management solution application.
   - Agyemang Francis Akwasi   3578618
   - Kpamsogah John Yaw        3584218
   - Gyabeng Elton Modestus    3583818
+  - Dorglo Peter              3583118
 
 ## Project setup
 ```
