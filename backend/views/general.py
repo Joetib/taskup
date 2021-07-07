@@ -21,6 +21,7 @@ def create_project():
         "id": project.id,
         'name': project.name,
     }
+    
 @mod.get('/project')
 @requires_api_login
 def get_projects_list():
@@ -29,6 +30,7 @@ def get_projects_list():
         'projects_you_contribute_to': projects_schema.dump(g.user.projects),
         'all': projects_schema(g.user.projects | Project.query.filter_by(manager_id=g.user.id).all()),
     })
+
 
 @mod.get('/project/<int:project_id>/')
 @requires_api_login
