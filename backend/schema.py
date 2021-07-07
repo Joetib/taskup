@@ -1,8 +1,16 @@
+from backend.database import Project, User
 from backend import ma
 
-class ProjectSchema(ma.Schema):
+class UserSchema(ma.SQLAlchemySchema):
     class Meta:
-        fields = ('id', 'name', 'manager_id', 'contributors')
+        model = User
+        fields = ('id', 'name', 'email')
+class ProjectSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Project
+        #fields = ('id', 'name', 'manager_id', )
+        include_fk = True
+    contributors = ma.List(ma.Nested(UserSchema))
 
 # Init Schema
 
