@@ -1,11 +1,13 @@
 from datetime import datetime
 from flask import Flask, session, g, render_template
 from flask_marshmallow import Marshmallow
-
+from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config.from_object('websiteconfig')
 
 
+# database instance
+db: SQLAlchemy = SQLAlchemy(app)
 
 @app.errorhandler(404)
 def not_found(error):
@@ -34,8 +36,9 @@ app.add_url_rule('/docs/<path:page>/', endpoint='docs.show',
 app.add_url_rule('/docs/<version>/.latex/Flask.pdf', endpoint='docs.pdf',
                  build_only=True)
 
-from backend.views import general
+from backend.views import general, auth
 app.register_blueprint(general.mod)
+app.register_blueprint(auth.mod)
 
 from backend.database import User, db_session, init_db
 from backend import utils

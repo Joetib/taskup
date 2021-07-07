@@ -2,6 +2,7 @@ import re
 from datetime import datetime, timedelta
 from functools import wraps
 from flask import g, url_for, flash, abort, request, redirect, Markup
+from backend.database import User
 import hashlib
 
 
@@ -25,6 +26,22 @@ def hash_password(password: str):
 def check_password(password: str, hash:str) -> bool:
     return hash_password(password) == hash
 
+def requires_api_login(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        if auth_header:
+            auth_token = auth_header.split(" ")[1]
+        else:
+            auth_token = ''
+        if auth_token:
+            resp = User.decode_auth_token(auth_token)
+            if not isinstance(resp, str):
+                user = User.query.filter_by(id=resp).first()
+                g.user = user
+                return f(*args, **kwargs)
+        return redirect(url_for('general.api_login', next=request.path))
+    return decorated_function
 
 def requires_login(f):
     @wraps(f)
