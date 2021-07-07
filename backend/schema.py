@@ -1,10 +1,10 @@
 from backend import ma
 
-class ProductSchema(ma.Schema):
+class ProjectSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'name', 'description', 'price', 'qty')
+        fields = ('id', 'name', 'manager_id', 'contributors')
 
 # Init Schema
 
-product_schema = ProductSchema()
-products_schema = ProductSchema(many=True)
+project_schema = ProjectSchema()
+projects_schema = ProjectSchema(many=True)

@@ -8,10 +8,14 @@ app.config.from_object('websiteconfig')
 
 # database instance
 db: SQLAlchemy = SQLAlchemy(app)
+ma = Marshmallow(app)
 
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('404.html'), 404
+    return {
+        'success': False,
+        'message': 'Not Found',
+    }, 404
 
 
 @app.before_request
@@ -30,12 +34,6 @@ def current_year():
     return {'current_year': datetime.utcnow().year}
 
 
-app.add_url_rule('/docs/', endpoint='docs.index', build_only=True)
-app.add_url_rule('/docs/<path:page>/', endpoint='docs.show',
-                 build_only=True)
-app.add_url_rule('/docs/<version>/.latex/Flask.pdf', endpoint='docs.pdf',
-                 build_only=True)
-
 from backend.views import general, auth
 app.register_blueprint(general.mod)
 app.register_blueprint(auth.mod)
@@ -43,7 +41,7 @@ app.register_blueprint(auth.mod)
 from backend.database import User, db_session, init_db
 from backend import utils
 
-ma = Marshmallow(app)
+
 
 
 init_db()

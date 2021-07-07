@@ -35,12 +35,14 @@ def requires_api_login(f):
         else:
             auth_token = ''
         if auth_token:
+            print(auth_token)
             resp = User.decode_auth_token(auth_token)
+            print(resp)
             if not isinstance(resp, str):
                 user = User.query.filter_by(id=resp).first()
                 g.user = user
                 return f(*args, **kwargs)
-        return redirect(url_for('general.api_login', next=request.path))
+        return redirect(url_for('auth.api_login', next=request.path))
     return decorated_function
 
 def requires_login(f):
@@ -51,15 +53,6 @@ def requires_login(f):
             return redirect(url_for('general.login', next=request.path))
         return f(*args, **kwargs)
     return decorated_function
-
-
-def requires_admin(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not g.user.is_admin:
-            abort(401)
-        return f(*args, **kwargs)
-    return requires_login(decorated_function)
 
 
 def format_datetime(dt):
