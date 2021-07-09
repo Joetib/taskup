@@ -32,6 +32,7 @@ class User(Model):
     email = Column('email', String(50), index=True, unique=True)
     name = Column(String(200))
     password = Column(String(500))
+    managed_projects = relationship('Project',back_populates="manager")
 
     
 
@@ -98,6 +99,8 @@ class Project(Model):
     id = Column('project_id', Integer, primary_key=True)
     name = Column(String(50))
     manager_id = Column(Integer, ForeignKey('user.user_id'))
+    manager = relationship('User', back_populates='managed_projects')
+
     contributors = relationship("User",
                     secondary=lambda: association_table,
                     backref="projects")

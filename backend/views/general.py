@@ -48,7 +48,7 @@ def get_project_details(project_id: int):
         'message': "Found" if project else "Not Found",
     }
 
-@mod.put("/project/<int:project_id>/add-contributor/")
+@mod.post("/project/<int:project_id>/add-contributor/")
 @requires_api_login
 def add_contributors_to_project(project_id: int):
     data = request.get_json()

@@ -1,3 +1,4 @@
+from backend.schema import UserSchema
 from flask import Blueprint, render_template, session, redirect, url_for, \
      request, flash, g, jsonify, abort
 from backend.utils import check_password, hash_password
@@ -5,9 +6,10 @@ from backend.database import  db_session, User
 
 mod = Blueprint('auth', __name__, url_prefix='/auth')
 
-@mod.route('/login', methods=["POST"])
+@mod.route('/login/', methods=["POST"])
 def api_login():
     data = request.get_json()
+    print(request.headers)
     email = data['email']
     password = data['password']
     user: User = User.query.filter_by(email=email).first()
@@ -22,7 +24,7 @@ def api_login():
                     'email': user.email,
                     'id': user.id,
                     'success': True,
-                    'message': "sign up successful"
+                    'message': "Login successful.",
                 }
             
     return {
@@ -31,7 +33,7 @@ def api_login():
         'message': "The email and password do not match",
     }
 
-@mod.route('/signup', methods=["POST"])
+@mod.route('/signup/', methods=["POST"])
 def api_signup():
     data = request.get_json()
     name = data['name']
@@ -61,4 +63,15 @@ def api_signup():
         'token': None,
         'success': False,
         'message': 'Sign up was unsuccessful.'
+    }
+
+
+@mod.get('/users/')
+def get_all_users():
+    return {
+        "success": True,
+        "message": "Successfully retrieved all users.",
+        "results": UserSchema(many=True).dump(
+            User.query.all()
+        ),
     }

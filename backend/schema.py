@@ -11,6 +11,7 @@ class ProjectSchema(ma.SQLAlchemyAutoSchema):
         #fields = ('id', 'name', 'manager_id', )
         include_fk = True
     contributors = ma.List(ma.Nested(UserSchema))
+    manager = ma.Nested(UserSchema)
 
 # Init Schema
 
