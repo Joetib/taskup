@@ -7,7 +7,7 @@ DEBUG = False
 
 SECRET_KEY = 'taskuptestkey'
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'db.sqlite3')
-DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'db.sqlite3')
+DATABASE_URI = SQLALCHEMY_DATABASE_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}
 ADMINS = frozenset(['http://taskup.com'])

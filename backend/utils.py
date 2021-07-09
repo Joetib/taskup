@@ -35,9 +35,7 @@ def requires_api_login(f):
         else:
             auth_token = ''
         if auth_token:
-            print(auth_token)
             resp = User.decode_auth_token(auth_token)
-            print(resp)
             if not isinstance(resp, str):
                 user = User.query.filter_by(id=resp).first()
                 g.user = user

@@ -5,11 +5,12 @@ from backend.database import Project, db_session, User
 from backend.schema import project_schema, projects_schema
 mod = Blueprint('general', __name__)
 
-@mod.post('/project')
+@mod.post('/project/')
 @requires_api_login
 def create_project():
     data = request.get_json()
     name = data['name']
+    print("Got here oooo")
     project: Project = Project(name=name)
     project.manager_id = g.user.id
     db_session.add(project)
@@ -18,17 +19,20 @@ def create_project():
     return {
         'success': True,
         'message': "Project created successfully",
-        "id": project.id,
-        'name': project.name,
+        "result": project_schema.dump(project),
     }
 
-@mod.get('/project')
+@mod.get('/project/')
 @requires_api_login
 def get_projects_list():
     return jsonify({
-        'created_projects': projects_schema.dump(Project.query.filter_by(manager_id=g.user.id).all()),
-        'projects_you_contribute_to': projects_schema.dump(g.user.projects),
-        'all': projects_schema.dump([*g.user.projects  ,*Project.query.filter_by(manager_id=g.user.id).all()]),
+        "success": True,
+        "message": "Successfully fetched projects.",
+        "result": {
+            'created_projects': projects_schema.dump(Project.query.filter_by(manager_id=g.user.id).all()),
+            'projects_you_contribute_to': projects_schema.dump(g.user.projects),
+            'all': projects_schema.dump([*g.user.projects  ,*Project.query.filter_by(manager_id=g.user.id).all()]),
+        },
     })
 
 

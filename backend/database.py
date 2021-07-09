@@ -26,6 +26,9 @@ Model.query = db_session.query_property()
 def init_db():
     Model.metadata.create_all(bind=engine)
 
+def clean_db():
+    Model.metadata.drop_all(bind=engine)
+
 class User(Model):
     __tablename__ = 'user'
     id = Column('user_id', Integer, primary_key=True)

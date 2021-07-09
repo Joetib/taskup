@@ -9,7 +9,6 @@ mod = Blueprint('auth', __name__, url_prefix='/auth')
 @mod.route('/login/', methods=["POST"])
 def api_login():
     data = request.get_json()
-    print(request.headers)
     email = data['email']
     password = data['password']
     user: User = User.query.filter_by(email=email).first()
