@@ -3,11 +3,14 @@ from flask import Flask, session, g, render_template
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_cors import CORS
+
 app = Flask(__name__)
 app.config.from_object('websiteconfig')
 
 
 # database instance
+cors = CORS(app)
 db: SQLAlchemy = SQLAlchemy(app)
 ma = Marshmallow(app)
 migrate = Migrate(app=app, db=db, directory='backend/migrations')

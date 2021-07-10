@@ -1,59 +1,74 @@
 <template>
-  <div class="container">
+  <div class="container py-5" style="max-width: 500px;">
     <div>
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" v-model="name" class="form-control" />
-        {{ name }}
-      </div>
-      <div class="form-group">
+      <h3>Enter details to Log In</h3>
+      <p class="lead">so we can show you that world you dream of...</p>
+      
+      <div class="form-group py-2">
         <label>Email</label>
         <input type="email" v-model="email" class="form-control" />
-        {{ email }}
       </div>
-      <div class="form-group">
+      <div class="form-group py-2">
         <label>Password</label>
         <input type="password" v-model="password" class="form-control" />
-        {{ password }}
       </div>
-      <div class="form-group">
+      <div class="form-group py-2">
           <button class="btn btn-primary" @click="login">Login</button>
       </div>
+      <div class="form-group ">
+        <p>Kindly <router-link to="/signup">signup</router-link> if you do not already have an account.</p>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "Login",
   components: {},
   data() {
     return {
-      name: "",
       password: "",
       email: "",
     };
   },
   methods: {
-      login(){
-          fetch(
-              'http://127.0.0.1:5000/api-login',
-              {
-                  "Content-Type": 'application/json',
-                  "data": JSON.stringify(
-                      {
-                          "name": this.name,
-                          "email": this.email,
-                          "password": this.passwor,
-                      }
-                  )
-
-              }
-
-          ).then(e=>e.json()).then(e => alert(e));
-          
-          
+      login() {
+      if (!this.email.length > 3){
+        this.error = "Please enter an email address."
       }
+      else if (this.password.length < 5) {
+        this.error = "Password must be at least 5 characters long";
+      } else {
+        this.$store.commit("setIsLoading", true);
+        axios
+          .post("/auth/login/", {
+            email: this.email,
+            password: this.password,
+          })
+          .then((e) => {
+            this.username = e.data.name;
+            this.token = e.data.token;
+            this.$store.commit("updateUsername", e.data.name);
+            this.$store.commit("updateToken", e.data.token);
+            this.$store.commit("setIsLoading", false);
+
+            if (this.$route.params.nextUrl == null) {
+              this.$router.push("/dashboard");
+            } else {
+              this.$router.push(this.$route.params.nextUrl);
+            }
+          })
+          .catch((e) => {
+            this.error =
+              "Sorry that didn't work, check if your username and password are correct.";
+            console.log(e);
+            this.$store.commit("setIsLoading", false);
+          });
+      }
+    },
   }
 };
 </script>

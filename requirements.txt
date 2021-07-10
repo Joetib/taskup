@@ -2,9 +2,11 @@ alembic==1.6.5
 click==8.0.1
 colorama==0.4.4
 Flask==2.0.1
+Flask-Cors==3.0.10
 flask-marshmallow==0.14.0
 Flask-Migrate==3.0.1
 Flask-SQLAlchemy==2.5.1
+flask-unittest==0.1.2
 greenlet==1.1.0
 itsdangerous==2.0.1
 Jinja2==3.0.1
