@@ -1,5 +1,6 @@
 <template>
   <div class="container py-5" style="max-width: 500px;">
+    <form @submit.prevent="login">
     <div>
       <h3>Enter details to Log In</h3>
       <p class="lead">so we can show you that world you dream of...</p>
@@ -19,6 +20,7 @@
         <p>Kindly <router-link to="/signup">signup</router-link> if you do not already have an account.</p>
         </div>
     </div>
+    </form>
   </div>
 </template>
 
