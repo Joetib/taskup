@@ -42,7 +42,7 @@ def api_signup():
     if user:
         return {
             "success": False,
-            "message": f"A user already the email {email} already exists."
+            "message": f"A user with the email {email} already exists."
         }
 
     user: User = User(name=name, email=email, password=hash_password(password))
