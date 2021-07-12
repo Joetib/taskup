@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid position-relative">
     <div class="row position-relative">
+        <!-- Sidebar start -->
       <div class="col-md-3 col-lg-2 sticky-top">
         <div class="container">
           <ul class="list-unstyled">
@@ -17,6 +18,7 @@
           </ul>
         </div>
       </div>
+      <!-- Sidebar end -->
 
       <div class="col-md-9 col-lg-10 py-5">
         <div class="container">

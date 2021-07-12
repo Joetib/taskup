@@ -3,8 +3,17 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/Signup.vue'
 import Dashboard from '../views/Dashboard.vue'
+import ProjectDetail from '../views/ProjectDetail.vue';
 
 const routes = [
+  {
+    path: '/project/:id',
+    name: 'ProjectDetail',
+    component: ProjectDetail,
+    meta: {
+      requiresAuth: true
+    }
+  },
   {
     path: '/',
     name: 'Home',

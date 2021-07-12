@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, session, redirect, url_for, \
      request, flash, g, jsonify, abort
 from backend.utils import check_password, hash_password, requires_api_login
-from backend.database import Project, db_session, User
+from backend.database import Project, db_session, User, Model
+from sqlalchemy import or_
 from backend.schema import project_schema, projects_schema
 mod = Blueprint('general', __name__)
 
@@ -23,7 +24,7 @@ def create_project():
         "result": {
             'created_projects': projects_schema.dump(Project.query.filter_by(manager_id=g.user.id).all()),
             'projects_you_contribute_to': projects_schema.dump(g.user.projects),
-            'all': projects_schema.dump([*g.user.projects  ,*Project.query.filter_by(manager_id=g.user.id).all()]),
+            'all': projects_schema.dump(set([*g.user.projects  ,*Project.query.filter_by(manager_id=g.user.id).all()])),
         },
     }
 
@@ -36,7 +37,7 @@ def get_projects_list():
         "result": {
             'created_projects': projects_schema.dump(Project.query.filter_by(manager_id=g.user.id).all()),
             'projects_you_contribute_to': projects_schema.dump(g.user.projects),
-            'all': projects_schema.dump([*g.user.projects  ,*Project.query.filter_by(manager_id=g.user.id).all()]),
+            'all': projects_schema.dump(Project.query.filter(or_(Project.manager_id==g.user.id , Project.contributors.any(id=g.user.id))).all()),
         },
     })
 
@@ -50,10 +51,9 @@ def get_project_details(project_id: int):
         project = projects[0]
     else:
         project = Project.query.filter_by(id=project_id, manager_id=g.user.id).first()
-    print(project)
     return {
         'success': bool(project),
-        'result': project_schema.dump(project) ,
+        'result': project_schema.dump(project),
         'message': "Found" if project else "Not Found",
     }
 
