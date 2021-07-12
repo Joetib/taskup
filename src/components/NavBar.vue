@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-light">
+  <nav class="navbar navbar-expand-md navbar-light bg-white ticky-top">
     <div class="container">
       <router-link class="navbar-brand" style="font-size: 28px" to="/"
         >TaskUp</router-link
@@ -31,6 +31,11 @@
                 >Dashboard</router-link
               >
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/about"
+                >About</router-link
+              >
+            </li>
           </ul>
         </div>
         <ul class="navbar-nav ms-md-auto">
@@ -41,7 +46,7 @@
             <router-link class="nav-link" to="/signup">Sign Up</router-link>
           </li>
           <li class="nav-item ms-md-auto" v-if="isLoggedIn">
-            <a @click="logout" class="nav-link btn btn-sm btn-danger"
+            <a @click="logout" class="nav-link text-white btn btn-sm btn-danger"
               >Log Out</a
             >
           </li>

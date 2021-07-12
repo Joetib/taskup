@@ -19,7 +19,12 @@ def create_project():
     return {
         'success': True,
         'message': "Project created successfully",
-        "result": project_schema.dump(project),
+        "new_project": project_schema.dump(project),
+        "result": {
+            'created_projects': projects_schema.dump(Project.query.filter_by(manager_id=g.user.id).all()),
+            'projects_you_contribute_to': projects_schema.dump(g.user.projects),
+            'all': projects_schema.dump([*g.user.projects  ,*Project.query.filter_by(manager_id=g.user.id).all()]),
+        },
     }
 
 @mod.get('/project/')

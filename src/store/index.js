@@ -17,6 +17,7 @@ export default createStore({
       if (newToken !== null && newToken.length > 1) {
         state.isAuthenticated = true
       }
+      axios.defaults.headers.common['Authorization'] = "Bearer " + state.token;
     },
     updateUsername(state, newUsername) {
       state.username = newUsername;
@@ -39,6 +40,8 @@ export default createStore({
       if (localStorage.getItem('token')) {
         state.token = localStorage.getItem('token')
         state.username = localStorage.getItem('username')
+        axios.defaults.headers.common['Authorization'] = "Bearer " + state.token;
+
       }
     },
     logout(state){
