@@ -10,7 +10,7 @@
         <div class="container">
             <div class="intro-text">
                 <div class="intro-lead-in"><span>Welcome To Task Up!</span></div>
-                <div class="intro-heading text-uppercase"><span><br>we helps teams move work forward<br><br></span></div><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" role="button" href="#services" style="color: rgb(0,0,0);">sign up - it's free</a>
+                <div class="intro-heading text-uppercase"><span><br>we help teams move work forward<br><br></span></div><a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" role="button" href="#services" style="color: rgb(0,0,0);">sign up - it's free</a>
             </div>
         </div>
     </header>

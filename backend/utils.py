@@ -38,8 +38,9 @@ def requires_api_login(f):
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):
                 user = User.query.filter_by(id=resp).first()
-                g.user = user
-                return f(*args, **kwargs)
+                if user:
+                    g.user = user
+                    return f(*args, **kwargs)
         return redirect(url_for('auth.api_login', next=request.path))
     return decorated_function
 

@@ -8,6 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 import jwt
 
 from flask import url_for
+from sqlalchemy.sql.expression import desc
 from backend import app
 
 engine = create_engine(app.config['DATABASE_URI'],
@@ -36,6 +37,7 @@ class User(Model):
     name = Column(String(200))
     password = Column(String(500))
     managed_projects = relationship('Project',back_populates="manager")
+    #assigned_tasks = relationship('Task',back_populates="assigned_user",)
 
     
 
@@ -101,8 +103,10 @@ class Project(Model):
     __tablename__ = 'project'
     id = Column('project_id', Integer, primary_key=True)
     name = Column(String(50))
+    description = Column(String(400))
     manager_id = Column(Integer, ForeignKey('user.user_id'))
     manager = relationship('User', back_populates='managed_projects')
+    #tasks = relationship('Task', back_populates='project')
 
     contributors = relationship("User",
                     secondary=lambda: association_table,
@@ -110,9 +114,9 @@ class Project(Model):
 
     slug = Column(String(50))
 
-    def __init__(self, name, slug=''):
+    def __init__(self, name, description=''):
         self.name = name
-        self.slug = '-'.join(name.split()).lower()
+        self.description = description
 
     def to_json(self):
         return dict(name=self.name, slug=self.slug)
@@ -125,3 +129,16 @@ class Project(Model):
 
 
 
+""" class Task(Model):
+    __tablename__ = 'task'
+
+    id = Column('task_id', Integer, primary_key=True)
+    name = Column(String(100))
+    description = Column(String(300))
+    project_id = Column(Integer, ForeignKey('project.project_id'))
+    project = relationship(Project, back_populates="tasks")
+    created_by_id = Column(Integer, ForeignKey('user.user_id'))
+    created_by=relationship(User, back_populates="created_tasks", foreign_keys=created_by_id)
+    assigned_user_id=Column(Integer, ForeignKey('user.user_id'), )
+    assigned_user=relationship(User, back_populates="assigned_tasks", foreign_keys=assigned_user_id)
+ """

@@ -17,9 +17,20 @@
         <input
           type="text"
           max="100"
-          v-model="new_project_name"
+          v-model="project_name"
           class="form-control form-control-lg"
         />
+
+      </div>
+      <div class="form-group py-2">
+        <label for="description">Description</label>
+        <textarea
+          type="text"
+        maxlength="400"
+          v-model="description"
+          class="form-control form-control-lg"
+        />
+        
       </div>
       <div class="form-group py-3">
         <button
@@ -39,14 +50,15 @@ import axios from "axios";
 export default {
   data() {
     return {
-      new_project_name: "",
+      project_name: "",
+      description: "",
       error: "",
     };
   },
   methods: {
     create_project() {
-      if (this.new_project_name.length > 1) {
-        axios.post("/project/", { name: this.new_project_name }).then((e) => {
+      if (this.project_name.length > 1) {
+        axios.post("/project/", { name: this.project_name, description: this.description }).then((e) => {
           if (e.data.success) {
             this.projects = e.data.result.all;
             this.open_create_project_dialog = false;

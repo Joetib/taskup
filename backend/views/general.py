@@ -11,8 +11,8 @@ mod = Blueprint('general', __name__)
 def create_project():
     data = request.get_json()
     name = data['name']
-    print("Got here oooo")
-    project: Project = Project(name=name)
+    description = data["description"]
+    project: Project = Project(name=name, description=description)
     project.manager_id = g.user.id
     db_session.add(project)
     db_session.commit()

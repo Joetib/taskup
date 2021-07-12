@@ -23,6 +23,7 @@
       <div class="col-lg-8">
         <div class="container py-5">
           <h2>{{ project.name }}</h2>
+          <p>{{ project.description }}</p>
         </div>
       </div>
       <div class="col-lg-2 p-1">
