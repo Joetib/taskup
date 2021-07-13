@@ -16,7 +16,7 @@
         >
           <div>
             <h4>{{ task.name }}</h4>
-            <p>{{ task.description.slice }}</p>
+            <p>{{ task.description }}</p>
           </div>
           <p class="mb-0">Created by: {{ task.created_by.name }}</p>
         </div>
