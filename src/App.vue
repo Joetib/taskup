@@ -81,6 +81,12 @@ export default {
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
-
+}
+a {
+  text-decoration: none;
+  color: unset;
+}
+a:hover{
+  color: unset;
 }
 </style>

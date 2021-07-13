@@ -37,7 +37,7 @@ class User(Model):
     name = Column(String(200))
     password = Column(String(500))
     managed_projects = relationship('Project',back_populates="manager")
-    #assigned_tasks = relationship('Task',back_populates="assigned_user",)
+    created_tasks = relationship('Task',back_populates="created_by",)
 
     
 
@@ -106,7 +106,7 @@ class Project(Model):
     description = Column(String(400))
     manager_id = Column(Integer, ForeignKey('user.user_id'))
     manager = relationship('User', back_populates='managed_projects')
-    #tasks = relationship('Task', back_populates='project')
+    tasks = relationship('Task', back_populates='project')
 
     contributors = relationship("User",
                     secondary=lambda: association_table,
@@ -129,7 +129,7 @@ class Project(Model):
 
 
 
-""" class Task(Model):
+class Task(Model):
     __tablename__ = 'task'
 
     id = Column('task_id', Integer, primary_key=True)
@@ -139,6 +139,3 @@ class Project(Model):
     project = relationship(Project, back_populates="tasks")
     created_by_id = Column(Integer, ForeignKey('user.user_id'))
     created_by=relationship(User, back_populates="created_tasks", foreign_keys=created_by_id)
-    assigned_user_id=Column(Integer, ForeignKey('user.user_id'), )
-    assigned_user=relationship(User, back_populates="assigned_tasks", foreign_keys=assigned_user_id)
- """

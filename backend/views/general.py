@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, session, redirect, url_for, \
      request, flash, g, jsonify, abort
 from backend.utils import check_password, hash_password, requires_api_login
-from backend.database import Project, db_session, User, Model
+from backend.database import Project, Task, db_session, User, Model
 from sqlalchemy import or_
-from backend.schema import project_schema, projects_schema
+from backend.schema import project_schema, projects_schema, task_schema
 mod = Blueprint('general', __name__)
 
 @mod.post('/project/')
@@ -45,7 +45,6 @@ def get_projects_list():
 @mod.get('/project/<int:project_id>/')
 @requires_api_login
 def get_project_details(project_id: int):
-    print(dir(g.user.projects))
     projects = list(filter(lambda item: item.id == project_id, g.user.projects))
     if projects:
         project = projects[0]
@@ -77,3 +76,22 @@ def add_contributors_to_project(project_id: int):
         'message': "Successfully updated project",
     }
 
+
+@mod.post("/task/")
+@requires_api_login
+def create_task():
+    data = request.get_json()
+    name = data['name']
+    print(data)
+    project_id = data['project_id']
+    description = data['description']
+    project = Project.query.filter_by(id=project_id).first()
+    if project:
+        task = Task(name=name, description=description, project=project,created_by=g.user)
+        db_session.add(task)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': task_schema.dump(task),
+            'message': "successfully created task.",
+        }
