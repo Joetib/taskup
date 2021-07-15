@@ -37,7 +37,7 @@ class User(Model):
     name = Column(String(200))
     password = Column(String(500))
     managed_projects = relationship('Project',back_populates="manager")
-    created_tasks = relationship('Task',back_populates="created_by",)
+    created_tasks = relationship('Task',back_populates="created_by")
 
     
 
@@ -94,7 +94,7 @@ class User(Model):
             return 'Invalid token. Please log in again.'
         
 
-association_table = Table('association', Model.metadata,
+user_project_contribution_association_table = Table('association', Model.metadata,
     Column('project_id', Integer, ForeignKey('project.project_id')),
     Column('user_id', Integer, ForeignKey('user.user_id'))
 )
@@ -105,11 +105,11 @@ class Project(Model):
     name = Column(String(50))
     description = Column(String(400))
     manager_id = Column(Integer, ForeignKey('user.user_id'))
-    manager = relationship('User', back_populates='managed_projects')
-    tasks = relationship('Task', back_populates='project')
+    manager = relationship('User', back_populates='managed_projects') # one to many relationship between user and projects
+    tasks = relationship('Task', back_populates='project') # one to many relationship between project and tasks
 
     contributors = relationship("User",
-                    secondary=lambda: association_table,
+                    secondary=lambda: user_project_contribution_association_table,
                     backref="projects")
 
     slug = Column(String(50))
@@ -126,7 +126,11 @@ class Project(Model):
     def url(self):
         return url_for('general.projects', slug=self.slug)
 
-
+# Association table for the many to many relationship between users and which tasks they work on
+task_user_works_on_helper_table = Table('association', Model.metadata,
+    Column('user_id', Integer, ForeignKey('user.user_id'), primary_key = True),
+    Column('task_id', Integer, ForeignKey('task.task_id'), primary_key = True)
+)
 
 
 class Task(Model):
@@ -139,3 +143,9 @@ class Task(Model):
     project = relationship(Project, back_populates="tasks")
     created_by_id = Column(Integer, ForeignKey('user.user_id'))
     created_by=relationship(User, back_populates="created_tasks", foreign_keys=created_by_id)
+
+    # establish the works on relation as many to many
+    task_workers = relationship("User",
+                    secondary=lambda: task_user_works_on_helper_table,
+                    backref= backref("tasks"))
+
