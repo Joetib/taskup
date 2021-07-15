@@ -5,6 +5,8 @@ class UserSchema(ma.SQLAlchemySchema):
     class Meta:
         model = User
         fields = ('id', 'name', 'email')
+
+
 class ProjectSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Project
@@ -13,19 +15,17 @@ class ProjectSchema(ma.SQLAlchemyAutoSchema):
     contributors = ma.List(ma.Nested(UserSchema))
     manager = ma.Nested(UserSchema)
 
-# Init Schema
-
-
 
 class TaskSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Task
+        fields = ('id', 'name', 'description')
         include_fk = True
     created_by = ma.Nested(UserSchema)
 
-task_schema = TaskSchema()
 
 class ProjectSchema(ma.SQLAlchemyAutoSchema):
+
     class Meta:
         model = Project
         #fields = ('id', 'name', 'manager_id', )
@@ -34,5 +34,11 @@ class ProjectSchema(ma.SQLAlchemyAutoSchema):
     manager = ma.Nested(UserSchema)
     tasks = ma.List(ma.Nested(TaskSchema))
 
-project_schema = ProjectSchema()
-projects_schema = ProjectSchema(many=True)
+
+# Init project schema
+project_schema = ProjectSchema(strict=True)
+projects_schema = ProjectSchema(strict=True, many=True)
+
+# Init task schema
+task_schema = TaskSchema(strict=True)
+tasks_schema = TaskSchema(strict=True, many=True)
