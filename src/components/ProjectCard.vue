@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     get_route() {
-      return "/project/" + this.project.id;
+      return `/project/${this.project.id}`;
     },
   },
 };

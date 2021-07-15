@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     get_route() {
-      return "/project/" + this.task.id;
+      return `/project/${this.task.project_id}/task/${this.task.id}`;
     },
   },
 };

@@ -61,7 +61,7 @@ export default {
   methods: {
     create_task() {
       if (this.name.length > 1) {
-        axios.post("/task/", { project_id: this.project_id, name: this.name, description: this.description }).then((e) => {
+        axios.post(`project/${this.project_id}/task/`, { project_id: this.project_id, name: this.name, description: this.description }).then((e) => {
           if (e.data.success) {
             this.send_close_signal(true);
           } else {

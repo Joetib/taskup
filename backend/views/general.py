@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, session, redirect, url_for, \
 from backend.utils import check_password, hash_password, requires_api_login
 from backend.database import Project, Task, db_session, User, Model
 from sqlalchemy import or_
-from backend.schema import project_schema, projects_schema, task_schema
+from backend.schema import TaskDetailSchema, TaskSchema, project_schema, projects_schema, task_schema
 mod = Blueprint('general', __name__)
 
 @mod.post('/project/')
@@ -77,13 +77,11 @@ def add_contributors_to_project(project_id: int):
     }
 
 
-@mod.post("/task/")
+@mod.post("/project/<int:project_id>/task/")
 @requires_api_login
-def create_task():
+def create_task(project_id):
     data = request.get_json()
     name = data['name']
-    print(data)
-    project_id = data['project_id']
     description = data['description']
     project = Project.query.filter_by(id=project_id).first()
     if project:
@@ -95,3 +93,34 @@ def create_task():
             'result': task_schema.dump(task),
             'message': "successfully created task.",
         }
+
+def has_project_permission(project, user):
+    permission =  project.manager == user or project.contributors.any(id=user.id)
+    if not permission:
+        abort(404, {
+            'success': False,
+            'message': f"Permission denied.",
+        } )
+    return permission
+
+@mod.get('/project/<int:project_id>/task/<int:task_id>/')
+@requires_api_login
+def get_task_details(project_id, task_id):
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    permission = has_project_permission(project, g.user)
+    task = Task.query.filter_by(project=project, id=task_id).first()
+    if not task:
+        return {
+            'success': False,
+            'message': f'Task with id {task_id} not found.'
+        }
+    return {
+        'success': True,
+        'message': 'Task found.',
+        'result': TaskDetailSchema().dump(task),
+    }
