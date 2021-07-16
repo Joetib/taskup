@@ -6,6 +6,7 @@ from sqlalchemy import or_
 from backend.schema import project_schema, projects_schema, task_schema, tasks_schema
 mod = Blueprint('general', __name__)
 
+# Projects Routes-------------------------------------------------------------------------------------------------------------
 @mod.post('/project/')
 @requires_api_login
 def create_project():
@@ -75,7 +76,12 @@ def add_contributors_to_project(project_id: int):
         'result': project_schema.dump(project),
         'message': "Successfully updated project",
     }
+    
+# End of Project Routes-------------------------------------------------------------------------------------------------------------
 
+# Tasks Routes----------------------------------------------------------------------------------------------------------------------
+
+# Create tasks
 @mod.post("/task/")
 @requires_api_login
 def create_task():
@@ -101,10 +107,54 @@ def create_task():
 def get_tasks_list():
     return jsonify({
         "success": True,
-        "message": "Successfully fetched tasks.",
         "result": {
             'created_tasks': tasks_schema.dump(Task.query.filter_by(created_by_id=g.user.id).all()),
             'tasks_you_work_on': tasks_schema.dump(g.user.tasks).all(),
             'all': tasks_schema.dump(Task.query.filter(or_(Task.created_by_id==g.user.id, Task.project_id==g.user.project.id)).all()),
         },
+        "message": "Successfully fetched all tasks.",
     })
+
+#  Route to update old tasks
+@mod.put('/task/<int:task_id>')  # @mod.route(('/task/<int:task_id>'), methods=['PUT'])
+@requires_api_login
+def update_task(task_id):
+    """
+        Since there is no defaual update query method in the SqlAlchemy Orm,
+        check to see if task exist and then delete it as well as post new content with same ID
+    """ 
+    data = request.get_json()
+    task_id = data['task_id']
+    old_task = Task.query.filter_by(id=task_id).first_or_404(description='There is no task with ID of {}'.format(task_id))
+    if old_task:
+        db_session.delete(old_task)
+        db_session.commit()
+        name = data['name']
+        project_id = data['project_id']
+        description = data['description']
+        new_task = Task(name=name, description=description, project_id=project_id, created_by=g.user)
+        db_session.add(new_task)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': task_schema.dump(new_task),
+            'message': "Successfully Updated the Task.",
+        }
+
+# Route to delete completed tasks
+@mod.delete('/task/<int:task_id>')   # @mod.route(('/task/<int:task_id>'), methods=['DELETE'])
+@requires_api_login
+def delete_task(task_id):
+    data = request.get_json()
+    task_id = data['task_id']
+    task = Task.query.filter_by(id=task_id).first_or_404(description='There is no task with ID of {}'.format(task_id))
+    if task:
+        db_session.delete(task)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': tasks_schema.dump(g.user.tasks).all(),
+            'message': "Task Deleted Successfully.",
+        }
+
+# End of Tasks Routes-------------------------------------------------------------------------------------------------------------
