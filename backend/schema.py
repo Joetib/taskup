@@ -57,3 +57,5 @@ projects_schema = ProjectSchema(strict=True, many=True)
 # Init task schema
 task_schema = TaskSchema(strict=True)
 tasks_schema = TaskSchema(strict=True, many=True)
+
+# Yet to initialize some schemas
