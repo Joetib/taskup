@@ -1,4 +1,4 @@
-from backend.database import Project, Task, User
+from backend.database import Project, Task, User, Message
 from backend import ma
 
 class UserSchema(ma.SQLAlchemySchema):
@@ -29,12 +29,19 @@ class TaskSchema(ma.SQLAlchemyAutoSchema):
         include_fk = True
     created_by = ma.Nested(UserSchema)
 
+class MessageSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Message
+        include_fk = True
+    created_by = ma.Nested(UserSchema)
+
 class TaskDetailSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Task
         include_fk = True
     created_by = ma.Nested(UserSchema)
     project = ma.Nested(ProjectListSchema)
+    messages = ma.List(ma.Nested(MessageSchema))
 
 task_schema = TaskSchema()
 

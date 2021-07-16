@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for, \
      request, flash, g, jsonify, abort
 from backend.utils import check_password, hash_password, requires_api_login
-from backend.database import Project, Task, db_session, User, Model
+from backend.database import Project, Task, db_session, User, Model, Message
 from sqlalchemy import or_
 from backend.schema import TaskDetailSchema, TaskSchema, project_schema, projects_schema, task_schema
 mod = Blueprint('general', __name__)
@@ -123,4 +123,31 @@ def get_task_details(project_id, task_id):
         'success': True,
         'message': 'Task found.',
         'result': TaskDetailSchema().dump(task),
+    }
+
+
+@mod.post('/project/<int:project_id>/task/<int:task_id>/message/')
+@requires_api_login
+def create_message(project_id, task_id):
+    message_content = request.get_json()['message']
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    permission = has_project_permission(project, g.user)
+    task = Task.query.filter_by(project=project, id=task_id).first()
+    if not task:
+        return {
+            'success': False,
+            'message': f'Task with id {task_id} not found.'
+        }
+    message = Message(message=message_content, created_by=g.user, task=task)
+    db_session.add(message)
+    db_session.commit()
+    return {
+        'success': True,
+        'message': 'Message created Successfully.',
+        'result': {'message': message.message}
     }

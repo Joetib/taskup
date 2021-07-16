@@ -30,18 +30,21 @@
         </div>
         <div class="container">
           <div class="d-flex justify-content-start align-items-center">
-            <a class="btn btn-primary btn-lg" @click="enable_create_task">
-              <i class="fa fa-plus pe-2"></i>Create Task
+            <a class="btn btn-primary btn-lg" @click="enable_create_message">
+              <i class="fa fa-plus pe-2"></i>Create Message
             </a>
           </div>
           <div class="row py-4">
               <div class="col-12">
-                  <h2>Tasks</h2>
+                  <h2>Discussion</h2>
               </div>
-            <TaskCard
-              v-for="task in task.tasks"
-              :key="task.id"
-              :task="task"
+      <div class="col-12">
+      <CreateMessage v-bind:project_id="project_id" v-bind:task_id="task_id" @create_message_done="create_message_done" />
+</div>
+            <MessageCard
+              v-for="message in task.messages"
+              :key="message.id"
+              :message="message"
             />
           </div>
         </div>
@@ -69,21 +72,22 @@
         </div>
       </div>
     </div>
-    <div class="full-screen-form-overlay" v-if="open_create_task_dialog">
-      <CreateTask v-bind:project_id="project_id" @create_task_done="create_task_done" />
+    <div class="full-screen-form-overlay" v-if="open_create_message_dialog">
+      <CreateMessage v-bind:project_id="project_id" v-bind:task_id="task_id" @create_message_done="create_message_done" />
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import CreateTask from "../components/CreateTask.vue";
-import TaskCard from "../components/TaskCard.vue";
+import CreateMessage from "../components/CreateMessage.vue";
+import MessageCard from "../components/MessageCard.vue";
 
 export default {
   components: {
-    CreateTask,
-    TaskCard,
+    CreateMessage,
+    MessageCard,
+    
   },
   data() {
     return {
@@ -94,7 +98,7 @@ export default {
               manager: {name: "name"},
           }
       },
-      open_create_task_dialog: false,
+      open_create_message_dialog: false,
     };
   },
   methods: {
@@ -108,12 +112,13 @@ export default {
         }
       });
     },
-    create_task_done() {
-      this.open_create_task_dialog = false;
-      this.fetchTask(this.project.id)
+    create_message_done() {
+      this.open_create_message_dialog = false;
+      
+      this.fetchTask(this.project_id, this.task_id)
     },
-    enable_create_task() {
-      this.open_create_task_dialog = true;
+    enable_create_message() {
+      this.open_create_message_dialog = true;
     },
   },
   computed: {
