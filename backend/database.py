@@ -8,6 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 import jwt
 
 from flask import url_for
+from sqlalchemy.orm.relationships import foreign
 from sqlalchemy.sql.expression import desc
 from backend import app
 
@@ -149,3 +150,13 @@ class Task(Model):
                     secondary=lambda: task_user_works_on_helper_table,
                     backref= backref("tasks"))
 
+
+class Message(Model):
+    __tablename__ = 'message'
+    id = Column('message_id', Integer, primary_key=True)
+    message = Column(String(200))
+    created_by_id = Column(Integer, ForeignKey('user.user_id'))
+    created_by = relationship(User, backref="messages", foreign_keys=created_by_id)
+    
+    task_id = Column(Integer, ForeignKey('task.task_id'))
+    task = relationship(Task, backref="messages", foreign_keys=task_id)

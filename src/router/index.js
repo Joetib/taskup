@@ -4,15 +4,24 @@ import Login from '../views/Login.vue'
 import SignUp from '../views/Signup.vue'
 import Dashboard from '../views/Dashboard.vue'
 import ProjectDetail from '../views/ProjectDetail.vue';
+import TaskDetail from '../views/TaskDetail.vue';
 
 const routes = [
   {
-    path: '/project/:id',
+    path:'/project/:project_id/task/:task_id',
+    name:'TaskDetail',
+    component: TaskDetail,
+    meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path: '/project/:project_id',
     name: 'ProjectDetail',
     component: ProjectDetail,
     meta: {
       requiresAuth: true
-    }
+    },
   },
   {
     path: '/',
