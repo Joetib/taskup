@@ -25,7 +25,6 @@ class TaskSchema(ma.SQLAlchemyAutoSchema):
 
 
 class ProjectSchema(ma.SQLAlchemyAutoSchema):
-
     class Meta:
         model = Project
         #fields = ('id', 'name', 'manager_id', )

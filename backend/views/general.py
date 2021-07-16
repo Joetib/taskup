@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, session, redirect, url_for, \
 from backend.utils import check_password, hash_password, requires_api_login
 from backend.database import Project, Task, db_session, User, Model
 from sqlalchemy import or_
-from backend.schema import project_schema, projects_schema, task_schema
+from backend.schema import project_schema, projects_schema, task_schema, tasks_schema
 mod = Blueprint('general', __name__)
 
 @mod.post('/project/')
@@ -76,13 +76,12 @@ def add_contributors_to_project(project_id: int):
         'message': "Successfully updated project",
     }
 
-
 @mod.post("/task/")
 @requires_api_login
 def create_task():
     data = request.get_json()
     name = data['name']
-    print(data)
+    print(data) # no need if we include fields in schema 
     project_id = data['project_id']
     description = data['description']
     project = Project.query.filter_by(id=project_id).first()
@@ -95,3 +94,17 @@ def create_task():
             'result': task_schema.dump(task),
             'message': "successfully created task.",
         }
+
+# Route to get list of tasks
+@mod.get('/task/')
+@requires_api_login
+def get_tasks_list():
+    return jsonify({
+        "success": True,
+        "message": "Successfully fetched tasks.",
+        "result": {
+            'created_tasks': tasks_schema.dump(Task.query.filter_by(created_by_id=g.user.id).all()),
+            'tasks_you_work_on': tasks_schema.dump(g.user.tasks).all(),
+            'all': tasks_schema.dump(Task.query.filter(or_(Task.created_by_id==g.user.id, Task.project_id==g.user.project.id)).all()),
+        },
+    })
