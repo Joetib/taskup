@@ -93,10 +93,10 @@ class User(Model):
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
         
-
+# Association table for the many to many relationship between users and which projects they contribute to
 user_project_contribution_association_table = Table('association', Model.metadata,
-    Column('project_id', Integer, ForeignKey('project.project_id')),
-    Column('user_id', Integer, ForeignKey('user.user_id'))
+    Column('project_id', Integer, ForeignKey('project.project_id'), primary_key = True),
+    Column('user_id', Integer, ForeignKey('user.user_id'), primary_key = True)
 )
 
 class Project(Model):
