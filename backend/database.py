@@ -35,12 +35,10 @@ class User(Model):
     __tablename__ = 'user'
     id = Column('user_id', Integer, primary_key=True)
     email = Column('email', String(50), index=True, unique=True)
-    name = Column(String(200))
-    password = Column(String(500))
+    name = Column(String(200), nullable = False)
+    password = Column(String(500), nullable = False)
     managed_projects = relationship('Project',back_populates="manager")
     created_tasks = relationship('Task',back_populates="created_by")
-
-    
 
     def __init__(self, name, email, password):
         self.name = name
@@ -103,8 +101,8 @@ user_project_contribution_association_table = Table('association', Model.metadat
 class Project(Model):
     __tablename__ = 'project'
     id = Column('project_id', Integer, primary_key=True)
-    name = Column(String(50))
-    description = Column(String(400))
+    name = Column(String(50), unique= True, nullable = False)
+    description = Column(String(400), nullable = False)
     manager_id = Column(Integer, ForeignKey('user.user_id'))
     manager = relationship('User', back_populates='managed_projects') # one to many relationship between user and projects
     tasks = relationship('Task', back_populates='project') # one to many relationship between project and tasks
@@ -138,14 +136,14 @@ class Task(Model):
     __tablename__ = 'task'
 
     id = Column('task_id', Integer, primary_key=True)
-    name = Column(String(100))
-    description = Column(String(300))
+    name = Column(String(100),unique= True, nullable = False) # no two tasks in the same project should have the same name
+    description = Column(String(300), nullable = False)
     project_id = Column(Integer, ForeignKey('project.project_id'))
     project = relationship(Project, back_populates="tasks")
     created_by_id = Column(Integer, ForeignKey('user.user_id'))
     created_by=relationship(User, back_populates="created_tasks", foreign_keys=created_by_id)
 
-    # establish the works on relation as many to many
+    # establish the works_on relation as many to many
     task_workers = relationship("User",
                     secondary=lambda: task_user_works_on_helper_table,
                     backref= backref("tasks"))
@@ -154,7 +152,7 @@ class Task(Model):
 class Message(Model):
     __tablename__ = 'message'
     id = Column('message_id', Integer, primary_key=True)
-    message = Column(String(200))
+    message = Column(String(200), nullable = False)
     created_by_id = Column(Integer, ForeignKey('user.user_id'))
     created_by = relationship(User, backref="messages", foreign_keys=created_by_id)
     
