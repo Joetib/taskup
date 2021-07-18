@@ -93,7 +93,7 @@ class User(Model):
             return 'Invalid token. Please log in again.'
         
 # Association table for the many to many relationship between users and which projects they contribute to
-user_project_contribution_association_table = Table('association', Model.metadata,
+user_project_contribution_association_table = Table('contribution', Model.metadata,
     Column('project_id', Integer, ForeignKey('project.project_id'), primary_key = True),
     Column('user_id', Integer, ForeignKey('user.user_id'), primary_key = True)
 )
@@ -126,7 +126,7 @@ class Project(Model):
         return url_for('general.projects', slug=self.slug)
 
 # Association table for the many to many relationship between users and which tasks they work on
-task_user_works_on_helper_table = Table('association', Model.metadata,
+task_user_works_on_helper_table = Table('works_on', Model.metadata,
     Column('user_id', Integer, ForeignKey('user.user_id'), primary_key = True),
     Column('task_id', Integer, ForeignKey('task.task_id'), primary_key = True)
 )
