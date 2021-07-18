@@ -2,7 +2,7 @@
 A project management solution application.
 
 
-## Group Members -> Name, Index, GithubAccount
+## Group Members -> Name, IndexNumber, GithubUsername
   - Oti Boateng Joseph        3587018         Joetib
   - Asiedu Amos               3580818         AsieduAmos
   - Osei Bright               3586418         Osei-Bright
