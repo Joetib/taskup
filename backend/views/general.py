@@ -4,6 +4,8 @@ from backend.utils import check_password, hash_password, requires_api_login
 from backend.database import Project, Task, db_session, User, Model, Message
 from sqlalchemy import or_
 from backend.schema import TaskDetailSchema, TaskSchema, project_schema, projects_schema, task_schema, tasks_schema
+from datetime import datetime
+
 mod = Blueprint('general', __name__)
 
 # Projects Routes-------------------------------------------------------------------------------------------------------------
@@ -114,7 +116,7 @@ def delete_project(project_id):
         }
 
 # Route to edit completion status of projects
-@mod.put('/project/<int:project_id, string:completion_status>') # check later when I have internet on  how to pass in all 2 arguments of project
+@mod.put('/project/<int:project_id>/<string:completion_status>')
 @requires_api_login
 def update_project_status(project_id, completion_status):
     """
@@ -138,12 +140,13 @@ def update_project_status(project_id, completion_status):
         }
 
 # Route to edit deadlines of projects
-@mod.put('/project/<int:project_id, date:deadline_date>') # check later when I have internet on  how to pass in all 2 arguments of task
+@mod.put('/project/<int:project_id>/<deadline_date>')
 @requires_api_login
 def update_project_deadline(project_id, deadline_date):
     """
         Project managers can change deadlines of projects
     """
+    deadline_date = datetime.strptime(deadline_date, "%Y-%m-%d").date() # there is no out-of-box support for dates in url routing
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
@@ -283,7 +286,7 @@ def delete_task(project_id, task_id):
         }
 
 # Route to edit completion status of tasks
-@mod.put('/project/<int:project_id>/task/<int:task_id, string:completion_status>') # check later when I have internet on  how to pass in all 2 arguments of task
+@mod.put('/project/<int:project_id>/task/<int:task_id>/<string:completion_status>')
 @requires_api_login
 def update_task_status(project_id, task_id, completion_status):
     """
@@ -308,12 +311,13 @@ def update_task_status(project_id, task_id, completion_status):
         }
 
 # Route to edit timelines of tasks
-@mod.put('/project/<int:project_id>/task/<int:task_id, date:deadline_date>')# check later when I have internet on  how to pass in all 2 arguments of task
+@mod.put('/project/<int:project_id>/task/<int:task_id>/<deadline_date>')
 @requires_api_login
 def update_task_deadline(project_id, task_id, deadline_date):
     """
         Follows the same logic as the update_task_status route
     """
+    deadline_date = datetime.strptime(deadline_date, "%Y-%m-%d").date() # there is no out-of-box support for dates in url routing
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
@@ -382,3 +386,27 @@ def create_message(project_id, task_id):
         'message': 'Message created Successfully.',
         'result': {'message': message.message}
     }
+  
+
+""" 
+from werkzeug.routing import BaseConverter, ValidationError
+
+class DateConverter(BaseConverter):
+    #Extracts a ISO8601 date from the path and validates it.
+    #Custom converter for dates in urls since there is no out-of-the-box support for dates in routes
+    #Use later if lines update_deadline routes for task and project not working
+
+    regex = r'\d{4}-\d{2}-\d{2}'
+
+    def to_python(self, value):
+        try:
+            return datetime.strptime(value, '%Y-%m-%d').date()
+        except ValueError:
+            raise ValidationError()
+ 
+    def to_url(self, value):
+        return value.strftime('%Y-%m-%d')
+
+
+app.url_map.converters['date'] = DateConverter #allows <date:deadline_date>
+ """
