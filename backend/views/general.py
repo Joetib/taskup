@@ -13,7 +13,11 @@ def create_project():
     data = request.get_json()
     name = data['name']
     description = data["description"]
-    project: Project = Project(name=name, description=description)
+    completion_status = data['completion_status']
+    created_date = data['created_date']
+    deadline_date = data['deadline_date']
+    project: Project = Project(name=name, description=description, completion_status=completion_status,
+        created_date = created_date, deadline_date = deadline_date)
     project.manager_id = g.user.id
     db_session.add(project)
     db_session.commit()
@@ -76,7 +80,40 @@ def add_contributors_to_project(project_id: int):
         'result': project_schema.dump(project),
         'message': "Successfully updated project",
     }
-   
+
+#method to check if user is a project manager
+def is_project_manager(project, user):
+    if project.manager == user:
+        return True
+    else:
+        abort(404, {
+            'success': False,
+            'message': f"Permission denied.",
+        } )
+
+# Route to edit completion status of projects
+@mod.put('/project/<int:project_id, string:completion_status>')
+@requires_api_login
+def update_status(project_id, completion_status):
+    """
+        Project managers can replace completion status of the project
+    """
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+
+    if is_project_manager(project, g.user):
+        project.completion_status = completion_status
+        db_session.add(project)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': task_schema.dump(project),
+            'message': f"Successfully Updated the Completion Status of {project.name}."
+        }
 # End of Project Routes-------------------------------------------------------------------------------------------------------------
 
 def has_project_permission(project, user):
