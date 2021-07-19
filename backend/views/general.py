@@ -198,6 +198,31 @@ def delete_task(project_id, task_id):
             'message': "Task Deleted Successfully.",
         }
 
+# Route to edit completion status of tasks
+@mod.put('/project/<int:project_id>/task/<int:task_id, string:completion_status>')
+@requires_api_login
+def update_status(project_id, task_id, completion_status):
+    """
+        User with permissions can replace completion status of task if it exists and is part of the project
+    """
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    permission = has_project_permission(project, g.user)
+    task = Task.query.filter_by(id=task_id).first_or_404(description=f'There is no task with ID of {task_id}.')
+    if task:
+        task.completion_status = completion_status
+        db_session.add(task)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': task_schema.dump(task),
+            'message': f"Successfully Updated the Completion Status of {task.name}."
+        }
+
 # End of Tasks Routes-------------------------------------------------------------------------------------------------------------
 
 # Added by PM: Later sort it out to see if functionality conflicts with get_task_list route
