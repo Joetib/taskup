@@ -91,6 +91,28 @@ def is_project_manager(project, user):
             'message': f"Permission denied.",
         } )
 
+# Route to delete projects
+@mod.delete('/project/<int:project_id>')
+@requires_api_login
+def delete_project(project_id):
+    """
+        Project managers can delete a project
+    """
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    if is_project_manager(project, g.user):
+        db_session.delete(project)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': projects_schema.dump(g.user.tasks).all(),
+            'message': "Project Deleted Successfully.",
+        }
+
 # Route to edit completion status of projects
 @mod.put('/project/<int:project_id, string:completion_status>')
 @requires_api_login
@@ -202,7 +224,7 @@ def get_tasks_list(project_id):
         "message": "Successfully fetched all tasks.",
     })
 
-#  Route to update tasks
+# Route to update tasks
 @mod.put('/project/<int:project_id>/task/<int:task_id>')
 @requires_api_login
 def update_task(project_id,task_id):
