@@ -51,11 +51,11 @@ class TaskSchema(ma.SQLAlchemyAutoSchema):
 
 
 # Init project schema
-project_schema = ProjectSchema(strict=True)
-projects_schema = ProjectSchema(strict=True, many=True)
+project_schema = ProjectSchema()
+projects_schema = ProjectSchema(many=True)
 
 # Init task schema
-task_schema = TaskSchema(strict=True)
-tasks_schema = TaskSchema(strict=True, many=True)
+task_schema = TaskSchema()
+tasks_schema = TaskSchema(many=True)
 
 # Yet to initialize some schemas

@@ -114,7 +114,7 @@ def delete_project(project_id):
         }
 
 # Route to edit completion status of projects
-@mod.put('/project/<int:project_id, string:completion_status>')
+@mod.put('/project/<int:project_id, string:completion_status>') # check later when I have internet on  how to pass in all 2 arguments of project
 @requires_api_login
 def update_project_status(project_id, completion_status):
     """
@@ -138,7 +138,7 @@ def update_project_status(project_id, completion_status):
         }
 
 # Route to edit deadlines of projects
-@mod.put('/project/<int:project_id, datetime:deadline_date>')
+@mod.put('/project/<int:project_id, date:deadline_date>') # check later when I have internet on  how to pass in all 2 arguments of task
 @requires_api_login
 def update_project_deadline(project_id, deadline_date):
     """
@@ -283,7 +283,7 @@ def delete_task(project_id, task_id):
         }
 
 # Route to edit completion status of tasks
-@mod.put('/project/<int:project_id>/task/<int:task_id, string:completion_status>')
+@mod.put('/project/<int:project_id>/task/<int:task_id, string:completion_status>') # check later when I have internet on  how to pass in all 2 arguments of task
 @requires_api_login
 def update_task_status(project_id, task_id, completion_status):
     """
@@ -308,7 +308,7 @@ def update_task_status(project_id, task_id, completion_status):
         }
 
 # Route to edit timelines of tasks
-@mod.put('/project/<int:project_id>/task/<int:task_id, datetime:deadline_date>')
+@mod.put('/project/<int:project_id>/task/<int:task_id, date:deadline_date>')# check later when I have internet on  how to pass in all 2 arguments of task
 @requires_api_login
 def update_task_deadline(project_id, task_id, deadline_date):
     """

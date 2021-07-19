@@ -1,6 +1,6 @@
 
 import datetime
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, \
+from sqlalchemy import create_engine, Column, Integer, String, Date, DateTime, \
      ForeignKey, event, Table
 from sqlalchemy.orm import relationship, scoped_session, sessionmaker, backref, relation
 from sqlalchemy.ext.declarative import declarative_base
@@ -106,7 +106,7 @@ class Project(Model):
 
     completion_status = Column(String(50),nullable = False)
     created_date = Column(DateTime, default = datetime.datetime.utcnow)
-    deadline_date = Column(DateTime, nullabe = False)
+    deadline_date = Column(Date)
 
     manager_id = Column(Integer, ForeignKey('user.user_id'))
     manager = relationship('User', back_populates='managed_projects') # one to many relationship between user and projects
@@ -147,7 +147,7 @@ class Task(Model):
 
     completion_status = Column(String(50),nullable = False)
     created_date = Column(DateTime, default = datetime.datetime.utcnow)
-    deadline_date = Column(DateTime, nullabe = False)
+    deadline_date = Column(Date)
 
     project_id = Column(Integer, ForeignKey('project.project_id'))
     project = relationship(Project, back_populates="tasks")
