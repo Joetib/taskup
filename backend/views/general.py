@@ -114,6 +114,31 @@ def update_status(project_id, completion_status):
             'result': task_schema.dump(project),
             'message': f"Successfully Updated the Completion Status of {project.name}."
         }
+
+# Route to edit deadlines of projects
+@mod.put('/project/<int:project_id, datetime:deadline_date>')
+@requires_api_login
+def update_status(project_id, deadline_date):
+    """
+        Project managers can change deadlines of projects
+    """
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+
+    if is_project_manager(project, g.user):
+        project.deadline_date = deadline_date
+        db_session.add(project)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': task_schema.dump(project),
+            'message': f"Successfully Changed the Deadline of {project.name}."
+        }
+
 # End of Project Routes-------------------------------------------------------------------------------------------------------------
 
 def has_project_permission(project, user):
