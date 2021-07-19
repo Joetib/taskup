@@ -79,6 +79,15 @@ def add_contributors_to_project(project_id: int):
    
 # End of Project Routes-------------------------------------------------------------------------------------------------------------
 
+def has_project_permission(project, user):
+    permission =  project.manager == user or project.contributors.any(id=user.id)
+    if not permission:
+        abort(404, {
+            'success': False,
+            'message': f"Permission denied.",
+        } )
+    return permission
+    
 # Tasks Routes----------------------------------------------------------------------------------------------------------------------
 
 # Create tasks
@@ -88,21 +97,39 @@ def create_task(project_id):
     data = request.get_json()
     name = data['name']
     description = data['description']
+    completion_status = data['completion_status']
+    created_date = data['created_date']
+    deadline_date = data['deadline_date']
     project = Project.query.filter_by(id=project_id).first()
-    if project:
-        task = Task(name=name, description=description, project=project,created_by=g.user)
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    else:
+        permission = has_project_permission(project, g.user)
+        task = Task(
+            name=name, description=description, completion_status=completion_status,
+            created_date = created_date, deadline_date = deadline_date, project_id=project_id, created_by=g.user)
         db_session.add(task)
         db_session.commit()
         return {
             'success': True,
             'result': task_schema.dump(task),
-            'message': "successfully created task.",
+            'message': "Task Successfully Created.",
         }
 
-# Route to get list of tasks
-@mod.get('/task/')
+# Route to get list of tasks associated with a project
+@mod.get('/project/<int:project_id>/task/')
 @requires_api_login
-def get_tasks_list():
+def get_tasks_list(project_id):
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    permission = has_project_permission(project, g.user)
     return jsonify({
         "success": True,
         "result": {
@@ -113,24 +140,35 @@ def get_tasks_list():
         "message": "Successfully fetched all tasks.",
     })
 
-#  Route to update old tasks
-@mod.put('/task/<int:task_id>')  # @mod.route(('/task/<int:task_id>'), methods=['PUT'])
+#  Route to update tasks
+@mod.put('/project/<int:project_id>/task/<int:task_id>')
 @requires_api_login
-def update_task(task_id):
+def update_task(project_id,task_id):
     """
-        Since there is no defaual update query method in the SqlAlchemy Orm,
+        Since there is no default update query method in the Flask-SqlAlchemy Orm,
         check to see if task exist and then delete it as well as post new content with same ID
-    """ 
+    """
     data = request.get_json()
-    task_id = data['task_id']
-    old_task = Task.query.filter_by(id=task_id).first_or_404(description='There is no task with ID of {}'.format(task_id))
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    permission = has_project_permission(project, g.user)
+    old_task = Task.query.filter_by(id=task_id).first_or_404(description= f'There is no task with ID of {task_id}.')
     if old_task:
         db_session.delete(old_task)
         db_session.commit()
         name = data['name']
         project_id = data['project_id']
         description = data['description']
-        new_task = Task(name=name, description=description, project_id=project_id, created_by=g.user)
+        completion_status = data['completion_status']
+        created_date = data['created_date']
+        deadline_date = data['deadline_date']
+        new_task = Task(
+            name=name, description=description, completion_status=completion_status,
+            created_date = created_date, deadline_date = deadline_date, project_id=project_id, created_by=g.user)
         db_session.add(new_task)
         db_session.commit()
         return {
@@ -139,13 +177,18 @@ def update_task(task_id):
             'message': "Successfully Updated the Task.",
         }
 
-# Route to delete completed tasks
-@mod.delete('/task/<int:task_id>')   # @mod.route(('/task/<int:task_id>'), methods=['DELETE'])
+# Route to delete tasks
+@mod.delete('/project/<int:project_id>/task/<int:task_id>')
 @requires_api_login
-def delete_task(task_id):
-    data = request.get_json()
-    task_id = data['task_id']
-    task = Task.query.filter_by(id=task_id).first_or_404(description='There is no task with ID of {}'.format(task_id))
+def delete_task(project_id, task_id):
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    permission = has_project_permission(project, g.user)
+    task = Task.query.filter_by(id=task_id).first_or_404(description= f'There is no task with ID of {task_id}')
     if task:
         db_session.delete(task)
         db_session.commit()
@@ -155,42 +198,7 @@ def delete_task(task_id):
             'message': "Task Deleted Successfully.",
         }
 
-#  Route to edit completion status of tasks
-@mod.put('/task/<string:completion_status>')
-@requires_api_login
-def update_status(task_id):
-    """
-        Follows the same logic as the update_task route
-    """ 
-    data = request.get_json()
-    completion_status = data['completion_status']
-    # continue from here
-    """ 
-    current_status = Task.query.filter_by(id=task_id).first_or_404(description='There is no task with ID of {}'.format(task_id))
-    if old_task:
-        db_session.delete(old_task)
-        db_session.commit()
-        name = data['name']
-        project_id = data['project_id']
-        description = data['description']
-        new_task = Task(name=name, description=description, project_id=project_id, created_by=g.user)
-        db_session.add(new_task)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': task_schema.dump(new_task),
-            'message': "Successfully Updated the Task.",
-        } """
 # End of Tasks Routes-------------------------------------------------------------------------------------------------------------
-
-def has_project_permission(project, user):
-    permission =  project.manager == user or project.contributors.any(id=user.id)
-    if not permission:
-        abort(404, {
-            'success': False,
-            'message': f"Permission denied.",
-        } )
-    return permission
 
 # Added by PM: Later sort it out to see if functionality conflicts with get_task_list route
 @mod.get('/project/<int:project_id>/task/<int:task_id>/')
