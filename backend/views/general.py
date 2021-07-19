@@ -94,7 +94,7 @@ def is_project_manager(project, user):
 # Route to edit completion status of projects
 @mod.put('/project/<int:project_id, string:completion_status>')
 @requires_api_login
-def update_status(project_id, completion_status):
+def update_project_status(project_id, completion_status):
     """
         Project managers can replace completion status of the project
     """
@@ -118,7 +118,7 @@ def update_status(project_id, completion_status):
 # Route to edit deadlines of projects
 @mod.put('/project/<int:project_id, datetime:deadline_date>')
 @requires_api_login
-def update_status(project_id, deadline_date):
+def update_project_deadline(project_id, deadline_date):
     """
         Project managers can change deadlines of projects
     """
@@ -263,7 +263,7 @@ def delete_task(project_id, task_id):
 # Route to edit completion status of tasks
 @mod.put('/project/<int:project_id>/task/<int:task_id, string:completion_status>')
 @requires_api_login
-def update_status(project_id, task_id, completion_status):
+def update_task_status(project_id, task_id, completion_status):
     """
         User with permissions can replace completion status of task if it exists and is part of the project
     """
@@ -288,9 +288,9 @@ def update_status(project_id, task_id, completion_status):
 # Route to edit timelines of tasks
 @mod.put('/project/<int:project_id>/task/<int:task_id, datetime:deadline_date>')
 @requires_api_login
-def update_status(project_id, task_id, deadline_date):
+def update_task_deadline(project_id, task_id, deadline_date):
     """
-        Follows the same logic as the update_status route
+        Follows the same logic as the update_task_status route
     """
     project = Project.query.filter_by(id=project_id).first()
     if not project:
