@@ -103,8 +103,14 @@ class Project(Model):
     id = Column('project_id', Integer, primary_key=True)
     name = Column(String(50), unique= True, nullable = False)
     description = Column(String(400), nullable = False)
+
+    completion_status = Column(String(50),nullable = False)
+    created_date = Column(DateTime, default = datetime.datetime.utcnow)
+    deadline_date = Column(DateTime, nullabe = False)
+
     manager_id = Column(Integer, ForeignKey('user.user_id'))
     manager = relationship('User', back_populates='managed_projects') # one to many relationship between user and projects
+
     tasks = relationship('Task', back_populates='project') # one to many relationship between project and tasks
 
     contributors = relationship("User",
@@ -138,8 +144,14 @@ class Task(Model):
     id = Column('task_id', Integer, primary_key=True)
     name = Column(String(100),unique= True, nullable = False) # no two tasks in the same project should have the same name
     description = Column(String(300), nullable = False)
+
+    completion_status = Column(String(50),nullable = False)
+    created_date = Column(DateTime, default = datetime.datetime.utcnow)
+    deadline_date = Column(DateTime, nullabe = False)
+
     project_id = Column(Integer, ForeignKey('project.project_id'))
     project = relationship(Project, back_populates="tasks")
+
     created_by_id = Column(Integer, ForeignKey('user.user_id'))
     created_by=relationship(User, back_populates="created_tasks", foreign_keys=created_by_id)
 

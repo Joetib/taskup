@@ -155,6 +155,32 @@ def delete_task(task_id):
             'message': "Task Deleted Successfully.",
         }
 
+#  Route to edit completion status of tasks
+@mod.put('/task/<string:completion_status>')
+@requires_api_login
+def update_status(task_id):
+    """
+        Follows the same logic as the update_task route
+    """ 
+    data = request.get_json()
+    completion_status = data['completion_status']
+    # continue from here
+    """ 
+    current_status = Task.query.filter_by(id=task_id).first_or_404(description='There is no task with ID of {}'.format(task_id))
+    if old_task:
+        db_session.delete(old_task)
+        db_session.commit()
+        name = data['name']
+        project_id = data['project_id']
+        description = data['description']
+        new_task = Task(name=name, description=description, project_id=project_id, created_by=g.user)
+        db_session.add(new_task)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': task_schema.dump(new_task),
+            'message': "Successfully Updated the Task.",
+        } """
 # End of Tasks Routes-------------------------------------------------------------------------------------------------------------
 
 def has_project_permission(project, user):
