@@ -48,7 +48,6 @@ def get_projects_list():
         },
     })
 
-
 @mod.get('/project/<int:project_id>/')
 @requires_api_login
 def get_project_details(project_id: int):
@@ -61,6 +60,29 @@ def get_project_details(project_id: int):
         'success': bool(project),
         'result': project_schema.dump(project),
         'message': "Found" if project else "Not Found",
+    }
+
+
+#  Route to search for projects in database
+@mod.get('/project/<keyword>/')
+@requires_api_login
+def search_for_keyword_in_project(keyword):
+    searched_projects = []
+    for keyword in Project.query.split():
+        results = Project.query.filter(
+            or_(
+                Project.name.contains(keyword),
+                Project.description.contains(keyword),
+                Project.tasks.contains(keyword)
+            )
+        ).all()
+
+        for project in results:
+            searched_projects.append(project.name)
+    return {
+        'success': True,
+        'message': "Search results" if searched_projects else "None Found",
+        'result': projects_schema.dump(searched_projects),
     }
 
 @mod.post("/project/<int:project_id>/add-contributor/")
@@ -386,7 +408,7 @@ def create_message(project_id, task_id):
         'message': 'Message created Successfully.',
         'result': {'message': message.message}
     }
-  
+
 
 """ 
 from werkzeug.routing import BaseConverter, ValidationError
