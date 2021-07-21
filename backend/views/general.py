@@ -4,7 +4,7 @@ from backend.utils import check_password, hash_password, requires_api_login
 from backend.database import Project, Task, db_session, User, Model, Message
 from sqlalchemy import or_
 from backend.schema import TaskDetailSchema, TaskSchema, project_schema, projects_schema, task_schema, tasks_schema
-from datetime import datetime
+import datetime
 
 mod = Blueprint('general', __name__)
 
@@ -15,9 +15,9 @@ def create_project():
     data = request.get_json()
     name = data['name']
     description = data["description"]
-    completion_status = data['completion_status']
-    created_date = data['created_date']
-    deadline_date = data['deadline_date']
+    completion_status = False
+    created_date = datetime.datetime.now()
+    deadline_date = data.get('deadline_date', datetime.datetime.now() + datetime.timedelta(days=100))
     project: Project = Project(name=name, description=description, completion_status=completion_status,
         created_date = created_date, deadline_date = deadline_date)
     project.manager_id = g.user.id
@@ -206,9 +206,9 @@ def create_task(project_id):
     data = request.get_json()
     name = data['name']
     description = data['description']
-    completion_status = data['completion_status']
-    created_date = data['created_date']
-    deadline_date = data['deadline_date']
+    completion_status = False
+    created_date = datetime.datetime.now()
+    deadline_date = data.get('deadline_date', datetime.datetime.now() + datetime.timedelta(days=10))
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
