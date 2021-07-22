@@ -106,7 +106,7 @@ class Project(Model):
 
     completion_status = Column(String(50),nullable = False)
     created_date = Column(DateTime, default = datetime.datetime.utcnow)
-    deadline_date = Column(Date,nullable = False)
+    deadline_date = Column(Date, nullable = False)
 
     manager_id = Column(Integer, ForeignKey('user.user_id'))
     manager = relationship('User', back_populates='managed_projects') # one to many relationship between user and projects

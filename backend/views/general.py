@@ -8,7 +8,7 @@ from datetime import datetime
 
 mod = Blueprint('general', __name__)
 
-# Projects Routes-------------------------------------------------------------------------------------------------------------
+# Beginnig of Projects Routes-------------------------------------------------------------------------------------------------------------
 @mod.post('/project/')
 @requires_api_login
 def create_project():
@@ -16,10 +16,11 @@ def create_project():
     name = data['name']
     description = data["description"]
     completion_status = data['completion_status']
-    created_date = data['created_date']
     deadline_date = data['deadline_date']
-    project: Project = Project(name=name, description=description, completion_status=completion_status,
-        created_date = created_date, deadline_date = deadline_date)
+    project: Project = Project(
+        name=name, description=description, completion_status=completion_status, 
+        deadline_date = deadline_date
+    )
     project.manager_id = g.user.id
     db_session.add(project)
     db_session.commit()
@@ -63,7 +64,6 @@ def get_project_details(project_id: int):
     }
 
 
-#  Route to search for projects in database
 @mod.get('/project/<keyword>/')
 @requires_api_login
 def search_for_keyword_in_project(keyword):
@@ -105,7 +105,6 @@ def add_contributors_to_project(project_id: int):
         'message': "Successfully updated project",
     }
 
-#method to check if user is a project manager
 def is_project_manager(project, user):
     if project.manager == user:
         return True
@@ -115,7 +114,6 @@ def is_project_manager(project, user):
             'message': f"Permission denied.",
         } )
 
-# Route to delete projects
 @mod.delete('/project/<int:project_id>')
 @requires_api_login
 def delete_project(project_id):
@@ -137,7 +135,6 @@ def delete_project(project_id):
             'message': "Project Deleted Successfully.",
         }
 
-# Route to edit completion status of projects
 @mod.put('/project/<int:project_id>/<string:completion_status>')
 @requires_api_login
 def update_project_status(project_id, completion_status):
@@ -161,7 +158,6 @@ def update_project_status(project_id, completion_status):
             'message': f"Successfully Updated the Completion Status of {project.name}."
         }
 
-# Route to edit deadlines of projects
 @mod.put('/project/<int:project_id>/<deadline_date>')
 @requires_api_login
 def update_project_deadline(project_id, deadline_date):
@@ -197,9 +193,8 @@ def has_project_permission(project, user):
         } )
     return permission
     
-# Tasks Routes----------------------------------------------------------------------------------------------------------------------
+# Beginnig of Task Routes----------------------------------------------------------------------------------------------------------------------
 
-# Create tasks
 @mod.post("/project/<int:project_id>/task/")
 @requires_api_login
 def create_task(project_id):
@@ -207,7 +202,6 @@ def create_task(project_id):
     name = data['name']
     description = data['description']
     completion_status = data['completion_status']
-    created_date = data['created_date']
     deadline_date = data['deadline_date']
     project = Project.query.filter_by(id=project_id).first()
     if not project:
@@ -219,7 +213,7 @@ def create_task(project_id):
         permission = has_project_permission(project, g.user)
         task = Task(
             name=name, description=description, completion_status=completion_status,
-            created_date = created_date, deadline_date = deadline_date, project_id=project_id, created_by=g.user)
+            deadline_date = deadline_date, project_id=project_id, created_by=g.user)
         db_session.add(task)
         db_session.commit()
         return {
@@ -228,10 +222,12 @@ def create_task(project_id):
             'message': "Task Successfully Created.",
         }
 
-# Route to get list of tasks associated with a project
 @mod.get('/project/<int:project_id>/task/')
 @requires_api_login
 def get_tasks_list(project_id):
+    """ 
+        Get list of tasks associated with a project
+    """
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
@@ -249,13 +245,12 @@ def get_tasks_list(project_id):
         "message": "Successfully fetched all tasks.",
     })
 
-# Route to update tasks
 @mod.put('/project/<int:project_id>/task/<int:task_id>')
 @requires_api_login
 def update_task(project_id,task_id):
     """
-        Since there is no default update query method in the Flask-SqlAlchemy Orm,
-        check to see if task exist and then delete it as well as post new content with same ID
+        There is no out-of-the-box query command to update in the Flask-SqlAlchemy Orm,
+        check to see if task exist, delete it and commit the new content with same ID
     """
     data = request.get_json()
     project = Project.query.filter_by(id=project_id).first()
@@ -286,7 +281,6 @@ def update_task(project_id,task_id):
             'message': "Successfully Updated the Task.",
         }
 
-# Route to delete tasks
 @mod.delete('/project/<int:project_id>/task/<int:task_id>')
 @requires_api_login
 def delete_task(project_id, task_id):
@@ -307,7 +301,6 @@ def delete_task(project_id, task_id):
             'message': "Task Deleted Successfully.",
         }
 
-# Route to edit completion status of tasks
 @mod.put('/project/<int:project_id>/task/<int:task_id>/<string:completion_status>')
 @requires_api_login
 def update_task_status(project_id, task_id, completion_status):
@@ -332,12 +325,11 @@ def update_task_status(project_id, task_id, completion_status):
             'message': f"Successfully Updated the Completion Status of {task.name}."
         }
 
-# Route to edit timelines of tasks
 @mod.put('/project/<int:project_id>/task/<int:task_id>/<deadline_date>')
 @requires_api_login
 def update_task_deadline(project_id, task_id, deadline_date):
     """
-        Follows the same logic as the update_task_status route
+        User with permissions can edit timelines of tasks
     """
     deadline_date = datetime.strptime(deadline_date, "%Y-%m-%d").date() # there is no out-of-box support for dates in url routing
     project = Project.query.filter_by(id=project_id).first()
@@ -416,7 +408,7 @@ from werkzeug.routing import BaseConverter, ValidationError
 class DateConverter(BaseConverter):
     #Extracts a ISO8601 date from the path and validates it.
     #Custom converter for dates in urls since there is no out-of-the-box support for dates in routes
-    #Use later if lines update_deadline routes for task and project not working
+    #Use later if lines in update_deadline routes for task and project not working
 
     regex = r'\d{4}-\d{2}-\d{2}'
 
