@@ -77,56 +77,61 @@
     requires login
 
     methods allowed:
-    *post
+    * post
 
     returns:
-    *success
-    *result
-    *message
+    * success
+    * result
+    * message
+    
 ---
 - `/project/<int:project_id>`
 
    requires login
 
    methods allowed:
-   *delete
+   * delete
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 - `/project/<int:project_id>/<string:completion_status>`
 
    requires login
 
    methods allowed:
-   *put
+   * put
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 - `/project/<int:project_id>/<deadline_date>`
 
    requires login
 
    methods allowed:
-   *put
+   * put
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 - `/project/<int:project_id>/task/`
 
    requires login
 
    methods allowed:
-   *post
+   * post
 
     returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 
 - `/project/<int:project_id>/task/`
@@ -134,11 +139,12 @@
     requires login
 
    methods allowed:
-   *get
+   * get
 
     returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 
 - `/project/<int:project_id>/task/<int:task_id>`
@@ -146,11 +152,12 @@
     requires login
 
    methods allowed:
-   *put
+   * put
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 
 - `/project/<int:project_id>/task/<int:task_id>`
@@ -158,11 +165,12 @@
    requires login
    
    methods allowed:
-   *delete
+   * delete
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 
 - `/project/<int:project_id>/task/<int:task_id>/<string:completion_status>`
@@ -170,11 +178,12 @@
     requires login
    
    methods allowed:
-   *put
+   * put
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 
 - `/project/<int:project_id>/task/<int:task_id>/<deadline_date>`
@@ -182,11 +191,12 @@
    requires login
 
    meethods allowed:
-   *put
+   * put
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 
 - `/project/<int:project_id>/task/<int:task_id>/`
@@ -194,11 +204,12 @@
    requires login
 
    meethods allowed:
-   *get
+   * get
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 
 - `/project/<int:project_id>/task/<int:task_id>/message/`
@@ -206,11 +217,12 @@
    requires login
 
    meethods allowed:
-   *post
+   * post
 
    returns:
-   *success
-   *message
+   * success
+   * message
+   * result
 ---
 
 
