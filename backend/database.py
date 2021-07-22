@@ -109,9 +109,9 @@ class Project(Model):
     deadline_date = Column(Date, nullable = False)
 
     manager_id = Column(Integer, ForeignKey('user.user_id'))
-    manager = relationship('User', back_populates='managed_projects') # one to many relationship between user and projects
+    manager = relationship('User', back_populates='managed_projects') 
 
-    tasks = relationship('Task', back_populates='project') # one to many relationship between project and tasks
+    tasks = relationship('Task', back_populates='project') 
 
     contributors = relationship("User",
                     secondary=lambda: user_project_contribution_association_table,
@@ -142,7 +142,7 @@ class Task(Model):
     __tablename__ = 'task'
 
     id = Column('task_id', Integer, primary_key=True)
-    name = Column(String(100),unique= True, nullable = False) # no two tasks in the same project should have the same name
+    name = Column(String(100),unique= True, nullable = False) # no two tasks in the same project can have the same name
     description = Column(String(300), nullable = False)
 
     completion_status = Column(String(50),nullable = False)

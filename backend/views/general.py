@@ -64,9 +64,10 @@ def get_project_details(project_id: int):
     }
 
 
-@mod.get('/project/<keyword>/')
+@mod.get('/project/')
 @requires_api_login
-def search_for_keyword_in_project(keyword):
+def search_for_keyword_in_project():
+    keyword = request.get_json()
     searched_projects = []
     for keyword in Project.query.split():
         results = Project.query.filter(
