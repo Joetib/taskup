@@ -50,8 +50,6 @@ class TaskDetailSchema(ma.SQLAlchemyAutoSchema):
     messages = ma.List(ma.Nested(MessageSchema))
 
 
-
-
 # Init project schema
 project_schema = ProjectSchema()
 projects_schema = ProjectSchema(many=True)
