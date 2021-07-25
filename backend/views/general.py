@@ -235,16 +235,22 @@ def get_tasks_list(project_id):
             'success': False,
             'message': f"No project with the specified id {project_id} found.",
         }
-    permission = has_project_permission(project, g.user)
-    return jsonify({
-        "success": True,
-        "result": {
-            'created_tasks': tasks_schema.dump(Task.query.filter_by(created_by_id=g.user.id).all()),
-            'tasks_you_work_on': tasks_schema.dump(g.user.tasks).all(),
-            'all': tasks_schema.dump(Task.query.filter(or_(Task.created_by_id==g.user.id, Task.project_id==g.user.project.id)).all()),
-        },
-        "message": "Successfully fetched all tasks.",
-    })
+
+    else:
+        permission = has_project_permission(project, g.user)
+        return jsonify(
+            {
+                "success": True,
+                "result": {
+                    'created_tasks': tasks_schema.dump(Task.query.filter_by(created_by_id = g.user.id).all()),
+                    'tasks_you_work_on': tasks_schema.dump(g.user.tasks).all(),
+                    'all': tasks_schema.dump(Task.query.filter(or_(
+                        Task.created_by_id==g.user.id, Task.project_id==g.user.project.id
+                    )).all()),
+                },
+                "message": "Successfully fetched all tasks.",
+            }
+        )
 
 @mod.put('/project/<int:project_id>/task/<int:task_id>')
 @requires_api_login
