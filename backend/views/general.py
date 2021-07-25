@@ -200,21 +200,23 @@ def create_task(project_id):
     data = request.get_json()
     name = data['name']
     description = data['description']
-    completion_status = data['completion_status']
     deadline_date = data['deadline_date']
+
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
             'success': False,
             'message': f"No project with the specified id {project_id} found.",
         }
+
     else:
         permission = has_project_permission(project, g.user)
         task = Task(
-            name=name, description=description, completion_status=completion_status,
-            deadline_date = deadline_date, project_id=project_id, created_by=g.user)
+            name = name, description = description, deadline_date = deadline_date,
+            project_id = project_id, created_by = g.user)
         db_session.add(task)
         db_session.commit()
+
         return {
             'success': True,
             'result': task_schema.dump(task),
