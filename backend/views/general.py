@@ -8,18 +8,16 @@ from datetime import datetime
 
 mod = Blueprint('general', __name__)
 
-# Beginnig of Projects Routes-------------------------------------------------------------------------------------------------------------
+# Beginnig of Projects Routes--------------------------------------------------------------------------------------------------------------
 @mod.post('/project/')
 @requires_api_login
 def create_project():
     data = request.get_json()
     name = data['name']
     description = data["description"]
-    completion_status = data['completion_status']
     deadline_date = data['deadline_date']
     project: Project = Project(
-        name=name, description=description, completion_status=completion_status, 
-        deadline_date = deadline_date
+        name=name, description=description, deadline_date = deadline_date
     )
     project.manager_id = g.user.id
     db_session.add(project)

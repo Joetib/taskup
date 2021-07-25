@@ -145,7 +145,7 @@ class Task(Model):
     name = Column(String(100),unique= True, nullable = False) # no two tasks in the same project can have the same name
     description = Column(String(300), nullable = False)
 
-    completion_status = Column(String(50),nullable = False)
+    completion_status = Column(String(50), default = "Not Started")
     created_date = Column(DateTime, default = datetime.datetime.utcnow)
     deadline_date = Column(Date, nullable = False)
 
