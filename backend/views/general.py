@@ -320,17 +320,19 @@ def update_task_status(project_id, task_id, completion_status):
             'success': False,
             'message': f"No project with the specified id {project_id} found.",
         }
-    permission = has_project_permission(project, g.user)
-    task = Task.query.filter_by(id=task_id).first_or_404(description=f'There is no task with ID of {task_id}.')
-    if task:
-        task.completion_status = completion_status
-        db_session.add(task)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': task_schema.dump(task),
-            'message': f"Successfully Updated the Completion Status of {task.name}."
-        }
+    
+    else:
+        permission = has_project_permission(project, g.user)
+        task = Task.query.filter_by(id=task_id).first_or_404(description=f'There is no task with ID of {task_id}.')
+        if task:
+            task.completion_status = completion_status
+            db_session.add(task)
+            db_session.commit()
+            return {
+                'success': True,
+                'result': task_schema.dump(task),
+                'message': f"Successfully Updated the Completion Status of {task.name}."
+            }
 
 @mod.put('/project/<int:project_id>/task/<int:task_id>/<deadline_date>')
 @requires_api_login
