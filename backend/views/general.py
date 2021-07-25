@@ -347,17 +347,22 @@ def update_task_deadline(project_id, task_id, deadline_date):
             'success': False,
             'message': f"No project with the specified id {project_id} found.",
         }
-    permission = has_project_permission(project, g.user)
-    task = Task.query.filter_by(id=task_id).first_or_404(description=f'There is no task with ID of {task_id}.')
-    if task:
-        task.deadline_date = deadline_date
-        db_session.add(task)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': task_schema.dump(task),
-            'message': f"Successfully Updated the Deadline of {task.name}."
-        }
+
+    else:
+        permission = has_project_permission(project, g.user)
+        task = Task.query.filter_by(id = task_id).first_or_404(
+            description = f'There is no task with ID of {task_id}.'
+        )
+        
+        if task:
+            task.deadline_date = deadline_date
+            db_session.add(task)
+            db_session.commit()
+            return {
+                'success': True,
+                'result': task_schema.dump(task),
+                'message': f"Successfully Updated the Deadline of {task.name}."
+            }
 # End of Tasks Routes-------------------------------------------------------------------------------------------------------------
 
 # Added by PM: Later sort it out to see if functionality conflicts with get_task_list route
