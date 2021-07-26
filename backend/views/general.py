@@ -15,10 +15,8 @@ def create_project():
     data = request.get_json()
     name = data['name']
     description = data["description"]
-    deadline_date = data['deadline_date']
-    project: Project = Project(
-        name=name, description=description, deadline_date = deadline_date
-    )
+
+    project: Project = Project(name=name, description=description) # the rest of the fields for the object has default values in the database
     project.manager_id = g.user.id
     db_session.add(project)
     db_session.commit()
@@ -200,7 +198,6 @@ def create_task(project_id):
     data = request.get_json()
     name = data['name']
     description = data['description']
-    deadline_date = data['deadline_date']
 
     project = Project.query.filter_by(id=project_id).first()
     if not project:
@@ -212,8 +209,8 @@ def create_task(project_id):
     else:
         permission = has_project_permission(project, g.user)
         task = Task(
-            name = name, description = description, deadline_date = deadline_date,
-            project_id = project_id, created_by = g.user)
+            name = name, description = description,
+            project_id = project_id, created_by = g.user) # the rest of the fields for the object has default values in the database
         db_session.add(task)
         db_session.commit()
 

@@ -104,9 +104,9 @@ class Project(Model):
     name = Column(String(50), unique= True, nullable = False)
     description = Column(String(400), nullable = False)
 
-    completion_status = Column(String(50),nullable = False)
+    completion_status = Column(String(50), default = "Not Started")
     created_date = Column(DateTime, default = datetime.datetime.utcnow)
-    deadline_date = Column(Date, nullable = False)
+    deadline_date = Column(Date, default = datetime.datetime.now() + datetime.timedelta(days=100))
 
     manager_id = Column(Integer, ForeignKey('user.user_id'))
     manager = relationship('User', back_populates='managed_projects') 
@@ -147,7 +147,7 @@ class Task(Model):
 
     completion_status = Column(String(50), default = "Not Started")
     created_date = Column(DateTime, default = datetime.datetime.utcnow)
-    deadline_date = Column(Date, nullable = False)
+    deadline_date = Column(Date, default = datetime.datetime.now() + datetime.timedelta(days=10))
 
     project_id = Column(Integer, ForeignKey('project.project_id'))
     project = relationship(Project, back_populates="tasks")
