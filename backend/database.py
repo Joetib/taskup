@@ -119,9 +119,9 @@ class Project(Model):
 
     slug = Column(String(50))
 
-    def __init__(self, name, description=''):
+    """ def __init__(self, name, description=''):
         self.name = name
-        self.description = description
+        self.description = description """
 
     def to_json(self):
         return dict(name=self.name, slug=self.slug)

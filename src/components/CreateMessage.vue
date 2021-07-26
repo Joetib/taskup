@@ -43,6 +43,8 @@ export default {
       if (this.message.length > 1) {
         axios.post(`project/${this.project_id}/task/${this.task_id}/message/`, { project_id: this.project_id, task_id: this.task_id, message: this.message }).then((e) => {
           if (e.data.success) {
+            this.message = "";
+            this.error = "";
             this.send_close_signal(true);
           } else {
             this.error = e.data.message;

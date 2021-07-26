@@ -46,11 +46,7 @@ app.register_blueprint(auth.mod)
 from backend.database import User, db_session, init_db
 from backend import utils
 
-
-
-
 init_db()
-
 
 app.jinja_env.filters['datetimeformat'] = utils.format_datetime
 app.jinja_env.filters['dateformat'] = utils.format_date

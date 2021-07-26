@@ -4,7 +4,7 @@ from backend.utils import check_password, hash_password, requires_api_login
 from backend.database import Project, Task, db_session, User, Model, Message
 from sqlalchemy import or_
 from backend.schema import TaskDetailSchema, TaskSchema, project_schema, projects_schema, task_schema, tasks_schema
-from datetime import datetime
+import datetime
 
 mod = Blueprint('general', __name__)
 
