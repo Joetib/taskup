@@ -360,6 +360,19 @@ def update_task_deadline(project_id, task_id, deadline_date):
                 'result': task_schema.dump(task),
                 'message': f"Successfully Updated the Deadline of {task.name}."
             }
+
+
+#   addition of search functionality
+      def search():
+          if request.method == 'POST':
+              user = request.form[]
+              return redirect(url_for('success',name=user))
+            else:
+                user = request.args.get()
+                return redirect(url_for('success',name=user))
+#entire block of code above shall be modified later
+
+
 # End of Tasks Routes-------------------------------------------------------------------------------------------------------------
 
 # Added by PM: Later sort it out to see if functionality conflicts with get_task_list route
