@@ -363,7 +363,8 @@ def update_task_deadline(project_id, task_id, deadline_date):
 
 
 #   addition of search functionality
-      def search():
+@requires_api_login
+def search_project():
           if request.method == 'POST':
               user = request.form[]
               return redirect(url_for('success',name=user))
