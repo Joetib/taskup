@@ -111,7 +111,7 @@ def is_project_manager(project, user):
             'message': f"Permission denied.",
         } )
 
-@mod.delete('/project/<int:project_id>')
+@mod.delete('/project/<int:project_id>/delete/')
 @requires_api_login
 def delete_project(project_id):
     """
@@ -128,7 +128,7 @@ def delete_project(project_id):
         db_session.commit()
         return {
             'success': True,
-            'result': projects_schema.dump(g.user.tasks).all(),
+            'result': {},
             'message': "Project Deleted Successfully.",
         }
 
@@ -365,12 +365,12 @@ def update_task_deadline(project_id, task_id, deadline_date):
 #   addition of search functionality
 @requires_api_login
 def search_project():
-          if request.method == 'POST':
-              user = request.form[]
-              return redirect(url_for('success',name=user))
-            else:
-                user = request.args.get()
-                return redirect(url_for('success',name=user))
+    if request.method == 'POST':
+        user = request.form['user']
+        return redirect(url_for('success',name=user))
+    else:
+        user = request.args.get()
+        return redirect(url_for('success',name=user))
 #entire block of code above shall be modified later
 
 
