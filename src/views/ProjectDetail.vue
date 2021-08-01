@@ -6,28 +6,30 @@
         <div class="container">
           <ul class="list-unstyled">
             <li class="py-2">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <i class="fa fa-file"></i> Dashboard
-              </a>
+              <router-link class="nav-link d-flex align-items-center gap-2" to="/">
+                <i class="fa fa-home"></i> Home
+              </router-link>
             </li>
             <li class="py-2">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <i class="fa fa-comment-alt"></i> Chats
-              </a>
+              <router-link class="nav-link d-flex align-items-center gap-2" to="/dashboard">
+                <i class="fa fa-file"></i> Dashboard
+              </router-link>
             </li>
           </ul>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus alias
-          aut iusto consequuntur ex eaque, neque quia delectus explicabo
-          distinctio, nesciunt inventore a culpa labore sint temporibus ipsam
-          omnis at?
+          
         </div>
       </div>
       <!-- Sidebar end -->
       <div class="col-lg-8">
         <router-view />
-        <div class="container py-5">
+        <div class="container py-5 d-flex justify-content-between">
+        <div>
           <h2>{{ project.name }}</h2>
           <p>{{ project.description }}</p>
+          </div>
+          <div>
+          <DeleteProjectButton v-bind:project_id="project_id"></DeleteProjectButton>
+          </div>
         </div>
         <div class="container">
           <div class="d-flex justify-content-start align-items-center">
@@ -63,11 +65,13 @@
 import axios from "axios";
 import CreateTask from "../components/CreateTask.vue";
 import TaskCard from "../components/TaskCard.vue";
+import DeleteProjectButton from "../components/DeleteProjectButton.vue";
 
 export default {
   components: {
     CreateTask,
     TaskCard,
+    DeleteProjectButton,
   },
   data() {
     return {
