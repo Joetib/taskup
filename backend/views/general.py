@@ -285,7 +285,7 @@ def update_task(project_id,task_id):
             'message': "Successfully Updated the Task.",
         }
 
-@mod.delete('/project/<int:project_id>/task/<int:task_id>')
+@mod.delete('/project/<int:project_id>/task/<int:task_id>/delete/')
 @requires_api_login
 def delete_task(project_id, task_id):
     project = Project.query.filter_by(id=project_id).first()
