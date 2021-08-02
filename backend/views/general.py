@@ -295,13 +295,15 @@ def delete_task(project_id, task_id):
             'message': f"No project with the specified id {project_id} found.",
         }
     permission = has_project_permission(project, g.user)
-    task = Task.query.filter_by(id=task_id).first_or_404(description= f'There is no task with ID of {task_id}')
+    task = Task.query.filter_by(id=task_id).first()
+    if not task:
+        abort(404, f'There is no task with ID of {task_id}')
     if task:
         db_session.delete(task)
         db_session.commit()
         return {
             'success': True,
-            'result': tasks_schema.dump(g.user.tasks).all(),
+            'result': tasks_schema.dump(g.user.tasks),
             'message': "Task Deleted Successfully.",
         }
 
