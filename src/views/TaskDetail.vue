@@ -25,7 +25,8 @@
       <!-- Sidebar end -->
       <div class="col-lg-8">
         <div class="container py-5">
-          <h2>{{ task.name }} hello</h2>
+          <DeleteTaskButton v-bind:project_id="project_id" v-bind:task_id="task_id"></DeleteTaskButton>
+          <h2>{{ task.name }} </h2>
           <p>{{ task.description }}</p>
         </div>
         <div class="container">
@@ -59,6 +60,15 @@
             </div>
           </div>
           <h4>Contributors</h4>
+          <div>
+      <select v-model="selected_user" list="users-list" class="form-select">
+        <option  v-for="user in task.project.contributors" :key="user.id" :value="user.id">
+          {{ user.name }} ({{ user.email }})
+        </option>
+      </select>
+
+      <button @click="add_selected_user" class="btn mt-2 w-100 btn-primary">Add</button>
+    </div>
           <div
             class="card my-3"
             v-for="contributor in task.project.contributors"
@@ -82,11 +92,13 @@
 import axios from "axios";
 import CreateMessage from "../components/CreateMessage.vue";
 import MessageCard from "../components/MessageCard.vue";
+import DeleteTaskButton from '../components/DeleteTaskButton.vue';
 
 export default {
   components: {
     CreateMessage,
     MessageCard,
+    DeleteTaskButton,
     
   },
   data() {

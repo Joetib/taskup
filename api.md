@@ -85,7 +85,7 @@
     * message
     
 ---
-- `/project/<int:project_id>`
+- `/project/<int:project_id>/delete/`
 
    requires login
 
@@ -160,7 +160,7 @@
    * result
 ---
 
-- `/project/<int:project_id>/task/<int:task_id>`
+- `/project/<int:project_id>/task/<int:task_id>/delete/`
 
    requires login
    

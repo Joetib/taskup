@@ -111,7 +111,7 @@ def is_project_manager(project, user):
             'message': f"Permission denied.",
         } )
 
-@mod.delete('/project/<int:project_id>')
+@mod.delete('/project/<int:project_id>/delete/')
 @requires_api_login
 def delete_project(project_id):
     """
@@ -128,7 +128,7 @@ def delete_project(project_id):
         db_session.commit()
         return {
             'success': True,
-            'result': projects_schema.dump(g.user.tasks).all(),
+            'result': {},
             'message': "Project Deleted Successfully.",
         }
 
@@ -285,7 +285,7 @@ def update_task(project_id,task_id):
             'message': "Successfully Updated the Task.",
         }
 
-@mod.delete('/project/<int:project_id>/task/<int:task_id>')
+@mod.delete('/project/<int:project_id>/task/<int:task_id>/delete/')
 @requires_api_login
 def delete_task(project_id, task_id):
     project = Project.query.filter_by(id=project_id).first()
@@ -295,13 +295,15 @@ def delete_task(project_id, task_id):
             'message': f"No project with the specified id {project_id} found.",
         }
     permission = has_project_permission(project, g.user)
-    task = Task.query.filter_by(id=task_id).first_or_404(description= f'There is no task with ID of {task_id}')
+    task = Task.query.filter_by(id=task_id).first()
+    if not task:
+        abort(404, f'There is no task with ID of {task_id}')
     if task:
         db_session.delete(task)
         db_session.commit()
         return {
             'success': True,
-            'result': tasks_schema.dump(g.user.tasks).all(),
+            'result': tasks_schema.dump(g.user.tasks),
             'message': "Task Deleted Successfully.",
         }
 
@@ -365,12 +367,12 @@ def update_task_deadline(project_id, task_id, deadline_date):
 #   addition of search functionality
 @requires_api_login
 def search_project():
-          if request.method == 'POST':
-              user = request.form[]
-              return redirect(url_for('success',name=user))
-            else:
-                user = request.args.get()
-                return redirect(url_for('success',name=user))
+    if request.method == 'POST':
+        user = request.form['user']
+        return redirect(url_for('success',name=user))
+    else:
+        user = request.args.get()
+        return redirect(url_for('success',name=user))
 #entire block of code above shall be modified later
 
 
