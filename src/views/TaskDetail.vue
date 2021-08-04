@@ -24,6 +24,14 @@
       </div>
       <!-- Sidebar end -->
       <div class="col-lg-8">
+<<<<<<< HEAD
+=======
+        <div class="container py-5">
+          <DeleteTaskButton v-bind:project_id="project_id" v-bind:task_id="task_id"></DeleteTaskButton>
+          <h2>{{ task.name }} </h2>
+          <p>{{ task.description }}</p>
+        </div>
+>>>>>>> 9712bf03eed0e76fef79a8c103910376168bf4c4
         <div class="container">
           <router-link :to="project_link">
             <h3>{{ task.project.name }}</h3>
@@ -93,6 +101,15 @@
             </div>
           </div>
           <h4>Contributors</h4>
+          <div>
+      <select v-model="selected_user" list="users-list" class="form-select">
+        <option  v-for="user in task.project.contributors" :key="user.id" :value="user.id">
+          {{ user.name }} ({{ user.email }})
+        </option>
+      </select>
+
+      <button @click="add_selected_user" class="btn mt-2 w-100 btn-primary">Add</button>
+    </div>
           <div
             class="card my-3"
             v-for="contributor in task.project.contributors"
@@ -120,11 +137,17 @@
 import axios from "axios";
 import CreateMessage from "../components/CreateMessage.vue";
 import MessageCard from "../components/MessageCard.vue";
+import DeleteTaskButton from '../components/DeleteTaskButton.vue';
 
 export default {
   components: {
     CreateMessage,
     MessageCard,
+<<<<<<< HEAD
+=======
+    DeleteTaskButton,
+    
+>>>>>>> 9712bf03eed0e76fef79a8c103910376168bf4c4
   },
   data() {
     return {
