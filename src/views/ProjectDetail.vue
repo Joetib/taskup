@@ -25,7 +25,7 @@
         </div>
       </div>
       <!-- Sidebar end -->
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <router-view />
         <div class="container py-5 d-flex justify-content-between">
           <div>
@@ -56,8 +56,10 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-2 p-1">
-        <div class="container-fluid py-5"></div>
+      <div class="col-lg-3 p-0">
+        <div class="container-fluid py-5">
+          <ProjectContributors v-bind:project_id="project_id"></ProjectContributors>
+        </div>
       </div>
     </div>
     <div class="full-screen-form-overlay" v-if="open_create_task_dialog">
@@ -74,12 +76,13 @@ import axios from "axios";
 import CreateTask from "../components/CreateTask.vue";
 import TaskCard from "../components/TaskCard.vue";
 import DeleteProjectButton from "../components/DeleteProjectButton.vue";
-
+import ProjectContributors from '../components/ProjectContributors.vue';
 export default {
   components: {
     CreateTask,
     TaskCard,
     DeleteProjectButton,
+    ProjectContributors,
   },
   data() {
     return {

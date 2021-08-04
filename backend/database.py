@@ -144,7 +144,7 @@ class Task(Model):
     id = Column('task_id', Integer, primary_key=True)
     name = Column(String(100),unique= True, nullable = False) # no two tasks in the same project can have the same name
     description = Column(String(300), nullable = False)
-
+    # Completion status must be one of Not Started, in progress, completed.
     completion_status = Column(String(50), default = "Not Started")
     created_date = Column(DateTime, default = datetime.datetime.utcnow)
     deadline_date = Column(Date, default = datetime.datetime.now() + datetime.timedelta(days=10))

@@ -25,7 +25,7 @@
           <h2 class="mb-2">Welcome to your dashboard</h2>
           <p class="mb-5">Here you will find projects you have created and contribute to.</p>
           
-          <div class="d-flex justify-content-center align-items-center">
+          <div class="">
             <a class="btn btn-primary btn-lg" @click="enable_create_project"
               ><i class="fa fa-plus pe-2"></i>Create Project</a
             >

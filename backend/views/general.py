@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, session, redirect, url_for, \
 from backend.utils import check_password, hash_password, requires_api_login
 from backend.database import Project, Task, db_session, User, Model, Message
 from sqlalchemy import or_
-from backend.schema import TaskDetailSchema, TaskSchema, project_schema, projects_schema, task_schema, tasks_schema
+from backend.schema import TaskDetailSchema, TaskSchema, UserSchema, project_schema, projects_schema, task_schema, tasks_schema
 import datetime
 
 mod = Blueprint('general', __name__)
@@ -110,6 +110,22 @@ def is_project_manager(project, user):
             'success': False,
             'message': f"Permission denied.",
         } )
+@mod.get('/project/<int:project_id>/contributors/')
+@requires_api_login
+def get_contributors_for_project(project_id):
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': "Project Not Found",
+        }
+    else:
+        return {
+            'success': True,
+            'message': "Project Found",
+            'all_users': UserSchema(many=True).dump(User.query.all()),
+            'results': UserSchema(many=True).dump(project.contributors),
+        }
 
 @mod.delete('/project/<int:project_id>/delete/')
 @requires_api_login
@@ -132,12 +148,14 @@ def delete_project(project_id):
             'message': "Project Deleted Successfully.",
         }
 
-@mod.put('/project/<int:project_id>/<string:completion_status>')
+@mod.put('/project/<int:project_id>/completion-status/')
 @requires_api_login
-def update_project_status(project_id, completion_status):
+def update_project_status(project_id):
+    
     """
         Project managers can replace completion status of the project
     """
+    completion_status = request.get_json()['completion_status']
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
@@ -264,7 +282,9 @@ def update_task(project_id,task_id):
             'message': f"No project with the specified id {project_id} found.",
         }
     permission = has_project_permission(project, g.user)
-    old_task = Task.query.filter_by(id=task_id).first_or_404(description= f'There is no task with ID of {task_id}.')
+    old_task = Task.query.filter_by(id=task_id)
+    if not old_task:
+            abort(404, f'There is no task with ID of {task_id}.')
     if old_task:
         db_session.delete(old_task)
         db_session.commit()
@@ -295,7 +315,9 @@ def delete_task(project_id, task_id):
             'message': f"No project with the specified id {project_id} found.",
         }
     permission = has_project_permission(project, g.user)
-    task = Task.query.filter_by(id=task_id).first_or_404(description= f'There is no task with ID of {task_id}')
+    task = Task.query.filter_by(id=task_id).first()
+    if not task:
+            abort(404, f'There is no task with ID of {task_id}.')
     if task:
         db_session.delete(task)
         db_session.commit()
@@ -305,12 +327,14 @@ def delete_task(project_id, task_id):
             'message': "Task Deleted Successfully.",
         }
 
-@mod.put('/project/<int:project_id>/task/<int:task_id>/<string:completion_status>')
+@mod.put('/project/<int:project_id>/task/<int:task_id>/completion-status/')
 @requires_api_login
-def update_task_status(project_id, task_id, completion_status):
+def update_task_status(project_id, task_id):
     """
         User with permissions can replace completion status of task if it exists and is part of the project
     """
+    completion_status = request.get_json()['completion_status']
+
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
@@ -320,7 +344,9 @@ def update_task_status(project_id, task_id, completion_status):
     
     else:
         permission = has_project_permission(project, g.user)
-        task = Task.query.filter_by(id=task_id).first_or_404(description=f'There is no task with ID of {task_id}.')
+        task = Task.query.filter_by(id=task_id).first()
+        if not task:
+            abort(404, f'There is no task with ID of {task_id}.')
         if task:
             task.completion_status = completion_status
             db_session.add(task)
@@ -347,9 +373,9 @@ def update_task_deadline(project_id, task_id, deadline_date):
 
     else:
         permission = has_project_permission(project, g.user)
-        task = Task.query.filter_by(id = task_id).first_or_404(
-            description = f'There is no task with ID of {task_id}.'
-        )
+        task = Task.query.filter_by(id = task_id).first()
+        if not task:
+            abort(404, f'There is no task with ID of {task_id}.')
         
         if task:
             task.deadline_date = deadline_date
