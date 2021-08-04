@@ -1,74 +1,47 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <!-- Sidebar start -->
-      <div class="col-md-3 col-lg-2 pt-5">
-        <div class="container">
-          <ul class="list-unstyled">
-            <li class="py-2">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <i class="fa fa-file"></i> Dashboard
-              </a>
-            </li>
-            <li class="py-2">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <i class="fa fa-comment-alt"></i> Chats
-              </a>
-            </li>
-          </ul>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus alias
-          aut iusto consequuntur ex eaque, neque quia delectus explicabo
-          distinctio, nesciunt inventore a culpa labore sint temporibus ipsam
-          omnis at?
-        </div>
-      </div>
-      <!-- Sidebar end -->
-      <div class="col-lg-8">
-<<<<<<< HEAD
-=======
-        <div class="container py-5">
-          <DeleteTaskButton v-bind:project_id="project_id" v-bind:task_id="task_id"></DeleteTaskButton>
-          <h2>{{ task.name }} </h2>
-          <p>{{ task.description }}</p>
-        </div>
->>>>>>> 9712bf03eed0e76fef79a8c103910376168bf4c4
-        <div class="container">
+      <div class="col-lg-10">
+        <div class="container py-4">
           <router-link :to="project_link">
-            <h3>{{ task.project.name }}</h3>
-            </router-link>
-          <hr>
-        <div class=" py-5 d-flex justify-content-between">
-          <div>
-            <h2>{{ task.name }}</h2>
-            <p>{{ task.description }}</p>
+            <h4>{{ task.project.name }}</h4>
+          </router-link>
+          <div class="py-5 d-flex justify-content-between">
+            <div>
+              <h2>{{ task.name }}</h2>
+              <p>{{ task.description }}</p>
+            </div>
+            <div class="d-flex flex-column">
+              <span
+                class="badge mb-3"
+                v-bind:class="{
+                  'bg-danger': isNotStarted,
+                  'bg-primary': isInProgress,
+                  'bg-success': isCompleted,
+                }"
+              >
+                {{ completion_status }}
+              </span>
+              <button
+                v-if="isNotStarted"
+                @click="update_status('In Progress')"
+                class="btn btn-warning"
+              >
+                Mark as In Progres
+              </button>
+              <button
+                v-if="isInProgress"
+                @click="update_status('Completed')"
+                class="btn btn-warning"
+              >
+                Mark as Completed
+              </button>
+              <DeleteTaskButton
+                v-bind:project_id="project_id"
+                v-bind:task_id="task_id"
+              ></DeleteTaskButton>
+            </div>
           </div>
-          <div class="d-flex flex-column">
-            <span
-              class="badge mb-3"
-              v-bind:class="{
-                'bg-danger': isNotStarted,
-                'bg-primary': isInProgress,
-                'bg-success': isCompleted,
-              }"
-            >
-              {{ completion_status }}
-            </span>
-            <button
-              v-if="isNotStarted"
-              @click="update_status('In Progress')"
-              class="btn btn-warning"
-            >
-              Mark as In Progres
-            </button>
-            <button
-              v-if="isInProgress"
-              @click="update_status('Completed')"
-              class="btn btn-warning"
-            >
-              Mark as Completed
-            </button>
-          </div>
-        </div>
         </div>
 
         <div class="container">
@@ -102,14 +75,27 @@
           </div>
           <h4>Contributors</h4>
           <div>
-      <select v-model="selected_user" list="users-list" class="form-select">
-        <option  v-for="user in task.project.contributors" :key="user.id" :value="user.id">
-          {{ user.name }} ({{ user.email }})
-        </option>
-      </select>
+            <select
+              v-model="selected_user"
+              list="users-list"
+              class="form-select"
+            >
+              <option
+                v-for="user in task.project.contributors"
+                :key="user.id"
+                :value="user.id"
+              >
+                {{ user.name }} ({{ user.email }})
+              </option>
+            </select>
 
-      <button @click="add_selected_user" class="btn mt-2 w-100 btn-primary">Add</button>
-    </div>
+            <button
+              @click="add_selected_user"
+              class="btn mt-2 w-100 btn-primary"
+            >
+              Add
+            </button>
+          </div>
           <div
             class="card my-3"
             v-for="contributor in task.project.contributors"
@@ -137,17 +123,13 @@
 import axios from "axios";
 import CreateMessage from "../components/CreateMessage.vue";
 import MessageCard from "../components/MessageCard.vue";
-import DeleteTaskButton from '../components/DeleteTaskButton.vue';
+import DeleteTaskButton from "../components/DeleteTaskButton.vue";
 
 export default {
   components: {
     CreateMessage,
     MessageCard,
-<<<<<<< HEAD
-=======
     DeleteTaskButton,
-    
->>>>>>> 9712bf03eed0e76fef79a8c103910376168bf4c4
   },
   data() {
     return {
@@ -235,9 +217,9 @@ export default {
       }
       return this.$route.params.task_id;
     },
-    project_link(){
-      return `/project/${this.project_id}/`
-    }
+    project_link() {
+      return `/project/${this.project_id}/`;
+    },
   },
   mounted() {
     this.fetchTask(this.project_id, this.task_id);

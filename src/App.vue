@@ -1,44 +1,51 @@
 <template>
-  <div id="nav">
-    <NavBar />
-    <div class="loading sticky-top" v-if="$store.state.is_loading">
-    <div class="circle-loaer"></div>
-      <span class="load-item"></span>
-        <span class="load-item"></span>
-        <span class="load-item"></span>
+  <div class="container-fluid">
+    <div class="row h-min-100vh">
+        <SidePanel />
+      <div class="col-md-8 col-lg-9 col-xl-10" id="nav">
+        <NavBar />
+        <div class="loading sticky-top" v-if="$store.state.is_loading">
+          <div class="circle-loaer"></div>
+          <span class="load-item"></span>
+          <span class="load-item"></span>
+          <span class="load-item"></span>
+        </div>
+        <router-view />
       </div>
-        <router-view/>
+    </div>
   </div>
 </template>
 <script>
-import NavBar from './components/NavBar.vue'
+import NavBar from "./components/NavBar.vue";
+import SidePanel from "./components/SidePanel.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     NavBar,
+    SidePanel,
   },
   beforeCreate() {
     this.$store.commit("initializeStore");
   },
-}
+};
 </script>
 <style>
 @import url(https://use.fontawesome.com/releases/v5.8.2/css/all.css);
 .pointer {
   cursor: pointer;
 }
-.bg-dark-2{
+.bg-dark-2 {
   background: #333;
 }
-.bg-dark-3{
+.bg-dark-3 {
   background: #444;
 }
 
 @keyframes loading {
-  0%{
+  0% {
     background: gold;
   }
-  70%{
+  70% {
     background: #555;
   }
 }
@@ -51,14 +58,14 @@ export default {
   margin: 20px;
   animation: loading 0.9s ease-in infinite;
 }
-.load-item:nth-child(1){
-  animation-delay: 0s
+.load-item:nth-child(1) {
+  animation-delay: 0s;
 }
-.load-item:nth-child(2){
-  animation-delay: 0.3s
+.load-item:nth-child(2) {
+  animation-delay: 0.3s;
 }
-.load-item:nth-child(3){
-  animation-delay: 0.6s
+.load-item:nth-child(3) {
+  animation-delay: 0.6s;
 }
 .loading {
   display: flex;
@@ -66,13 +73,12 @@ export default {
   align-items: center;
 }
 @keyframes spin {
-  0%{
+  0% {
     transform: rotate(0deg);
   }
-  100%{
-    transform: rotate(360deg)
+  100% {
+    transform: rotate(360deg);
   }
-  
 }
 .circle-loader {
   border: 16px solid rgb(68, 59, 9);
@@ -82,11 +88,14 @@ export default {
   height: 120px;
   animation: spin 2s linear infinite;
 }
+.h-min-100vh{
+  min-height: 100vh;
+}
 a {
   text-decoration: none;
   color: unset;
 }
-a:hover{
+a:hover {
   color: unset;
 }
 </style>

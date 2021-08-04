@@ -1,4 +1,4 @@
-from backend.database import Project, Task, User, Message
+from backend.database import Invitation, Project, Task, User, Message
 from backend import ma
 
 
@@ -31,6 +31,12 @@ class TaskSchema(ma.SQLAlchemyAutoSchema):
         include_fk = True
     created_by = ma.Nested(UserSchema)
 
+class InvitationListSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Invitation
+        include_fk = True
+    user = ma.Nested(UserSchema)
+
 class ProjectSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Project
@@ -39,6 +45,7 @@ class ProjectSchema(ma.SQLAlchemyAutoSchema):
     contributors = ma.List(ma.Nested(UserSchema))
     manager = ma.Nested(UserSchema)
     tasks = ma.List(ma.Nested(TaskSchema))
+    invites = ma.List(ma.Nested(InvitationListSchema))
 
 
 class TaskDetailSchema(ma.SQLAlchemyAutoSchema):
@@ -49,6 +56,12 @@ class TaskDetailSchema(ma.SQLAlchemyAutoSchema):
     project = ma.Nested(ProjectListSchema)
     messages = ma.List(ma.Nested(MessageSchema))
 
+class InvitationDetailSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Invitation
+        include_fk = True
+    project = ma.Nested(ProjectListSchema)
+    user = ma.Nested(UserSchema)
 
 # Init project schema
 project_schema = ProjectSchema()
@@ -57,5 +70,6 @@ projects_schema = ProjectSchema(many=True)
 # Init task schema
 task_schema = TaskSchema()
 tasks_schema = TaskSchema(many=True)
+
 
 # Yet to initialize some schemas

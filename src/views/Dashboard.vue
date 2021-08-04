@@ -1,26 +1,9 @@
 <template>
   <div class="container-fluid position-relative">
     <div class="row position-relative">
-        <!-- Sidebar start -->
-      <div class="col-md-3 col-lg-2 sticky-top">
-        <div class="container">
-          <ul class="list-unstyled">
-            <li class="py-2">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <i class="fa fa-file"></i> Dashboard
-              </a>
-            </li>
-            <li class="py-2">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <i class="fa fa-comment-alt"></i> Chats
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- Sidebar end -->
+        
 
-      <div class="col-md-9 col-lg-10 py-5">
+      <div class="col-12 py-5">
         <div class="container">
           <h2 class="mb-2">Welcome to your dashboard</h2>
           <p class="mb-5">Here you will find projects you have created and contribute to.</p>
