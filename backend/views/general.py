@@ -443,7 +443,7 @@ def update_task_deadline(project_id, task_id, deadline_date):
 @requires_api_login
 def search_project():
     if request.method == 'POST':
-        user = request.form['user']
+        user = request.form['']
         return redirect(url_for('success',name=user))
     else:
         user = request.args.get()
