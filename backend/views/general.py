@@ -192,14 +192,15 @@ def delete_project(project_id):
             'message': f"No project with the specified id {project_id} found.",
         }
 
-    if is_project_manager(project, g.user):
-        db_session.delete(project)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': {},
-            'message': "Project Deleted Successfully.",
-        }
+    else:
+        if is_project_manager(project, g.user):
+            db_session.delete(project)
+            db_session.commit()
+            return {
+                'success': True,
+                'result': {},
+                'message': "Project Deleted Successfully.",
+            }
 
 @mod.put('/project/<int:project_id>/completion-status/')
 @requires_api_login
@@ -216,15 +217,16 @@ def update_project_status(project_id):
             'message': f"No project with the specified id {project_id} found.",
         }
 
-    if is_project_manager(project, g.user):
-        project.completion_status = completion_status
-        db_session.add(project)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': task_schema.dump(project),
-            'message': f"Successfully Updated the Completion Status of {project.name}."
-        }
+    else:
+        if is_project_manager(project, g.user):
+            project.completion_status = completion_status
+            db_session.add(project)
+            db_session.commit()
+            return {
+                'success': True,
+                'result': task_schema.dump(project),
+                'message': f"Successfully Updated the Completion Status of {project.name}."
+            }
 
 @mod.put('/project/<int:project_id>/<deadline_date>')
 @requires_api_login
@@ -240,15 +242,16 @@ def update_project_deadline(project_id, deadline_date):
             'message': f"No project with the specified id {project_id} found.",
         }
 
-    if is_project_manager(project, g.user):
-        project.deadline_date = deadline_date
-        db_session.add(project)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': task_schema.dump(project),
-            'message': f"Successfully Changed the Deadline of {project.name}."
-        }
+    else:
+        if is_project_manager(project, g.user):
+            project.deadline_date = deadline_date
+            db_session.add(project)
+            db_session.commit()
+            return {
+                'success': True,
+                'result': task_schema.dump(project),
+                'message': f"Successfully Changed the Deadline of {project.name}."
+            }
 
 # End of Project Routes-------------------------------------------------------------------------------------------------------------
 
@@ -334,29 +337,32 @@ def update_task(project_id,task_id):
             'success': False,
             'message': f"No project with the specified id {project_id} found.",
         }
-    permission = has_project_permission(project, g.user)
-    old_task = Task.query.filter_by(id=task_id)
-    if not old_task:
-            abort(404, f'There is no task with ID of {task_id}.')
-    if old_task:
-        db_session.delete(old_task)
-        db_session.commit()
-        name = data['name']
-        project_id = data['project_id']
-        description = data['description']
-        completion_status = data['completion_status']
-        created_date = data['created_date']
-        deadline_date = data['deadline_date']
-        new_task = Task(
-            name=name, description=description, completion_status=completion_status,
-            created_date = created_date, deadline_date = deadline_date, project_id=project_id, created_by=g.user)
-        db_session.add(new_task)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': task_schema.dump(new_task),
-            'message': "Successfully Updated the Task.",
-        }
+
+    else:
+        permission = has_project_permission(project, g.user)
+        old_task = Task.query.filter_by(id=task_id)
+        if not old_task:
+                abort(404, f'There is no task with ID of {task_id}.')
+
+        if old_task:
+            db_session.delete(old_task)
+            db_session.commit()
+            name = data['name']
+            project_id = data['project_id']
+            description = data['description']
+            completion_status = data['completion_status']
+            created_date = data['created_date']
+            deadline_date = data['deadline_date']
+            new_task = Task(
+                name=name, description=description, completion_status=completion_status,
+                created_date = created_date, deadline_date = deadline_date, project_id=project_id, created_by=g.user)
+            db_session.add(new_task)
+            db_session.commit()
+            return {
+                'success': True,
+                'result': task_schema.dump(new_task),
+                'message': "Successfully Updated the Task.",
+            }
 
 @mod.delete('/project/<int:project_id>/task/<int:task_id>/delete/')
 @requires_api_login
@@ -367,18 +373,19 @@ def delete_task(project_id, task_id):
             'success': False,
             'message': f"No project with the specified id {project_id} found.",
         }
-    permission = has_project_permission(project, g.user)
-    task = Task.query.filter_by(id=task_id).first()
-    if not task:
-        abort(404, f'There is no task with ID of {task_id}.')
-    if task:
-        db_session.delete(task)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': tasks_schema.dump(g.user.tasks),
-            'message': "Task Deleted Successfully.",
-        }
+    else:
+        permission = has_project_permission(project, g.user)
+        task = Task.query.filter_by(id=task_id).first()
+        if not task:
+            abort(404, f'There is no task with ID of {task_id}.')
+        if task:
+            db_session.delete(task)
+            db_session.commit()
+            return {
+                'success': True,
+                'result': tasks_schema.dump(g.user.tasks),
+                'message': "Task Deleted Successfully.",
+            }
 
 @mod.put('/project/<int:project_id>/task/<int:task_id>/completion-status/')
 @requires_api_login
