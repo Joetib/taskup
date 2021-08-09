@@ -9,6 +9,7 @@ import datetime
 mod = Blueprint('general', __name__)
 
 # Beginnig of Projects Routes--------------------------------------------------------------------------------------------------------------
+
 @mod.post('/project/')
 @requires_api_login
 def create_project():
@@ -134,7 +135,6 @@ def decline_invitation(invitation_id):
         
     }
     
-
 @mod.get('/invitation/<int:invitation_id>/accept/')
 @requires_api_login
 def accept_invitation(invitation_id):
@@ -161,6 +161,7 @@ def is_project_manager(project, user):
             'success': False,
             'message': f"Permission denied.",
         } )
+
 @mod.get('/project/<int:project_id>/contributors/')
 @requires_api_login
 def get_contributors_for_project(project_id):
@@ -190,6 +191,7 @@ def delete_project(project_id):
             'success': False,
             'message': f"No project with the specified id {project_id} found.",
         }
+
     if is_project_manager(project, g.user):
         db_session.delete(project)
         db_session.commit()
@@ -438,7 +440,8 @@ def update_task_deadline(project_id, task_id, deadline_date):
                 'message': f"Successfully Updated the Deadline of {task.name}."
             }
 
-
+""" 
+    #   Commented out block: conflicting functionality with the already existing search route.
 #   addition of search functionality
 @requires_api_login
 def search_project():
@@ -448,7 +451,9 @@ def search_project():
     else:
         user = request.args.get()
         return redirect(url_for('success',name=user))
-#entire block of code above shall be modified later
+#   entire block of code above shall be modified later 
+
+"""
 
 
 # End of Tasks Routes-------------------------------------------------------------------------------------------------------------
