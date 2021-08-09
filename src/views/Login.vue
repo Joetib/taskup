@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
           <p>
-            Kindly <router-link to="/signup">signup</router-link> if you do not
+            Kindly <router-link id="link1" to="/signup">signup</router-link> if you do not
             already have an account.
           </p>
         </div>
@@ -87,5 +87,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
+#link1 {
+  color:blue;
+}
 </style>
