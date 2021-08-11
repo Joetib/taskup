@@ -21,10 +21,14 @@
           </div>
         </div>
         <div class="container">
-          <div class="d-flex justify-content-start align-items-center">
+          <div class="d-flex justify-content-start gap-2 align-items-center">
             <a class="btn btn-primary btn-lg" @click="enable_create_task">
               <i class="fa fa-plus pe-2"></i>Create Task
             </a>
+            <a class="btn btn-primary btn-lg me-4" @click="enable_edit_project">
+              <i class="fa fa-plus pe-2"></i>Edit Project
+            </a>
+
           </div>
           <div class="row py-4">
             <div class="col-12">
@@ -50,6 +54,12 @@
         @create_task_done="create_task_done"
       />
     </div>
+    <div class="full-screen-form-overlay" v-if="open_edit_project_dialog">
+      <edit-project
+        v-bind:project_id="project_id"
+        @create_task_done="create_task_done"
+      />
+    </div>
   </div>
 </template>
 
@@ -59,17 +69,20 @@ import CreateTask from "../components/CreateTask.vue";
 import TaskCard from "../components/TaskCard.vue";
 import DeleteProjectButton from "../components/DeleteProjectButton.vue";
 import ProjectContributors from '../components/ProjectContributors.vue';
+import EditProject from '../components/EditProject.vue';
 export default {
   components: {
     CreateTask,
     TaskCard,
     DeleteProjectButton,
     ProjectContributors,
+    EditProject,
   },
   data() {
     return {
       project: {},
       open_create_task_dialog: false,
+      open_edit_project_dialog: false,
     };
   },
   methods: {
@@ -89,6 +102,9 @@ export default {
     },
     enable_create_task() {
       this.open_create_task_dialog = true;
+    },
+    enable_edit_project() {
+      this.open_edit_project_dialog = true;
     },
   },
   computed: {
