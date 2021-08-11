@@ -1,31 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <!-- Sidebar start -->
-      <div class="col-md-3 col-lg-2 pt-5">
-        <div class="container">
-          <ul class="list-unstyled">
-            <li class="py-2">
-              <router-link
-                class="nav-link d-flex align-items-center gap-2"
-                to="/"
-              >
-                <i class="fa fa-home"></i> Home
-              </router-link>
-            </li>
-            <li class="py-2">
-              <router-link
-                class="nav-link d-flex align-items-center gap-2"
-                to="/dashboard"
-              >
-                <i class="fa fa-file"></i> Dashboard
-              </router-link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- Sidebar end -->
-      <div class="col-lg-7">
+      <div class="col-lg-8">
         <router-view />
         <div class="container py-5 d-flex justify-content-between">
           <div>
@@ -60,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3 p-0">
+      <div class="col-lg-4 p-0">
         <div class="container-fluid py-5">
           <ProjectContributors v-bind:project_id="project_id"></ProjectContributors>
         </div>

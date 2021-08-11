@@ -10,6 +10,7 @@ import jwt
 from flask import url_for
 from sqlalchemy.orm.relationships import foreign
 from sqlalchemy.sql.expression import desc
+from sqlalchemy.sql.sqltypes import Boolean
 from backend import app
 
 engine = create_engine(app.config['DATABASE_URI'],
@@ -131,6 +132,7 @@ class Project(Model):
     def url(self):
         return url_for('general.projects', slug=self.slug)
 
+
 # Association table for the many to many relationship between users and which tasks they work on
 task_user_works_on_helper_table = Table('works_on', Model.metadata,
     Column('user_id', Integer, ForeignKey('user.user_id'), primary_key = True),
@@ -144,7 +146,7 @@ class Task(Model):
     id = Column('task_id', Integer, primary_key=True)
     name = Column(String(100),unique= True, nullable = False) # no two tasks in the same project can have the same name
     description = Column(String(300), nullable = False)
-
+    # Completion status must be one of Not Started, in progress, completed.
     completion_status = Column(String(50), default = "Not Started")
     created_date = Column(DateTime, default = datetime.datetime.utcnow)
     deadline_date = Column(Date, default = datetime.datetime.now() + datetime.timedelta(days=10))
@@ -170,3 +172,14 @@ class Message(Model):
     
     task_id = Column(Integer, ForeignKey('task.task_id'))
     task = relationship(Task, backref="messages", foreign_keys=task_id)
+
+
+class Invitation(Model):
+    __tablename__ = "invitation"
+    id = Column('invitation_id', Integer, primary_key=True)
+
+    project_id = Column('project_id', Integer, ForeignKey('project.project_id'))
+    project = relationship(Project, backref='invites')
+    user_id = Column('user_id', Integer, ForeignKey('user.user_id'))
+    user = relationship(User, backref='invites' )
+    accepted = Column(Boolean, default=False)

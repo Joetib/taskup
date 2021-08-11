@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, session, redirect, url_for, \
      request, flash, g, jsonify, abort
 from backend.utils import check_password, hash_password, requires_api_login
-from backend.database import Project, Task, db_session, User, Model, Message
+from backend.database import Invitation, Project, Task, db_session, User, Model, Message
 from sqlalchemy import or_
-from backend.schema import TaskDetailSchema, TaskSchema, project_schema, projects_schema, task_schema, tasks_schema
+from backend.schema import InvitationDetailSchema, TaskDetailSchema, TaskSchema, UserSchema, project_schema, projects_schema, task_schema, tasks_schema
 import datetime
 
 mod = Blueprint('general', __name__)
@@ -93,13 +93,64 @@ def add_contributors_to_project(project_id: int):
     for contributor_id in contributor_ids:
         contributor = User.query.filter_by(id=contributor_id).first()
         if contributor:
-            project.contributors.append(contributor)
-    db_session.add(project)
+            existing_invitation = Invitation.query.filter_by(user=contributor, project=project).first()
+            if existing_invitation:
+                return {
+
+                    'success': False,
+                    'message': f"Invitation to {contributor.name} already exists.",
+                    'result': None,
+                }
+            invite =Invitation(project=project, user=contributor)
+            db_session.add(invite)
     db_session.commit()
     return {
         'success': True, 
         'result': project_schema.dump(project),
         'message': "Successfully updated project",
+    }
+
+@mod.get('/invitation/')
+@requires_api_login
+def get_invitations():
+    invitations  = Invitation.query.filter_by(accepted=False, user_id=g.user.id)
+    return {
+        'success': True,
+        'result': InvitationDetailSchema(many=True).dump(invitations),
+        'message': "Successfully retrieved invitations",
+    }
+
+@mod.get('/invitation/<int:invitation_id>/decline/')
+@requires_api_login
+def decline_invitation(invitation_id):
+    invitation  = Invitation.query.filter_by(id=invitation_id, user_id=g.user.id).first()
+    if not invitation:
+        abort(404, f"Invitation with id {invitation_id} was not found.")
+    db_session.delete(invitation)
+    db_session.commit()
+    return {
+        'success': True,
+        'message': "Invitation deleted successfully.",
+        
+    }
+    
+
+@mod.get('/invitation/<int:invitation_id>/accept/')
+@requires_api_login
+def accept_invitation(invitation_id):
+    invitation  = Invitation.query.filter_by(id=invitation_id, user_id=g.user.id).first()
+    if not invitation:
+        abort(404, f"Invitation with id {invitation_id} was not found.")
+    invitation.accepted = True
+    project = invitation.project
+    project.contributors.append(g.user)
+    db_session.add(invitation)
+    db_session.add(project)
+    db_session.commit()
+    return {
+        'success': True,
+        "result": InvitationDetailSchema().dump(invitation),
+        "message": "Successully accepted Invitation",
     }
 
 def is_project_manager(project, user):
@@ -110,6 +161,22 @@ def is_project_manager(project, user):
             'success': False,
             'message': f"Permission denied.",
         } )
+@mod.get('/project/<int:project_id>/contributors/')
+@requires_api_login
+def get_contributors_for_project(project_id):
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': "Project Not Found",
+        }
+    else:
+        return {
+            'success': True,
+            'message': "Project Found",
+            'all_users': UserSchema(many=True).dump(User.query.all()),
+            'results': UserSchema(many=True).dump(project.contributors),
+        }
 
 @mod.delete('/project/<int:project_id>/delete/')
 @requires_api_login
@@ -132,12 +199,14 @@ def delete_project(project_id):
             'message': "Project Deleted Successfully.",
         }
 
-@mod.put('/project/<int:project_id>/<string:completion_status>')
+@mod.put('/project/<int:project_id>/completion-status/')
 @requires_api_login
-def update_project_status(project_id, completion_status):
+def update_project_status(project_id):
+    
     """
         Project managers can replace completion status of the project
     """
+    completion_status = request.get_json()['completion_status']
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
@@ -182,7 +251,7 @@ def update_project_deadline(project_id, deadline_date):
 # End of Project Routes-------------------------------------------------------------------------------------------------------------
 
 def has_project_permission(project, user):
-    permission =  project.manager == user or project.contributors.any(id=user.id)
+    permission =  project.manager == user or user in project.contributors
     if not permission:
         abort(404, {
             'success': False,
@@ -264,7 +333,9 @@ def update_task(project_id,task_id):
             'message': f"No project with the specified id {project_id} found.",
         }
     permission = has_project_permission(project, g.user)
-    old_task = Task.query.filter_by(id=task_id).first_or_404(description= f'There is no task with ID of {task_id}.')
+    old_task = Task.query.filter_by(id=task_id)
+    if not old_task:
+            abort(404, f'There is no task with ID of {task_id}.')
     if old_task:
         db_session.delete(old_task)
         db_session.commit()
@@ -297,7 +368,7 @@ def delete_task(project_id, task_id):
     permission = has_project_permission(project, g.user)
     task = Task.query.filter_by(id=task_id).first()
     if not task:
-        abort(404, f'There is no task with ID of {task_id}')
+        abort(404, f'There is no task with ID of {task_id}.')
     if task:
         db_session.delete(task)
         db_session.commit()
@@ -307,12 +378,14 @@ def delete_task(project_id, task_id):
             'message': "Task Deleted Successfully.",
         }
 
-@mod.put('/project/<int:project_id>/task/<int:task_id>/<string:completion_status>')
+@mod.put('/project/<int:project_id>/task/<int:task_id>/completion-status/')
 @requires_api_login
-def update_task_status(project_id, task_id, completion_status):
+def update_task_status(project_id, task_id):
     """
         User with permissions can replace completion status of task if it exists and is part of the project
     """
+    completion_status = request.get_json()['completion_status']
+
     project = Project.query.filter_by(id=project_id).first()
     if not project:
         return {
@@ -322,7 +395,9 @@ def update_task_status(project_id, task_id, completion_status):
     
     else:
         permission = has_project_permission(project, g.user)
-        task = Task.query.filter_by(id=task_id).first_or_404(description=f'There is no task with ID of {task_id}.')
+        task = Task.query.filter_by(id=task_id).first()
+        if not task:
+            abort(404, f'There is no task with ID of {task_id}.')
         if task:
             task.completion_status = completion_status
             db_session.add(task)
@@ -349,9 +424,9 @@ def update_task_deadline(project_id, task_id, deadline_date):
 
     else:
         permission = has_project_permission(project, g.user)
-        task = Task.query.filter_by(id = task_id).first_or_404(
-            description = f'There is no task with ID of {task_id}.'
-        )
+        task = Task.query.filter_by(id = task_id).first()
+        if not task:
+            abort(404, f'There is no task with ID of {task_id}.')
         
         if task:
             task.deadline_date = deadline_date
@@ -368,7 +443,7 @@ def update_task_deadline(project_id, task_id, deadline_date):
 @requires_api_login
 def search_project():
     if request.method == 'POST':
-        user = request.form['user']
+        user = request.form['']
         return redirect(url_for('success',name=user))
     else:
         user = request.args.get()
