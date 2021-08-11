@@ -13,6 +13,12 @@
               v-bind:project_id="project_id"
             ></DeleteProjectButton>
           </div>
+          <!--addition of remove button-->
+          <div>
+            <RemoveProjectButton
+              v-bind:project_id="project_id"
+            ></RemoveProjectButton>
+          </div>
         </div>
         <div class="container">
           <div class="d-flex justify-content-start align-items-center">
