@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
           <p>
-            Kindly <router-link to="/login">login</router-link> if you already
+            Kindly <router-link id="link1" to="/login">login</router-link> if you already
             have an account.
           </p>
         </div>
@@ -93,5 +93,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+#link1{
+  color: blue;
+}
 </style>
