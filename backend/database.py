@@ -35,7 +35,7 @@ def clean_db():
 class User(Model):
     __tablename__ = 'user'
     id = Column('user_id', Integer, primary_key=True)
-    email = Column('email', String(50), index=True, unique=True)
+    email = Column('email', String(50), index=True, nullable = False, unique=True)
     name = Column(String(200), nullable = False)
     password = Column(String(500), nullable = False)
     managed_projects = relationship('Project',back_populates="manager")
