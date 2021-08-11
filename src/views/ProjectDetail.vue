@@ -15,12 +15,12 @@
           </div>
         </div>
         <div class="container">
-          <div class="d-flex justify-content-start align-items-center">
+          <div class="d-flex justify-content-start gap-2 align-items-center">
             <a class="btn btn-primary btn-lg" @click="enable_create_task">
               <i class="fa fa-plus pe-2"></i>Create Task
             </a>
-            <a class="btn btn-primary btn-lg" @click="enable_edit_project">
-              <i class="fa fa-plus pe-2"></i>Create Task
+            <a class="btn btn-primary btn-lg me-4" @click="enable_edit_project">
+              <i class="fa fa-plus pe-2"></i>Edit Project
             </a>
 
           </div>
@@ -69,8 +69,8 @@ export default {
     CreateTask,
     TaskCard,
     DeleteProjectButton,
-    ProjectContributor,
-    EditProjects,
+    ProjectContributors,
+    EditProject,
   },
   data() {
     return {
@@ -97,7 +97,7 @@ export default {
     enable_create_task() {
       this.open_create_task_dialog = true;
     },
-    enable_create_task() {
+    enable_edit_project() {
       this.open_edit_project_dialog = true;
     },
   },
