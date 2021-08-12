@@ -386,7 +386,46 @@ def delete_task(project_id, task_id):
                 'result': tasks_schema.dump(g.user.tasks),
                 'message': "Task Deleted Successfully.",
             }
+    permission = has_project_permission(project, g.user)
+    task = Task.query.filter_by(id=task_id).first()
+    if not task:
+        abort(404, f'There is no task with ID of {task_id}.')
+    if task:
+        db_session.delete(task)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': tasks_schema.dump(g.user.tasks),
+            'message': "Task Deleted Successfully.",
+        }
 
+"""
+commented out --Conflicting code with delete_task: Invalid http request 
+#-----------------------Remove tasks------------------
+@mod.remove('/project/<int:project_id>/task/<int:task_id>/remove/')
+@requires_api_login
+def remove_task(project_id, task_id):
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+    permission = has_project_permission(project, g.user)
+    task = Task.query.filter_by(id=task_id).first()
+    if not task:
+        abort(404, f'There is no task with ID of {task_id}.')
+    if task:
+        db_session.delete(task)
+        db_session.commit()
+        return {
+            'success': True,
+            'result': tasks_schema.dump(g.user.tasks),
+            'message': "Task Removed Successfully.",
+        }
+
+#above shall be modified later
+ """
 @mod.put('/project/<int:project_id>/task/<int:task_id>/completion-status/')
 @requires_api_login
 def update_task_status(project_id, task_id):

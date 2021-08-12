@@ -42,7 +42,7 @@
     * results
 ------
 
-- `/projects/` create a project or get a list of projects related to the current user
+- `/project/` create a project or get a list of projects related to the current user
 
     requires authentication
 
@@ -96,6 +96,34 @@
    * success
    * message
    * result
+---
+
+- `/invitation/<int:invitation_id>/decline/`
+
+    requires login
+
+    methods allowed:
+    * get
+
+    returns:
+    * success
+    * result
+    * message
+
+---
+
+- `/invitation/<int:invitation_id>/accept/`
+
+   requires login
+
+   method allowed
+   * get
+
+   returns
+   * success
+   * result
+   * message
+
 ---
 - `/project/<int:project_id>/<string:completion_status>`
 
