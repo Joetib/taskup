@@ -486,21 +486,6 @@ def update_task_deadline(project_id, task_id, deadline_date):
                 'message': f"Successfully Updated the Deadline of {task.name}."
             }
 
-""" 
-    #   Commented out block: conflicting functionality with the already existing search route.
-#   addition of search functionality
-@requires_api_login
-def search_project():
-    if request.method == 'POST':
-        user = request.form['']
-        return redirect(url_for('success',name=user))
-    else:
-        user = request.args.get()
-        return redirect(url_for('success',name=user))
-#   entire block of code above shall be modified later 
-
-"""
-
 
 # End of Tasks Routes-------------------------------------------------------------------------------------------------------------
 
