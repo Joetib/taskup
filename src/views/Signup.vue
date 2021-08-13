@@ -70,6 +70,7 @@ export default {
               this.token = e.data.token;
               this.$store.commit("updateUsername", e.data.name);
               this.$store.commit("updateToken", e.data.token);
+              this.$store.commit("updateEmail", e.data.email);
               this.$store.commit("setIsLoading", false);
 
               if (this.$route.params.nextUrl == null) {

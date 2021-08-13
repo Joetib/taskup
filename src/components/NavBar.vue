@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-light bg-white ticky-top">
+  <nav class="navbar navbar-expand-md shadow navbar-light bg-white ticky-top">
     <div class="container">
       <router-link class="navbar-brand" style="font-size: 28px" to="/"
         >TaskUp</router-link

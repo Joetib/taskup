@@ -7,6 +7,7 @@ export default createStore({
     isAuthenticated: false,
     token: '',
     username: '',
+    email: '',
     password: '',
     projects: [],
   },
@@ -21,6 +22,13 @@ export default createStore({
     },
     updateUsername(state, newUsername) {
       state.username = newUsername;
+      localStorage.setItem('username', newUsername)
+
+    },
+    updateEmail(state, newEmail) {
+      state.email = newEmail;
+      localStorage.setItem('email', newEmail)
+
     },
     updateisAuthenticated(state, isAuthenticated) {
       state.isAuthenticated = isAuthenticated;
@@ -40,12 +48,17 @@ export default createStore({
       if (localStorage.getItem('token')) {
         state.token = localStorage.getItem('token')
         state.username = localStorage.getItem('username')
+        state.email = localStorage.getItem('email')
         axios.defaults.headers.common['Authorization'] = "Bearer " + state.token;
 
       }
     },
     logout(state){
       localStorage.removeItem('token');
+      localStorage.removeItem('username')
+      localStorage.removeItem('email')
+      state.email = null
+      state.username = null
       state.token = null
     },
     setIsLoading(state, value){

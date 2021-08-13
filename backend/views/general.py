@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, session, redirect, url_for, \
      request, flash, g, jsonify, abort
-from backend.utils import check_password, hash_password, requires_api_login
+from backend.utils import check_password, has_project_permission, hash_password, requires_api_login
 from backend.database import Invitation, Project, Task, db_session, User, Model, Message
 from sqlalchemy import or_
-from backend.schema import InvitationDetailSchema, TaskDetailSchema, TaskSchema, UserSchema, project_schema, projects_schema, task_schema, tasks_schema
+from backend.schema import InvitationDetailSchema, InvitationListSchema, TaskDetailSchema, TaskSchema, UserSchema, project_schema, projects_schema, task_schema, tasks_schema
 import datetime
 
 mod = Blueprint('general', __name__)
@@ -82,6 +82,17 @@ def search_for_keyword_in_project():
         'result': projects_schema.dump(searched_projects),
     }
 
+@mod.get('/task/')
+@requires_api_login
+def get_tasks():
+    tasks = Task.query.filter(Task.task_workers.any(id=g.user.id))
+    return {
+        'success': True,
+        'message': "Tasks fetched.",
+        'result': tasks_schema.dump(tasks),
+    }
+
+
 @mod.post("/project/<int:project_id>/add-contributor/")
 @requires_api_login
 def add_contributors_to_project(project_id: int):
@@ -107,6 +118,45 @@ def add_contributors_to_project(project_id: int):
     return {
         'success': True, 
         'result': project_schema.dump(project),
+        'message': "Successfully updated project",
+    }
+
+@mod.get('/project/<int:project_id>/task/<int:task_id>/contributors/')
+@requires_api_login
+def get_contributors_for_task(project_id, task_id):
+    project = Project.query.filter_by(id=project_id).first()
+    has_project_permission(project, g.user)
+    task = Task.query.filter_by(id=task_id, project=project).first()
+    if not task:
+        abort(404, "Not found")
+
+    return {
+        'success': True,
+        'message': "Project Found",
+        'result': UserSchema(many=True).dump(task.task_workers),
+        'all_users': UserSchema(many=True).dump(project.contributors + [g.user]),
+    }
+
+@mod.post("/project/<int:project_id>/task/<int:task_id>/add-contributor/")
+@requires_api_login
+def add_contributors_to_task(project_id: int, task_id:int):
+    data = request.get_json()
+    contributor_ids = data['contributors']
+    project = Project.query.filter_by(id=project_id).first()
+    has_project_permission(project, g.user)
+    task: Task = Task.query.filter_by(id=task_id, project=project).first()
+    if not task:
+        abort(404, "Not found")
+    for contributor_id in contributor_ids:
+        contributor = User.query.filter_by(id=contributor_id).first()
+        if contributor:
+            task.task_workers.append(contributor)
+    db_session.add(task)
+
+    db_session.commit()
+    return {
+        'success': True, 
+        'result': task_schema.dump(task),
         'message': "Successfully updated project",
     }
 
@@ -176,6 +226,7 @@ def get_contributors_for_project(project_id):
             'message': "Project Found",
             'all_users': UserSchema(many=True).dump(User.query.all()),
             'results': UserSchema(many=True).dump(project.contributors),
+            'invites': InvitationListSchema(many=True).dump(Invitation.query.filter_by(accepted=False, project_id=project.id))
         }
 
 @mod.delete('/project/<int:project_id>/delete/')
@@ -250,15 +301,7 @@ def update_project_deadline(project_id, deadline_date):
 
 # End of Project Routes-------------------------------------------------------------------------------------------------------------
 
-def has_project_permission(project, user):
-    permission =  project.manager == user or user in project.contributors
-    if not permission:
-        abort(404, {
-            'success': False,
-            'message': f"Permission denied.",
-        } )
-    return permission
-    
+
 # Beginnig of Task Routes----------------------------------------------------------------------------------------------------------------------
 
 @mod.post("/project/<int:project_id>/task/")

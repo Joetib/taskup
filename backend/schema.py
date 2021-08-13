@@ -27,7 +27,7 @@ class MessageSchema(ma.SQLAlchemyAutoSchema):
 class TaskSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Task
-        fields = ('id', 'name', 'description', 'created_by', 'project_id')
+        fields = ('id', 'name', 'description', 'completion_status', 'created_by', 'project_id')
         include_fk = True
     created_by = ma.Nested(UserSchema)
 

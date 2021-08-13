@@ -1,6 +1,6 @@
 <template>
   <div class="container py-5" style="max-width: 500px">
-    <form @submit.prevent="login">
+    <form class="my-bg-dark" @submit.prevent="login">
       <div>
         <h3>Enter details to Log In</h3>
         <p class="lead">so we can show you that world you dream of...</p>
@@ -61,6 +61,7 @@ export default {
               this.username = e.data.name;
               this.token = e.data.token;
               this.$store.commit("updateUsername", e.data.name);
+              this.$store.commit("updateEmail", e.data.email);
               this.$store.commit("updateToken", e.data.token);
               this.$store.commit("setIsLoading", false);
 
@@ -87,5 +88,6 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
 </style>

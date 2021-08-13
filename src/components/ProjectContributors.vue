@@ -22,6 +22,19 @@
         <h6 class="m-0">{{ user.name }}</h6>
         <small>{{ user.email }}</small>
       </div>
+
+    </div>
+    <div class="pt-3 bg-light  p-2" v-if="invites.length">
+      <h5>Pending Invites</h5>
+      <hr>
+    <div class="" v-for="invite in invites" :key="invite.id">
+      
+      <div class="border border-top-0 border-start-0 border-end-0 p-2">
+        
+        <h6 class="m-0">{{ invite.user.name }}</h6>
+        <small>{{ invite.user.email }}</small>
+      </div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,6 +48,7 @@ export default {
       users: [],
       selected_user: null,
       all_users: [],
+      invites: [],
       error_message: "",
     };
   },
@@ -66,7 +80,7 @@ export default {
           console.log(e.data);
           if (e.data.success) {
             this.users = e.data.results;
-            
+            this.invites = e.data.invites;
             this.all_users = e.data.all_users;
           } else {
             this.error_message = e.data.message;

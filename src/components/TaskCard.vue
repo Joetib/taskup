@@ -16,6 +16,16 @@
         >
           <div>
             <h4>{{ task.name }}</h4>
+            <span
+                class="badge pill mb-3"
+                v-bind:class="{
+                  'bg-danger': isNotStarted,
+                  'bg-primary': isInProgress,
+                  'bg-success': isCompleted,
+                }"
+              >
+                {{ completion_status }}
+              </span>
             <p>{{ task.description }}</p>
           </div>
           <p class="mb-0">Created by: {{ task.created_by.name }}</p>
@@ -36,6 +46,30 @@ export default {
     },
   },
   computed: {
+    completion_status() {
+      let status = this.task.completion_status;
+      if (
+        !(
+          status == "Not Started" ||
+          status == "In Progress" ||
+          status == "Completed"
+        )
+      ) {
+        status = "Not Started";
+      }
+
+      return status;
+    },
+
+    isCompleted() {
+      return this.completion_status == "Completed";
+    },
+    isInProgress() {
+      return this.completion_status == "In Progress";
+    },
+    isNotStarted() {
+      return this.completion_status == "Not Started";
+    },
     get_route() {
       return `/project/${this.task.project_id}/task/${this.task.id}`;
     },

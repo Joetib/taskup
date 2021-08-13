@@ -6,12 +6,21 @@ import Dashboard from '../views/Dashboard.vue'
 import ProjectDetail from '../views/ProjectDetail.vue';
 import TaskDetail from '../views/TaskDetail.vue';
 import Invites from '../views/Invites.vue';
+import TaskList from '../views/TaskList.vue';
 
 const routes = [
   {
     path:'/project/:project_id/task/:task_id',
     name:'TaskDetail',
     component: TaskDetail,
+    meta: {
+      requiresAuth: true,
+    }
+  },
+  {
+    path:'/tasks/',
+    name:'TaskList',
+    component: TaskList,
     meta: {
       requiresAuth: true,
     }

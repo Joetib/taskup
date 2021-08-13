@@ -26,6 +26,17 @@ def hash_password(password: str):
 def check_password(password: str, hash:str) -> bool:
     return hash_password(password) == hash
 
+
+def has_project_permission(project, user):
+    permission =  project.manager == user or user in project.contributors
+    if not permission:
+        abort(404, {
+            'success': False,
+            'message': f"Permission denied.",
+        } )
+    return permission
+    
+
 def requires_api_login(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

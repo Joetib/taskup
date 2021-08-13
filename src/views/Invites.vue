@@ -1,14 +1,14 @@
 <template>
     <div class="container py-5">
         <div class="row">
-            <div class="col-12 pb-5">
+            <div class="col-12 pt-3 pb-4">
                   <h2>Pending Invites</h2>
             </div>
              <InviteCard @deleted="fetch_invites" v-for="invite in invites" :invite="invite" :key="invite.id" class="col-xl-4 col-6">
                 
             </InviteCard>
 
-            <div v-if="!invites.length" class="col-12 py-5">
+            <div v-if="!invites.length" class="col-12 py-3">
                  <p class=" text-danger">You have no pending invites.</p>
             </div>
 

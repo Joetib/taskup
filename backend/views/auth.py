@@ -19,7 +19,7 @@ def api_login():
             if isinstance (token, str):
                 return {
                     'token': token,
-                    'username': user.name,
+                    'name': user.name,
                     'email': user.email,
                     'id': user.id,
                     'success': True,

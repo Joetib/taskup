@@ -1,70 +1,94 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-10">
+      <div class="col-lg-8">
         <div class="container py-4">
           <router-link :to="project_link">
             <h4>{{ task.project.name }}</h4>
           </router-link>
-          <div class="py-5 d-flex justify-content-between">
-            <div>
-              <h2>{{ task.name }}</h2>
-              <p>{{ task.description }}</p>
+
+          <div class="pt-5 pb-2">
+            <div
+              class="d-flex flex-column flex-md-row justify-content-md-between"
+            >
+              <div>
+                <h2>{{ task.name }}</h2>
+                <span
+                  class="badge pill mb-3"
+                  v-bind:class="{
+                    'bg-danger': isNotStarted,
+                    'bg-primary': isInProgress,
+                    'bg-success': isCompleted,
+                  }"
+                >
+                  {{ completion_status }}
+                </span>
+              </div>
+              <div
+                class="
+                  d-flex
+                  flex-row flex-md-column
+                  align-items-md-end
+                  flex-wrap
+                "
+              >
+                <button
+                  v-if="isNotStarted"
+                  @click="update_status('In Progress')"
+                  class="btn btn-warning m-0"
+                >
+                  Mark as In Progress
+                </button>
+                <button
+                  v-if="isInProgress"
+                  @click="update_status('Completed')"
+                  class="btn btn-warning m-0"
+                >
+                  Mark as Completed
+                </button>
+
+                <DeleteTaskButton
+                  v-bind:project_id="project_id"
+                  v-bind:task_id="task_id"
+                ></DeleteTaskButton>
+              </div>
             </div>
-            <div class="d-flex flex-column">
-              <span
-                class="badge mb-3"
-                v-bind:class="{
-                  'bg-danger': isNotStarted,
-                  'bg-primary': isInProgress,
-                  'bg-success': isCompleted,
-                }"
-              >
-                {{ completion_status }}
-              </span>
-              <button
-                v-if="isNotStarted"
-                @click="update_status('In Progress')"
-                class="btn btn-warning"
-              >
-                Mark as In Progres
-              </button>
-              <button
-                v-if="isInProgress"
-                @click="update_status('Completed')"
-                class="btn btn-warning"
-              >
-                Mark as Completed
-              </button>
-              <DeleteTaskButton
-                v-bind:project_id="project_id"
-                v-bind:task_id="task_id"
-              ></DeleteTaskButton>
-            </div>
+          </div>
+          <div class="bg-light p-4">
+            {{ task.description }}
           </div>
         </div>
 
         <div class="container">
-          <div class="row py-4">
-            <div class="col-12">
-              <h2>Discussion</h2>
+          <div class="row shadow">
+            <div class="col-12 bg-dark text-light py-2">
+              <div class="container">
+
+              <h4>Discussion</h4>
+              </div>
             </div>
             <div class="col-12">
-              <CreateMessage
-                v-bind:project_id="project_id"
-                v-bind:task_id="task_id"
-                @create_message_done="create_message_done"
-              />
+              <div class="container">
+                <div class="row">
+                  <MessageCard
+                    v-for="message in task.messages"
+                    :key="message.id"
+                    :message="message"
+                  />
+                  <div class="col-12 border border-start-0 border-end-0 border-bottom-0 mt-5">
+                    <CreateMessage
+                      v-bind:project_id="project_id"
+                      v-bind:task_id="task_id"
+                      @create_message_done="create_message_done"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <MessageCard
-              v-for="message in task.messages"
-              :key="message.id"
-              :message="message"
-            />
           </div>
         </div>
       </div>
-      <div class="col-lg-2 p-1">
+      <div class="col-lg-4 p-1">
         <div class="container-fluid py-5">
           <div class="mb-5">
             <h4>Manager</h4>
@@ -73,49 +97,14 @@
               <small>{{ task.project.manager.email }}</small>
             </div>
           </div>
-          <h4>Contributors</h4>
-          <div>
-            <select
-              v-model="selected_user"
-              list="users-list"
-              class="form-select"
-            >
-              <option
-                v-for="user in task.project.contributors"
-                :key="user.id"
-                :value="user.id"
-              >
-                {{ user.name }} ({{ user.email }})
-              </option>
-            </select>
-
-            <button
-              @click="add_selected_user"
-              class="btn mt-2 w-100 btn-primary"
-            >
-              Add
-            </button>
-          </div>
-          <div
-            class="card my-3"
-            v-for="contributor in task.project.contributors"
-            v-bind:key="contributor.id"
-          >
-            <div class="card-body">
-              <h5 class="m-0">{{ contributor.name }}</h5>
-              <small>{{ contributor.email }}</small>
-            </div>
-          </div>
+          <TaskContribution
+            :project_id="project_id"
+            :task_id="task_id"
+          ></TaskContribution>
         </div>
       </div>
     </div>
-    <div class="full-screen-form-overlay" v-if="open_create_message_dialog">
-      <CreateMessage
-        v-bind:project_id="project_id"
-        v-bind:task_id="task_id"
-        @create_message_done="create_message_done"
-      />
-    </div>
+    
   </div>
 </template>
 
@@ -124,12 +113,13 @@ import axios from "axios";
 import CreateMessage from "../components/CreateMessage.vue";
 import MessageCard from "../components/MessageCard.vue";
 import DeleteTaskButton from "../components/DeleteTaskButton.vue";
-
+import TaskContribution from "../components/TaskContribution.vue";
 export default {
   components: {
     CreateMessage,
     MessageCard,
     DeleteTaskButton,
+    TaskContribution,
   },
   data() {
     return {

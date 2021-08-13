@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row h-min-100vh">
         <SidePanel />
-      <div class="col-md-8 col-lg-9 col-xl-10" id="nav">
+      <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10 px-0" id="nav">
         <NavBar />
         <div class="loading sticky-top" v-if="$store.state.is_loading">
           <div class="circle-loaer"></div>
