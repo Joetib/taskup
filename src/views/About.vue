@@ -1,8 +1,8 @@
 <template>
   <div class="about">
     <h1>About TaskUp</h1>
-    <p>Welcome to Taskup, a software solution to all kinds of problems encountered in course of a project. 
-      Taskup intends to help organize tasks among individuals who are collectively working on a project.
-      With taskup, developers are able to keep track of their progress on a particular project and also get reminded of impending deadlines to meet </p>
+    <p>Welcome to <span class="fw-bold">TaskUp</span>, a software solution to all kinds of problems encountered in course of a project. 
+      With TaskUp, you're able to allocate and organize tasks among individuals working collectively on a project.
+      Developers are also able to keep track of their progress on a particular project and also get reminded of impending deadlines to meet. </p>
   </div>
 </template>
