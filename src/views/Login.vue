@@ -89,7 +89,6 @@ export default {
 <!--styling-->
 
 <style scoped>
-
 #link1 {
   color:blue;
 }
