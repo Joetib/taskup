@@ -13,7 +13,7 @@
         </div>
         <div class="form-group py-2">
           <label>Email</label>
-          <input type="email" v-model="email" class="form-control" />
+          <input type="email" v-model="email" class="form-control" placeholder="example@gmail.com" />
         </div>
         <div class="form-group py-2">
           <label>Password</label>
