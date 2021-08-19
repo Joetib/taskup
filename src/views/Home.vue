@@ -25,3 +25,10 @@ export default {
   }
 }
 </script>
+
+<!--STYLING-->
+<style>
+.display-1{
+    color: blue;
+}
+</style>
