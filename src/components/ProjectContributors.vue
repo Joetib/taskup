@@ -3,13 +3,33 @@
     <h4>Contributors</h4>
     <hr />
     <div>
-      <select v-model="selected_user" list="users-list" class="form-select">
+      <input
+        type="text"
+        v-model="selected_user"
+        list="users_list"
+        placeholder="search user"
+        class="form-control"
+      />
+      {{ selected_user }}
+      <datalist id="users_list">
+        <option
+          v-for="user in all_users"
+          :key="user.id"
+          :value="user.email"
+          @click="set_selected_user(user.id)"
+        >
+          {{ user.name }}
+        </option>
+      </datalist>
+      <!-- <select list="users_list" v-model="selected_user"  class="form-select">
         <option  v-for="user in all_users" :key="user.id" :value="user.id">
           {{ user.name }} ({{ user.email }})
         </option>
-      </select>
+      </select> -->
 
-      <button @click="add_selected_user" class="btn mt-2 w-100 btn-primary">Add</button>
+      <button @click="add_selected_user" class="btn mt-2 w-100 btn-primary">
+        Add
+      </button>
     </div>
     <p class="text-danger">{{ error_message }}</p>
     <div class="" v-for="user in users" :key="user.id">
@@ -56,22 +76,31 @@ export default {
     project_id: null,
   },
   methods: {
-    add_selected_user(){
-
-        if (this.selected_user){
-            axios.post(`project/${this.project_id}/add-contributor/`, {
-                contributors: [this.selected_user]
-            }).then(e => {
-              if (e.data.success){
-                this.fetch_project_contributors()
-              } else {
-                this.error_message = "Could not add Contributor";
-              }
-            }).catch(e => {
-              this.error_message = "Could not add Contributor";
-              console.log(e);
-            })
+    add_selected_user() {
+      if (this.selected_user) {
+        if (isNaN(this.selected_user)) {
+          this.selected_user_id = this.all_users.filter(
+            (user) => user.email == this.selected_user
+          )[0].id;
+          alert(this.selected_user_id);
         }
+        axios
+          .post(`project/${this.project_id}/add-contributor/`, {
+            contributors: [this.selected_user_id],
+          })
+          .then((e) => {
+            if (e.data.success) {
+              this.fetch_project_contributors();
+            } else {
+              this.error_message = e.data.message;
+              console.log(e.data)
+            }
+          })
+          .catch((e) => {
+            this.error_message = "Could not add Contributor";
+            console.log(e);
+          });
+      }
     },
     fetch_project_contributors() {
       axios
@@ -81,6 +110,7 @@ export default {
           if (e.data.success) {
             this.users = e.data.results;
             this.invites = e.data.invites;
+
             this.all_users = e.data.all_users;
           } else {
             this.error_message = e.data.message;
