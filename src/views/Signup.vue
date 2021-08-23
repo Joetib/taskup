@@ -97,4 +97,11 @@ export default {
 #link1{
   color: blue;
 }
+.btn-primary{
+  border-radius: 15px;
+  border: none;
+}
+.btn-primary:hover{
+  background-color:rgb(95, 12, 95);
+}
 </style>
