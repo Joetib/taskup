@@ -107,7 +107,7 @@ class TestProject(base.BaseTestCase):
 
         self.assertEqual(201, status_code)
         self.assertTrue(data['success'])
-        self.assertEqual(data['message'], f"Successfully Updated the Completion Status of {project.name}.") #finish later
+        self.assertEqual(data['message'], f"Successfully Updated the Completion Status of project{project_id}.")
 
         self.logout()
 
@@ -122,8 +122,45 @@ class TestProject(base.BaseTestCase):
 
         self.assertEqual(201, status_code)
         self.assertTrue(data['success'])
-        self.assertEqual(data['message'], f"Successfully Changed the Deadline of {project.name}.") # also finish later
+        self.assertEqual(data['message'], f"Successfully Changed the Deadline of project{project_id}.")
 
         self.logout()
 
 
+class TestTask(base.BaseTestCase):
+
+    def test_create_task(self, *args, **kwargs):
+        test_user = base.create_random_user()
+        self.login(user = test_user)
+
+        response = self.post("/project/<int:project_id>/task/", data={'name': "Sample Task"})
+        status_code = response.status_code
+        data = response.json
+
+        self.assertEqual(201, status_code)
+        self.assertTrue(data['success'])
+        self.assertEqual(data['message'], "Task Successfully Created.")        
+        self.logout()
+
+    def test_get_tasks_list(self, *args, **kwargs):
+        test_user = base.create_random_user()
+        self.login(user = test_user)
+
+        response = self.get('/project/<int:project_id>/task/')
+        status_code = response.status_code
+        data = reques.json
+
+        self.assertEqual(200, status_code)
+        self.assertTrue(data['success'])
+        self.assertIsInstance(data['result'], dict)
+        self.assertEqual(data['result']['created_tasks'], schema.tasks_schema.dump(Task.query.filter_by(created_by_id = test_user.id).all())
+        self.assertEqual(data['message'], "Successfully fetched all tasks.")
+        self.logout()
+
+    # later write logic for the following
+    # def test_update_task(self, *args, **kwargs): 
+    # def test_delete_task(self, *args, **kwargs):
+    # def test_update_task_status(self, *args, **kwargs):
+    # def test_update_task_deadline(self, *args, **kwargs):
+    # def test_get_task_details(self, *args, **kwargs):
+    # def test_create_message(self, *args, **kwargs):
