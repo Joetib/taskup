@@ -5,7 +5,7 @@
       <div class="col-md-8 col-lg-9 col-xl-10" id="nav">
         <NavBar />
         <div class="loading sticky-top" v-if="$store.state.is_loading">
-          <div class="circle-loaer"></div>
+          <div class="circle-loader"></div>
           <span class="load-item"></span>
           <span class="load-item"></span>
           <span class="load-item"></span>

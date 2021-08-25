@@ -13,7 +13,7 @@
         </div>
         <div class="form-group py-2">
           <label>Email</label>
-          <input type="email" v-model="email" class="form-control" />
+          <input type="email" v-model="email" class="form-control" placeholder="example@gmail.com" />
         </div>
         <div class="form-group py-2">
           <label>Password</label>
@@ -96,5 +96,12 @@ export default {
 <style scoped>
 #link1{
   color: blue;
+}
+.btn-primary{
+  border-radius: 15px;
+  border: none;
+}
+.btn-primary:hover{
+  background-color:rgb(95, 12, 95);
 }
 </style>

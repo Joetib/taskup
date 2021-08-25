@@ -399,33 +399,8 @@ def delete_task(project_id, task_id):
             'message': "Task Deleted Successfully.",
         }
 
-"""
-commented out --Conflicting code with delete_task: Invalid http request 
-#-----------------------Remove tasks------------------
-@mod.remove('/project/<int:project_id>/task/<int:task_id>/remove/')
-@requires_api_login
-def remove_task(project_id, task_id):
-    project = Project.query.filter_by(id=project_id).first()
-    if not project:
-        return {
-            'success': False,
-            'message': f"No project with the specified id {project_id} found.",
-        }
-    permission = has_project_permission(project, g.user)
-    task = Task.query.filter_by(id=task_id).first()
-    if not task:
-        abort(404, f'There is no task with ID of {task_id}.')
-    if task:
-        db_session.delete(task)
-        db_session.commit()
-        return {
-            'success': True,
-            'result': tasks_schema.dump(g.user.tasks),
-            'message': "Task Removed Successfully.",
-        }
 
-#above shall be modified later
- """
+
 @mod.put('/project/<int:project_id>/task/<int:task_id>/completion-status/')
 @requires_api_login
 def update_task_status(project_id, task_id):
@@ -485,21 +460,6 @@ def update_task_deadline(project_id, task_id, deadline_date):
                 'result': task_schema.dump(task),
                 'message': f"Successfully Updated the Deadline of {task.name}."
             }
-
-""" 
-    #   Commented out block: conflicting functionality with the already existing search route.
-#   addition of search functionality
-@requires_api_login
-def search_project():
-    if request.method == 'POST':
-        user = request.form['']
-        return redirect(url_for('success',name=user))
-    else:
-        user = request.args.get()
-        return redirect(url_for('success',name=user))
-#   entire block of code above shall be modified later 
-
-"""
 
 
 # End of Tasks Routes-------------------------------------------------------------------------------------------------------------

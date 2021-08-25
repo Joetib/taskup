@@ -1,5 +1,5 @@
 # taskup
-A project management solution application.
+A project management software solution.
 
 
 ## Group Members -> Name, IndexNumber, GithubUsername
