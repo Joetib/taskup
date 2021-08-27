@@ -18,7 +18,7 @@ migrate = Migrate(app=app, db=db, directory='backend/migrations')
 # server landing page
 @app.route('/')
 def home():
-    return ""
+    return render_template('index.html')
 
 @app.errorhandler(404)
 def not_found(error):
