@@ -15,6 +15,11 @@ db: SQLAlchemy = SQLAlchemy(app)
 ma = Marshmallow(app)
 migrate = Migrate(app=app, db=db, directory='backend/migrations')
 
+# server landing page
+@app.route('/')
+def home():
+    return ""
+
 @app.errorhandler(404)
 def not_found(error):
     return {
