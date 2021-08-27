@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
     <div class="row h-min-100vh">
-        <SidePanel />
-      <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10 px-0" id="nav">
+        <!-- <SidePanel /> -->
+      <div class=" px-0" id="nav">
         <NavBar />
         <div class="loading sticky-top" v-if="$store.state.is_loading">
           <div class="circle-loader"></div>
@@ -17,20 +17,33 @@
 </template>
 <script>
 import NavBar from "./components/NavBar.vue";
-import SidePanel from "./components/SidePanel.vue";
+// import SidePanel from "./components/SidePanel.vue";
 export default {
   name: "App",
   components: {
     NavBar,
-    SidePanel,
+   // SidePanel,
   },
   beforeCreate() {
     this.$store.commit("initializeStore");
   },
 };
+ 
+ window.addEventListener("click",function(){
+    var button = document.querySelector('#btoggle')
+   if(!button.classList.contains("collapsed"))
+     button.click()
+ })
 </script>
+
+
 <style>
-@import url(https://use.fontawesome.com/releases/v5.8.2/css/all.css);
+@import url("https://fonts.googleapis.com/css?family=Sofia&effect=emboss|Rampart+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rampart+One&display=swap");
+
+.row{
+  height: 1000px;
+}
 .pointer {
   cursor: pointer;
 }
