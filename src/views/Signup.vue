@@ -105,4 +105,15 @@ export default {
 .btn-primary:hover{
   background-color:rgb(95, 12, 95);
 }
+
+.container{
+  border-radius: 2em;
+  margin-top: 50px;
+}
+
+@media screen and (min-width: 770px) {
+  .container{
+  background-color:rgba(224, 46, 40, 0.267);
+}
+}
 </style>

@@ -117,6 +117,9 @@ export default {
   border-bottom: var(--accent-color) solid 2px;
   border-bottom-right-radius: 1em;
 }
+.navbar-nav{
+  margin-left: -50px;
+}
 }
 
  #navbarSupportedContent{

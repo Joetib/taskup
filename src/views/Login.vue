@@ -102,8 +102,13 @@ export default {
 }
 
 .container{
-  background-color:rgba(73, 62, 218, 0.267);
   border-radius: 2em;
   margin-top: 50px;
+}
+
+@media screen and (min-width: 770px) {
+  .container{
+  background-color:rgba(73, 62, 218, 0.267);
+}
 }
 </style>
