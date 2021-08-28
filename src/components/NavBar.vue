@@ -84,7 +84,7 @@ export default {
     font-weight: bolder;
     padding-left: 15px;
     font-size: 28px;
-    font-family: "Sofia", sans-serif;   
+    font-family: var(--taskup-font);   
 }
 
 .navbar-toggler{
@@ -107,14 +107,14 @@ export default {
 }
 
 .navbar-nav .router-link-exact-active{
-  color:rgb(114, 198, 250) !important;
+  color: var(--accent-color) !important;
 }
 
 @media screen and (min-width: 770px) {
   
 .navbar-nav .router-link-exact-active{
-  color:rgb(114, 198, 250) !important;
-  border-bottom: rgb(114, 198, 250) solid 2px;
+  color:var(--accent-color) !important;
+  border-bottom: var(--accent-color) solid 2px;
   border-bottom-right-radius: 1em;
 }
 }

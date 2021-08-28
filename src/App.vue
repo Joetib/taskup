@@ -41,8 +41,23 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Sofia&effect=emboss|Rampart+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Rampart+One&display=swap");
 
+:root{
+  --accent-color:rgb(114, 198, 250);
+  --custom-font: 'Rampart One', cursive;
+  --taskup-font: "Sofia", sans-serif; 
+}
+
+body{
+  background-color: #0e08081e;
+  height: 200vh; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+
 .row{
-  height: 1000px;
+  height: 1500px;
 }
 .pointer {
   cursor: pointer;
