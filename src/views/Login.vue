@@ -100,4 +100,10 @@ export default {
 .btn-primary:hover{
   background-color:rgb(95, 12, 95);
 }
+
+.container{
+  background-color:rgba(73, 62, 218, 0.267);
+  border-radius: 2em;
+  margin-top: 50px;
+}
 </style>

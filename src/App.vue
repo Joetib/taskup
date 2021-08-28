@@ -75,7 +75,7 @@ window.addEventListener('scroll', function(){
 }
 
 body{
-  background-color: #0e08081e;
+  background-color: #b0ec621e;
   /* height: 200vh; You must set a specified height */
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
