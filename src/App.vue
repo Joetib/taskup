@@ -4,8 +4,7 @@
         <!-- <SidePanel /> -->
       <div class=" px-0" id="nav">
         <NavBar />
-        <div class="loading sticky-top" v-if="$store.state.is_loading">
-          <div class="circle-loader"></div>
+        <div class="loading sticky-top" v-if="$store.state.is_loading" >
           <span class="load-item"></span>
           <span class="load-item"></span>
           <span class="load-item"></span>
@@ -77,43 +76,45 @@ window.addEventListener('scroll', function(){
 
 body{
   background-color: #0e08081e;
-  height: 200vh; /* You must set a specified height */
+  /* height: 200vh; You must set a specified height */
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
 }
 
-
-.row{
-  height: 1500px;
-}
-.pointer {
-  cursor: pointer;
-}
-.bg-dark-2 {
-  background: #333;
-}
-.bg-dark-3 {
-  background: #444;
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  pointer-events: none;
+  top: 55px;
+  left: 0;
+  right: 0;
 }
 
-@keyframes loading {
-  0% {
-    background: gold;
-  }
-  70% {
-    background: #555;
-  }
-}
 .load-item {
   border-radius: 50%;
   padding: 10px;
   width: 10px;
   height: 10px;
-  background: #555;
+  background: transparent;
   margin: 20px;
-  animation: loading 0.9s ease-in infinite;
+  animation: loading 0.6s ease-in-out infinite;
 }
+
+@keyframes loading {
+  0% {
+    background: rgb(230, 96, 96);
+  }
+  50% {
+    background: rgb(204, 186, 82);
+  }
+  100%{
+    background: rgb(124, 184, 75);
+  }
+}
+
 .load-item:nth-child(1) {
   animation-delay: 0s;
 }
@@ -121,37 +122,7 @@ body{
   animation-delay: 0.3s;
 }
 .load-item:nth-child(3) {
-  animation-delay: 0.6s;
+  animation-delay: 0.5s;
 }
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.circle-loader {
-  border: 16px solid rgb(68, 59, 9);
-  border-top: 16px solid #666;
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
-}
-.h-min-100vh{
-  min-height: 100vh;
-}
-a {
-  text-decoration: none;
-  color: unset;
-}
-a:hover {
-  color: unset;
-}
+
 </style>
