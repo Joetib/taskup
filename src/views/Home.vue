@@ -44,7 +44,7 @@ export default {
 <!--STYLING-->
 <style>
 .display-1{
-    color:deeppink;
+    color:rebeccapurple;
     font-family: var(--custom-font);
 }
 

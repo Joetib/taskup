@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md shadow navbar-light bg-white sticky-top">
+  <nav class="navbar navbar-expand-md navbar-light transition  sticky-top">
     <div class="container-fluid p-0">
       <router-link class="navbar-brand font-effect-emboss" to="/" >TaskUp</router-link >
       <button 

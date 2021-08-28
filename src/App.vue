@@ -15,9 +15,13 @@
     </div>
   </div>
 </template>
+
+
 <script>
 import NavBar from "./components/NavBar.vue";
 // import SidePanel from "./components/SidePanel.vue";
+
+
 export default {
   name: "App",
   components: {
@@ -34,7 +38,24 @@ export default {
    if(!button.classList.contains("collapsed"))
      button.click()
  })
+
+window.addEventListener('scroll', function(){
+  var navbar = document.querySelector('.navbar')
+  
+    if(window.pageYOffset > 50){
+       navbar.classList.add('shadow')
+       navbar.classList.add('bg-light')
+    }
+    else {
+       navbar.classList.remove('shadow')
+       navbar.classList.remove('bg-light')
+    }
+});
+
+
 </script>
+
+
 
 
 <style>
@@ -45,6 +66,13 @@ export default {
   --accent-color:rgb(114, 198, 250);
   --custom-font: 'Rampart One', cursive;
   --taskup-font: "Sofia", sans-serif; 
+}
+
+.transition {    
+  -webkit-transition: all 0.8s ease-in-out;
+	-moz-transition: all 0.8s ease-in-out;
+	-o-transition: all 0.8s ease-in-out;
+	transition: all 0.8s ease-in-out;
 }
 
 body{
