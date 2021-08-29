@@ -1,10 +1,13 @@
 <template>
 <div >
-    <section>
-        <div class="container animate_animated animated_bounce p-5">
-            <h1 class="display-1">Welcome to TaskUp</h1>
-            <p class="lead">Where efficiency is promoted</p>
-        </div>
+    <section class="section-1 container-fluid">
+        <article>
+            <h1 class="display-1">Project management has become easier!</h1>
+            <p >
+                <button id="btn-gst" class="transition-2" @click="$router.push('/signup')">Get Started</button>
+            </p>
+        </article>
+            <img src="./../assets/img2.png" alt="" class="img-1 img-fluid">
     </section>
 
     <section>
@@ -44,8 +47,58 @@ export default {
 <!--STYLING-->
 <style>
 .display-1{
-    color:rebeccapurple;
-    font-family: var(--custom-font);
+    color:#da7f61;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
 }
+
+.section-1{
+    display: flex;
+}
+
+.section-1 article{
+    padding: 5px;
+    margin: 25px 5px 5px 5px;
+    max-width: 50%;
+    
+}
+
+@media screen and (max-width: 770px) {
+    .section-1{
+    display: inline-block;
+}
+
+.section-1 article{
+    max-width: unset;
+}
+}
+
+#btn-gst{
+    position: relative;
+    width: 38%;
+    height: 60px;
+    margin: 2em;
+    margin-left: 5em;
+    border-radius: 1em;
+    font-weight: bolder;
+    background-color: var(--accent-color);
+    font-size: 1.2em;
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    box-shadow: 5px 5px 4px 2px #888888;
+}
+
+#btn-gst:active{
+    background-color: red;   
+}
+
+.img-1{
+    width:50%;
+}
+
+@media screen and (max-width: 770px) {
+    .img-1{
+    width:100%;
+}}
 
 </style>

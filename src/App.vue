@@ -74,6 +74,13 @@ window.addEventListener('scroll', function(){
 	transition: all 0.8s ease-in-out;
 }
 
+.transition-2 {    
+  -webkit-transition: all 0.4s ease-in-out;
+	-moz-transition: all 0.4s ease-in-out;
+	-o-transition: all 0.4s ease-in-out;
+	transition: all 0.4s ease-in-out;
+}
+
 body{
   background-color:#f9f9f9;
 }
