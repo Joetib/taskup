@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-light transition  sticky-top">
     <div class="container-fluid p-0">
-      <router-link class="navbar-brand font-effect-emboss" to="/" >TaskUp</router-link >
+      <router-link class="navbar-brand font-effect-emboss" to="/" ><img src="./../assets/logo.png" alt="">TaskUp</router-link >
       <button 
         class="navbar-toggler collapsed"
         type="button"
@@ -118,7 +118,7 @@ export default {
   border-bottom-right-radius: 1em;
 }
 .navbar-nav{
-  margin-left: -50px;
+  margin-left: -100px;
 }
 }
 
@@ -133,6 +133,10 @@ export default {
  }
 }
 
+img{
+  margin: 0 10px 10px 0;
+  height: 40px;
+}
 
 
 </style>
