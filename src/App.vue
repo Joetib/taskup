@@ -131,7 +131,8 @@ a {
   color: unset;
   text-decoration: none;
 }
-a *:hover{
+a:hover{
+  color: unset;
   text-decoration: none;
 
 }
