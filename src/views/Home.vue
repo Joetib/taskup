@@ -4,7 +4,7 @@
         <article>
             <h1 class="display-1">Project management has become easier!</h1>
             <p >
-                <button id="btn-gst" class="transition-2" @click="$router.push('/signup')">Get Started</button>
+                <button id="btn-gst" class="btn btn-info" @click="$router.push('/signup')">Get Started</button>
             </p>
         </article>
             <img src="./../assets/img2.png" alt="" class="img-1 img-fluid">
@@ -75,21 +75,17 @@ export default {
 
 #btn-gst{
     position: relative;
-    width: 38%;
+    width: 36%;
     height: 60px;
     margin: 2em;
     margin-left: 5em;
-    border-radius: 1em;
-    font-weight: bolder;
-    background-color: var(--accent-color);
     font-size: 1.2em;
-    font-family: 'Times New Roman', Times, serif;
-    color: black;
-    box-shadow: 5px 5px 4px 2px #888888;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #btn-gst:active{
-    background-color: red;   
+    background-color: rgb(250, 203, 203);   
 }
 
 .img-1{
