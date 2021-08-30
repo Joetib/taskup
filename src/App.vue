@@ -127,5 +127,12 @@ body{
 .load-item:nth-child(3) {
   animation-delay: 0.5s;
 }
+a {
+  color: unset;
+  text-decoration: none;
+}
+a *:hover{
+  text-decoration: none;
 
+}
 </style>
