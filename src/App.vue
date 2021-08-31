@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid">
-    <div class="row h-min-100vh">
+  <div class="">
+    <div class="h-min-100vh">
         <!-- <SidePanel /> -->
       <div class=" px-0" id="nav">
         <NavBar />

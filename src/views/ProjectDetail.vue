@@ -1,6 +1,9 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid h-min-100vh">
+    <div class="row h-min-100vh">
+      <side-panel></side-panel>
+      <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
+        <div class="row">
       <div class="col-lg-8">
         <router-view />
         <div class="container py-5 d-flex justify-content-between">
@@ -48,6 +51,10 @@
         </div>
       </div>
     </div>
+
+      </div>
+    </div>
+    
     <div class="full-screen-form-overlay" v-if="open_create_task_dialog">
       <CreateTask
         v-bind:project_id="project_id"
@@ -70,12 +77,14 @@ import TaskCard from "../components/TaskCard.vue";
 import DeleteProjectButton from "../components/DeleteProjectButton.vue";
 import ProjectContributors from '../components/ProjectContributors.vue';
 import EditProject from '../components/EditProject.vue';
+import SidePanel from '../components/SidePanel.vue';
 export default {
   components: {
     CreateTask,
     TaskCard,
     DeleteProjectButton,
     ProjectContributors,
+    SidePanel,
     EditProject,
   },
   data() {
