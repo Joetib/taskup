@@ -1,5 +1,5 @@
 <template>
-  <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2 bg-white shadow px-0">
+  <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2 bg-white px-0">
     <div class="py-5 bg-primary text-light">
       <div class="container">
         <h3>{{ this.$store.state.username }}</h3>

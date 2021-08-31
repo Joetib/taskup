@@ -19,16 +19,16 @@
 
     <section>
         <div class="container text-center animate_animated animated_bounce py-5" >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas eum corporis deserunt praesentium rerum, minima cupiditate? Neque debitis, natus mollitia doloremque labore, fugiat accusantium facere sed amet sint error quo quasi autem? Nesciunt ut facilis veritatis, nulla corporis et. Quos ipsum dolorem enim tenetur vel beatae in exercitationem fugit assumenda aliquam, commodi quidem autem, aliquid libero aspernatur rem harum culpa adipisci cupiditate corrupti mollitia dolores, ab iusto porro. Laboriosam totam velit veritatis doloremque laborum natus architecto, illo nulla cupiditate aliquam sint accusamus animi, harum, fugit quis quibusdam? Deserunt vel, error necessitatibus autem suscipit delectus. Voluptatum alias ad odit ipsam saepe.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas eum corporis deserunt praesentium rerum, minima cupiditate? Neque debitis, natus mollitia doloremque labore, fugiat accusantium facere sed amet sint error quo quasi autem? Nesciunt ut facilis veritatis, nulla corporis et. Quos ipsum dolorem enim tenetur vel beatae in exercitationem fugit assumenda aliquam, commodi quidem autem, aliquid libero aspernatur rem harum culpa adipisci cupiditate corrupti mollitia dolores, ab iusto porro. Laboriosam totam velit veritatis doloremque laborum natus architecto, illo nulla cupiditate aliquam sint accusamus animi, harum, fugit quis quibusdam? Deserunt vel, error necessitatibus autem suscipit delectus. Voluptatum alias ad odit ipsam saepe.
-        </div>
+            Collaborate, manage projects, and reach new productivity peaks. From high rises to the home office, the way your team works is unique—accomplish it all with Taskup.
+            Let the robots do the work—so your team can focus on work that matters. With Trello’s built-in automation, Butler, reduce the number of tedious tasks (and clicks) on your project board by harnessing the power of automation across your entire team.
+            </div>
     </section>
 
     <section>
         <div class="container text-center animate_animated animated_bounce py-5" >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas eum corporis deserunt praesentium rerum, minima cupiditate? Neque debitis, natus mollitia doloremque labore, fugiat accusantium facere sed amet sint error quo quasi autem? Nesciunt ut facilis veritatis, nulla corporis et. Quos ipsum dolorem enim tenetur vel beatae in exercitationem fugit assumenda aliquam, commodi quidem autem, aliquid libero aspernatur rem harum culpa adipisci cupiditate corrupti mollitia dolores, ab iusto porro. Laboriosam totam velit veritatis doloremque laborum natus architecto, illo nulla cupiditate aliquam sint accusamus animi, harum, fugit quis quibusdam? Deserunt vel, error necessitatibus autem suscipit delectus. Voluptatum alias ad odit ipsam saepe.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas eum corporis deserunt praesentium rerum, minima cupiditate? Neque debitis, natus mollitia doloremque labore, fugiat accusantium facere sed amet sint error quo quasi autem? Nesciunt ut facilis veritatis, nulla corporis et. Quos ipsum dolorem enim tenetur vel beatae in exercitationem fugit assumenda aliquam, commodi quidem autem, aliquid libero aspernatur rem harum culpa adipisci cupiditate corrupti mollitia dolores, ab iusto porro. Laboriosam totam velit veritatis doloremque laborum natus architecto, illo nulla cupiditate aliquam sint accusamus animi, harum, fugit quis quibusdam? Deserunt vel, error necessitatibus autem suscipit delectus. Voluptatum alias ad odit ipsam saepe.
-        </div>
+            Powering a productive team means using a powerful tool (and plenty of snacks). From meetings and projects to events and goal setting, Taskup's intuitive features give any team the ability to quickly set up and customize workflows for just about anything.
+            Taskup cards are your portal to more organized work—where every single part of your task can be managed, tracked, and shared with teammates. Open any card to uncover an ecosystem of checklists, due dates, attachments, conversations, and more.
+            </div>
     </section>
 </div>
   
@@ -47,7 +47,7 @@ export default {
 <!--STYLING-->
 <style>
 .display-1{
-    color:#da7f61;
+    color:black;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bolder;
 }
@@ -78,7 +78,7 @@ export default {
     width: 36%;
     height: 60px;
     margin: 2em;
-    margin-left: 5em;
+    margin-left: 0.5em;
     font-size: 1.2em;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
