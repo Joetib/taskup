@@ -78,7 +78,7 @@ export default {
     width: 36%;
     height: 60px;
     margin: 2em;
-    margin-left: 5em;
+    margin-left: 0.5em;
     font-size: 1.2em;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
