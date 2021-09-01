@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div id="top">
     <div class="h-min-100vh">
         <!-- <SidePanel /> -->
       <div class=" px-0" id="nav">

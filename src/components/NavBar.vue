@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-light transition  sticky-top">
     <div class="container-fluid p-0">
-      <router-link class="navbar-brand font-effect-emboss" to="/" ><img src="./../assets/logo.png" alt="">TaskUp</router-link >
+      <router-link class="navbar-brand font-effect-emboss" to="/" onclick="window.location='#top'"><img src="./../assets/logo.png" alt="">TaskUp</router-link >
       <button 
         class="navbar-toggler collapsed"
         type="button"
@@ -21,7 +21,7 @@
         <div class="ms-md-auto">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link" aria-current="page" to="/" @click="toggle"
+              <router-link class="nav-link" aria-current="page" to="/" @click="toggle" onclick="window.location='#top'"
                 >Home</router-link 
               >
             </li>
