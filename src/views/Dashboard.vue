@@ -1,34 +1,39 @@
 <template>
-  <div class="container-fluid position-relative">
-    <div class="row position-relative">
-        
+  <div class="container-fluid h-min-100vh">
+    <div class="row h-min-100vh">
+      <side-panel></side-panel>
+      <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
+        <div class="container-fluid position-relative">
+          <div class="container">
+            <h2 class="mb-2">Welcome to your dashboard</h2>
+            <p class="mb-5">
+              Here you will find projects you have created and contribute to.
+            </p>
 
-      <div class="col-12 py-5">
-        <div class="container">
-          <h2 class="mb-2">Welcome to your dashboard</h2>
-          <p class="mb-5">Here you will find projects you have created and contribute to.</p>
-          
-          <div class="">
-            <a class="btn btn-primary btn-lg" @click="enable_create_project"
-              ><i class="fa fa-plus pe-2"></i>Create Project</a
-            >
-          </div>
-          <div class="row py-4">
+            <div class="">
+              <a class="btn btn-primary btn-lg" @click="enable_create_project"
+                ><i class="fa fa-plus pe-2"></i>Create Project</a
+              >
+            </div>
+            <div class="row py-4">
               <div class="col-12">
-                  <h2>Projects</h2>
+                <h2>Projects</h2>
               </div>
-            <ProjectCard
-              v-for="project in projects"
-              :key="project.id"
-              :project="project"
-            />
+              <ProjectCard
+                v-for="project in projects"
+                :key="project.id"
+                :project="project"
+              />
+            </div>
           </div>
-          
+          <div
+            class="full-screen-form-overlay"
+            v-if="open_create_project_dialog"
+          >
+            <CreateProject @create_project_done="create_project_done" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="full-screen-form-overlay" v-if="open_create_project_dialog">
-      <CreateProject @create_project_done="create_project_done" />
     </div>
   </div>
 </template>
@@ -37,11 +42,13 @@
 import axios from "axios";
 import CreateProject from "../components/CreateProject.vue";
 import ProjectCard from "../components/ProjectCard.vue";
+import SidePanel from "../components/SidePanel.vue";
 
 export default {
   components: {
     CreateProject,
     ProjectCard,
+    SidePanel,
   },
   data() {
     return {
