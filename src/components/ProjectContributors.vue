@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid shadow py-3">
+  <div class="container-fluid bg-white py-3">
     <h4>Contributors</h4>
     <hr />
     <div>

@@ -1,110 +1,130 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="container py-4">
-          <router-link :to="project_link">
-            <h4>{{ task.project.name }}</h4>
-          </router-link>
+  <div class="container-fluid h-min-100vh">
+    <div class="row h-min-100vh">
+      <side-panel></side-panel>
+      <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="container py-4">
+                <router-link :to="project_link">
+                  <h5>{{ task.project.name }}</h5>
+                </router-link>
 
-          <div class="pt-5 pb-2">
-            <div
-              class="d-flex flex-column flex-md-row justify-content-md-between"
-            >
-              <div>
-                <h2>{{ task.name }}</h2>
-                <span
-                  class="badge pill mb-3"
-                  v-bind:class="{
-                    'bg-danger': isNotStarted,
-                    'bg-primary': isInProgress,
-                    'bg-success': isCompleted,
-                  }"
-                >
-                  {{ completion_status }}
-                </span>
+                <div class="pt-2 pb-2">
+                  <div
+                    class="
+                      d-flex
+                      flex-column flex-md-row
+                      justify-content-md-between
+                    "
+                  >
+                    <div>
+                      <h2>{{ task.name }}</h2>
+                      <span
+                        class="badge pill mb-3"
+                        v-bind:class="{
+                          'bg-danger': isNotStarted,
+                          'bg-primary': isInProgress,
+                          'bg-success': isCompleted,
+                        }"
+                      >
+                        {{ completion_status }}
+                      </span>
+                    </div>
+                    <div
+                      class="
+                        d-flex
+                        flex-row flex-md-column
+                        align-items-md-end
+                        flex-wrap
+                      "
+                    >
+                      <div>
+                        <button
+                          v-if="isNotStarted"
+                          @click="update_status('In Progress')"
+                          class="btn btn-warning my-3 mx-1"
+                        >
+                          Mark as In Progress
+                        </button>
+                      </div>
+                      <div>
+                        <button
+                          v-if="isInProgress"
+                          @click="update_status('Completed')"
+                          class="btn btn-warning my-3 mx-1"
+                        >
+                          Mark as Completed
+                        </button>
+                      </div>
+                      <div>
+                        <DeleteTaskButton
+                          v-bind:project_id="project_id"
+                          v-bind:task_id="task_id"
+                        ></DeleteTaskButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="bg-light p-4">
+                  {{ task.description }}
+                </div>
               </div>
-              <div
-                class="
-                  d-flex
-                  flex-row flex-md-column
-                  align-items-md-end
-                  flex-wrap
-                "
-              >
-                <button
-                  v-if="isNotStarted"
-                  @click="update_status('In Progress')"
-                  class="btn btn-warning m-0"
-                >
-                  Mark as In Progress
-                </button>
-                <button
-                  v-if="isInProgress"
-                  @click="update_status('Completed')"
-                  class="btn btn-warning m-0"
-                >
-                  Mark as Completed
-                </button>
 
-                <DeleteTaskButton
-                  v-bind:project_id="project_id"
-                  v-bind:task_id="task_id"
-                ></DeleteTaskButton>
-              </div>
-            </div>
-          </div>
-          <div class="bg-light p-4">
-            {{ task.description }}
-          </div>
-        </div>
-
-        <div class="container">
-          <div class="row shadow">
-            <div class="col-12 bg-dark text-light py-2">
               <div class="container">
-
-              <h4>Discussion</h4>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="container">
-                <div class="row">
-                  <MessageCard
-                    v-for="message in task.messages"
-                    :key="message.id"
-                    :message="message"
-                  />
-                  <div class="col-12 border border-start-0 border-end-0 border-bottom-0 mt-5">
-                    <CreateMessage
-                      v-bind:project_id="project_id"
-                      v-bind:task_id="task_id"
-                      @create_message_done="create_message_done"
-                    />
+                <div class="row bg-white">
+                  <div class="col-12 bg-dark text-light py-2">
+                    <div class="container">
+                      <h4>Discussion</h4>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="container">
+                      <div class="row">
+                        <MessageCard
+                          v-for="message in task.messages"
+                          :key="message.id"
+                          :message="message"
+                        />
+                        <div
+                          class="
+                            col-12
+                            border border-start-0 border-end-0 border-bottom-0
+                            mt-5
+                          "
+                        >
+                          <CreateMessage
+                            v-bind:project_id="project_id"
+                            v-bind:task_id="task_id"
+                            @create_message_done="create_message_done"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 p-1">
-        <div class="container-fluid py-5">
-          <div class="mb-5">
-            <h4>Manager</h4>
-            <div v-if="task.project.manager">
-              <h5 class="m-0">{{ task.project.manager.name }}</h5>
-              <small>{{ task.project.manager.email }}</small>
+            <div class="col-lg-4 p-1">
+              <div class="container-fluid py-5">
+                <div class="mb-5">
+                  <h4>Manager</h4>
+                  <div v-if="task.project.manager">
+                    <h5 class="m-0">{{ task.project.manager.name }}</h5>
+                    <small>{{ task.project.manager.email }}</small>
+                  </div>
+                </div>
+                <TaskContribution
+                  :project_id="project_id"
+                  :task_id="task_id"
+                ></TaskContribution>
+              </div>
             </div>
           </div>
-          <TaskContribution
-            :project_id="project_id"
-            :task_id="task_id"
-          ></TaskContribution>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -114,12 +134,14 @@ import CreateMessage from "../components/CreateMessage.vue";
 import MessageCard from "../components/MessageCard.vue";
 import DeleteTaskButton from "../components/DeleteTaskButton.vue";
 import TaskContribution from "../components/TaskContribution.vue";
+import SidePanel from "../components/SidePanel.vue";
 export default {
   components: {
     CreateMessage,
     MessageCard,
     DeleteTaskButton,
     TaskContribution,
+    SidePanel,
   },
   data() {
     return {
