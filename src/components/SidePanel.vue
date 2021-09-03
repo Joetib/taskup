@@ -1,5 +1,9 @@
 <template>
   <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2 bg-white px-0">
+    <button class="btn toggle-btn btn-dark d-block d-sm-none" @click="toggle_show">
+      Toggle
+      </button>
+    <div class="side-panel"  v-bind:class="{ 'show': show,}">
     <div class="py-5 bg-primary text-light">
       <div class="container">
         <h3>{{ this.$store.state.username }}</h3>
@@ -54,12 +58,48 @@
         >
       </nav>
     </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return {
+      show: false,
+    }
+  },
+  methods : {
+    toggle_show(){
+      this.show = !this.show;
+    }
+  },
+};
 </script>
 
 <style>
+@media only screen and (max-width: 576px) {
+  .toggle-btn{
+    position: fixed;
+    left: 0px;
+    top: 80px;
+    z-index: 2
+  }
+  .side-panel {
+    display: none;
+  }
+  .side-panel.show {
+    display: block;
+    animation: showanimation 0.6s ease-in-out;
+  }
+  @keyframes showanimation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+    
+  }
+}
 </style>
