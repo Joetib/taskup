@@ -4,7 +4,7 @@
       <side-panel></side-panel>
       <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
         <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-12 col-xl-8">
         <router-view />
         <div class="container py-5 d-flex justify-content-between">
           <div>
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-4 p-0">
+      <div class="col-xl-4 p-0">
         <div class="container-fluid py-5">
           <ProjectContributors v-bind:project_id="project_id"></ProjectContributors>
         </div>

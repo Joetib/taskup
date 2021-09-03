@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-light transition  sticky-top">
-    <div class="container-fluid p-0">
+    <div class="container p-0">
       <router-link class="navbar-brand font-effect-emboss" to="/" onclick="window.location='#top'"><img src="./../assets/logo.png" alt="">TaskUp</router-link >
       <button 
         class="navbar-toggler collapsed"
