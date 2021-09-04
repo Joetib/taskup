@@ -2,7 +2,7 @@
   <div>
     <section class="section-1 container">
       <article class="pt-5">
-        <h1 class="display-1">Project <br />management has become easier!</h1>
+        <h1 class="display-1">Project <br />management just got easier!</h1>
         <p>
           <button
             id="btn-gst"
@@ -152,10 +152,18 @@ export default {
   font-size: 1.2em;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
+  border:none;
+  border-radius:15px;
+  color:white;
+  background-color:#1976D2;
 }
 
 #btn-gst:active {
   background-color: rgb(250, 203, 203);
+}
+
+#btn-gst:hover{
+  background-color:red;
 }
 
 .img-1 {
