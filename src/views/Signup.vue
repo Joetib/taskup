@@ -109,6 +109,8 @@ export default {
 .container{
   border-radius: 2em;
   margin-top: 50px;
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
 @media screen and (min-width: 770px) {
