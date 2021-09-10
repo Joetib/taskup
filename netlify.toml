@@ -1,0 +1,47 @@
+[[redirects]]
+  from = "/login"
+  to = "/index.html"
+  status = 200
+  force = true
+
+
+[[redirects]]
+  from = "/signup"
+  to = "/index.html"
+  status = 200
+  force = true
+  
+
+[[redirects]]
+  from = "/tasks/"
+  to = "/index.html"
+  status = 200
+  force = true
+
+
+ [[redirects]]
+  from = "/invites/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
+
+[[redirects]]
+  from = "/project/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
+
+[[redirects]]
+  from = "/dashboard/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
+
+[[redirects]]
+  from = "/about/*"
+  to = "/index.html"
+  status = 200
+  force = true
