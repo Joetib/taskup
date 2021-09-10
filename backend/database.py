@@ -144,7 +144,7 @@ class Task(Model):
     __tablename__ = 'task'
 
     id = Column('task_id', Integer, primary_key=True)
-    name = Column(String(100),unique= True, nullable = False) # no two tasks in the same project can have the same name
+    name = Column(String(100), nullable = False) # no two tasks in the same project can have the same name
     description = Column(String(300), nullable = False)
     # Completion status must be one of Not Started, in progress, completed.
     completion_status = Column(String(50), default = "Not Started")

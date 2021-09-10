@@ -44,7 +44,7 @@
                         <button
                           v-if="isNotStarted"
                           @click="update_status('In Progress')"
-                          class="btn btn-warning my-3 mx-1"
+                          class="btn btn-warning my-1 mx-1"
                         >
                           Mark as In Progress
                         </button>
@@ -53,12 +53,20 @@
                         <button
                           v-if="isInProgress"
                           @click="update_status('Completed')"
-                          class="btn btn-warning my-3 mx-1"
+                          class="btn btn-warning my-1 mx-1"
                         >
                           Mark as Completed
                         </button>
                       </div>
-                      <div>
+                      <div v-if="is_project_manager">
+                        <button
+                          @click="enable_edit_task_dialog"
+                          class="btn btn-warning my-1 mx-1"
+                        >
+                          Edit
+                        </button>
+                      </div>
+                      <div v-if="is_project_manager">
                         <DeleteTaskButton
                           v-bind:project_id="project_id"
                           v-bind:task_id="task_id"
@@ -125,6 +133,15 @@
         </div>
       </div>
     </div>
+    <div class="full-screen-form-overlay" v-if="is_project_manager && open_edit_task_dialog">
+      <edit-task
+        v-bind:project_id="project_id"
+        v-bind:task_id="task_id"
+        v-bind:task_name="task.name"
+        v-bind:task_description="task.description"
+        @edit_task_done="edit_task_done"
+      />
+    </div>
   </div>
 </template>
 
@@ -135,6 +152,7 @@ import MessageCard from "../components/MessageCard.vue";
 import DeleteTaskButton from "../components/DeleteTaskButton.vue";
 import TaskContribution from "../components/TaskContribution.vue";
 import SidePanel from "../components/SidePanel.vue";
+import EditTask from "../components/EditTask.vue"
 export default {
   components: {
     CreateMessage,
@@ -142,19 +160,30 @@ export default {
     DeleteTaskButton,
     TaskContribution,
     SidePanel,
+    EditTask,
   },
   data() {
     return {
       task: {
         name: "",
+        description: "",
         project: {
           manager: { name: "name" },
         },
+        is_project_manager: false,
       },
       open_create_message_dialog: false,
+      open_edit_task_dialog: false,
     };
   },
   methods: {
+    enable_edit_task_dialog (){
+      this.open_edit_task_dialog = !this.open_edit_task_dialog;
+    },
+    edit_task_done (){
+      this.fetchTask(this.project_id, this.task_id)
+      this.open_edit_task_dialog = false;
+    },
     update_status(message) {
       axios
         .put(
@@ -178,6 +207,7 @@ export default {
         console.log(e.data);
         if (e.data.success) {
           this.task = e.data.result;
+          this.is_project_manager = e.data.is_project_manager;
         } else {
           this.error = e.data.message;
         }

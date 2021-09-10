@@ -87,6 +87,7 @@ def get_project_details(project_id: int):
         'success': bool(project),
         'result': project_schema.dump(project),
         'message': "Found" if project else "Not Found",
+        'is_project_manager': g.user.id == project.manager_id
     }
 
 
@@ -370,6 +371,34 @@ def create_task(project_id):
             'message': "Task Successfully Created.",
         }
 
+@mod.post("/project/<int:project_id>/task/<int:task_id>/edit/")
+@requires_api_login
+def edit_task(project_id, task_id):
+    project = Project.query.filter_by(id=project_id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"No project with the specified id {project_id} found.",
+        }
+
+    
+    permission = has_project_permission(project, g.user)
+    task: Task = Task.query.filter_by(id=task_id).first()
+    if not task:
+        abort(404, f'There is no task with ID of {task_id}.')
+    data = request.get_json()
+    task.name = data['name']
+    task.description = data['description']
+    db_session.add(task)
+    db_session.commit()
+
+    return {
+        'success': True,
+        'result': task_schema.dump(task),
+        'message': "Task Successfully Created.",
+    }
+
+
 @mod.get('/project/<int:project_id>/task/')
 @requires_api_login
 def get_tasks_list(project_id):
@@ -561,6 +590,8 @@ def get_task_details(project_id, task_id):
         'success': True,
         'message': 'Task found.',
         'result': TaskDetailSchema().dump(task),
+        'is_project_manager': g.user.id == project.manager_id
+
     }
 
 

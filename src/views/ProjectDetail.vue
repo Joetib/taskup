@@ -11,7 +11,7 @@
             <h2>{{ project.name }}</h2>
             <p>{{ project.description }}</p>
           </div>
-          <div>
+          <div v-if="is_project_manager">
             <DeleteProjectButton
               v-bind:project_id="project_id"
             ></DeleteProjectButton>
@@ -28,7 +28,7 @@
             <a class="btn btn-primary btn-lg" @click="enable_create_task">
               <i class="fa fa-plus pe-2"></i>Create Task
             </a>
-            <a class="btn btn-primary btn-lg me-4" @click="enable_edit_project">
+            <a v-if="is_project_manager" class="btn btn-primary btn-lg me-4" @click="enable_edit_project">
               <i class="fa fa-plus pe-2"></i>Edit Project
             </a>
 
@@ -47,7 +47,7 @@
       </div>
       <div class="col-xl-4 p-0">
         <div class="container-fluid py-5">
-          <ProjectContributors v-bind:project_id="project_id"></ProjectContributors>
+          <ProjectContributors v-bind:project_id="project_id" v-bind:is_project_manager="is_project_manager"></ProjectContributors>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
         @create_task_done="create_task_done"
       />
     </div>
-    <div class="full-screen-form-overlay" v-if="open_edit_project_dialog">
+    <div class="full-screen-form-overlay" v-if="is_project_manager && open_edit_project_dialog">
       <edit-project
         v-bind:project_id="project_id"
         v-bind:project_name_prop="this.project.name"
@@ -95,6 +95,7 @@ export default {
         name: "",
         description: ""
       },
+      is_project_manager: false,
       open_create_task_dialog: false,
       open_edit_project_dialog: false,
     };
@@ -105,6 +106,7 @@ export default {
         console.log(e.data);
         if (e.data.success) {
           this.project = e.data.result;
+          this.is_project_manager = e.data.is_project_manager;
         } else {
           this.error = e.data.message;
         }

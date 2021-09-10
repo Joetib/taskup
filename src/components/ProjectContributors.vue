@@ -2,7 +2,7 @@
   <div class="container-fluid bg-white py-3">
     <h4>Contributors</h4>
     <hr />
-    <div>
+    <div v-if="is_project_manager">
       <input
         type="text"
         v-model="selected_user"
@@ -74,6 +74,7 @@ export default {
   },
   props: {
     project_id: null,
+    is_project_manager: null,
   },
   methods: {
     add_selected_user() {
