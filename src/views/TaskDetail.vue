@@ -2,10 +2,9 @@
   <div class="container-fluid h-min-100vh">
     <div class="row h-min-100vh">
       <side-panel></side-panel>
-      <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
-        <div class="container-fluid">
+      <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10 px-0 px-md-2">
           <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 px-0 px-md-2">
               <div class="container py-4">
                 <router-link :to="project_link">
                   <h5>{{ task.project.name }}</h5>
@@ -130,7 +129,6 @@
               </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
     <div class="full-screen-form-overlay" v-if="is_project_manager && open_edit_task_dialog">
