@@ -245,6 +245,10 @@ def delete_project(project_id):
 
     else:
         if is_project_manager(project, g.user):
+            # delete related tasks
+            Task.query.filter_by(project=project).delete()
+            #delete related invites
+            Invitation.query.filter_by(project=project).delete()
             db_session.delete(project)
             db_session.commit()
             return {
