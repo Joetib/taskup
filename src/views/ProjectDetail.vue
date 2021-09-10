@@ -64,7 +64,9 @@
     <div class="full-screen-form-overlay" v-if="open_edit_project_dialog">
       <edit-project
         v-bind:project_id="project_id"
-        @create_task_done="create_task_done"
+        v-bind:project_name_prop="this.project.name"
+        v-bind:project_description_prop="this.project.description"
+        @edit_project_done="edit_project_done"
       />
     </div>
   </div>
@@ -89,7 +91,10 @@ export default {
   },
   data() {
     return {
-      project: {},
+      project: {
+        name: "",
+        description: ""
+      },
       open_create_task_dialog: false,
       open_edit_project_dialog: false,
     };
@@ -106,8 +111,12 @@ export default {
       });
     },
     create_task_done() {
-      this.open_create_task_dialog = false;
       this.fetchProject(this.project.id);
+      this.open_create_task_dialog = false;
+    },
+    edit_project_done (){
+      this.fetchProject()
+      this.open_edit_project_dialog = false;
     },
     enable_create_task() {
       this.open_create_task_dialog = true;

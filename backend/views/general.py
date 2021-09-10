@@ -33,6 +33,35 @@ def create_project():
         },
     }
 
+
+
+@mod.post("/project/<int:project_id>/edit/")
+@requires_api_login
+def edit_project(project_id):
+    project = Project.query.filter_by(id=project_id, manager_id=g.user.id).first()
+    if not project:
+        return {
+            'success': False,
+            'message': f"Project with id {project_id} Not Found."
+        }
+    data = request.get_json()
+    project.name = data['name']
+    project.description = data["description"]
+
+    db_session.add(project)
+    db_session.commit()
+
+    return {
+        'success': True,
+        'message': "Project created successfully",
+        "new_project": project_schema.dump(project),
+        "result": {
+            'created_projects': projects_schema.dump(Project.query.filter_by(manager_id=g.user.id).all()),
+            'projects_you_contribute_to': projects_schema.dump(g.user.projects),
+            'all': projects_schema.dump(set([*g.user.projects  ,*Project.query.filter_by(manager_id=g.user.id).all()])),
+        },
+    }
+
 @mod.get('/project/')
 @requires_api_login
 def get_projects_list():

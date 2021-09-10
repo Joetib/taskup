@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="p-md-5 p-4">
-        <h4 class="pb-">Enter details to create project</h4>
+        <h4 class="pb-">Enter details to edit project</h4>
 
       <div class="form-group py-2">
         <label for="name">Name</label>
@@ -37,7 +37,7 @@
           type="submit"
           class="btn btn-md w-100 btn-lg btn-primary "
           
-        ><i class="fa fa-plus"></i><span class="ps-3">Create Project</span></button>
+        ><i class="fa fa-plus"></i><span class="ps-3">Save Changes</span></button>
       </div>
       </div>
     </form>
@@ -48,6 +48,11 @@
 import axios from "axios";
 
 export default {
+  props: {
+    project_id: null,
+    project_name_prop: null,
+    project_description_prop: null,
+  },
   data() {
     return {
       project_name: "",
@@ -55,10 +60,14 @@ export default {
       error: "",
     };
   },
+  mounted (){
+    this.project_name = this.project_name_prop;
+    this.description = this.project_description_prop;
+  },
   methods: {
     create_project() {
       if (this.project_name.length > 1) {
-        axios.post("/project/", { name: this.project_name, description: this.description }).then((e) => {
+        axios.post(`/project/${this.project_id}/edit/`, { name: this.project_name, description: this.description }).then((e) => {
           if (e.data.success) {
             this.projects = e.data.result.all;
             this.open_create_project_dialog = false;
@@ -70,7 +79,7 @@ export default {
       }
     },
     send_close_signal(isSuccessful){
-        this.$emit('create_project_done', {success: isSuccessful});
+        this.$emit('edit_project_done', {success: isSuccessful});
     },
   },
 };
