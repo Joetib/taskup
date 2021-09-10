@@ -2,6 +2,7 @@
   <div class="container-fluid bg-white py-3">
     <h4>Contributors</h4>
     <hr />
+    <p class="text-danger">{{ error_message }}</p>
     <div v-if="is_project_manager">
       <input
         type="text"
@@ -18,7 +19,7 @@
           :value="user.email"
           @click="set_selected_user(user.id)"
         >
-          {{ user.name }}
+          {{ user.name }} ({{ user.email }})
         </option>
       </datalist>
       <!-- <select list="users_list" v-model="selected_user"  class="form-select">
@@ -31,29 +32,59 @@
         Add
       </button>
     </div>
-    <p class="text-danger">{{ error_message }}</p>
     <div class="" v-for="user in users" :key="user.id">
       <!-- <img
         src=""
         class="img-thumbnail rounded-circle"
         style="width: 60px; height: 60px"
       /> -->
-      <div class="border border-top-0 border-start-0 border-end-0 p-2">
-        <h6 class="m-0">{{ user.name }}</h6>
-        <small>{{ user.email }}</small>
+      <div
+        class="
+          d-flex
+          justify-content-between
+          border border-top-0 border-start-0 border-end-0
+          p-2
+        "
+      >
+        <div>
+          <h6 class="m-0">{{ user.name }}</h6>
+          <small>{{ user.email }}</small>
+        </div>
+        <div v-if="is_project_manager">
+          <button
+            @click="remove_contributor([user.id])"
+            class="btn btn-danger btn-sm"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
       </div>
-
     </div>
-    <div class="pt-3 bg-light  p-2" v-if="invites.length">
+    <div class="pt-3 bg-light p-2" v-if="invites.length">
       <h5>Pending Invites</h5>
-      <hr>
-    <div class="" v-for="invite in invites" :key="invite.id">
-      
-      <div class="border border-top-0 border-start-0 border-end-0 p-2">
-        
-        <h6 class="m-0">{{ invite.user.name }}</h6>
-        <small>{{ invite.user.email }}</small>
-      </div>
+      <hr />
+      <div class="" v-for="invite in invites" :key="invite.id">
+        <div
+          class="
+            d-flex
+            justify-content-between
+            border border-top-0 border-start-0 border-end-0
+            p-2
+          "
+        >
+          <div>
+            <h6 class="m-0">{{ invite.user.name }}</h6>
+            <small>{{ invite.user.email }}</small>
+          </div>
+          <div>
+            <button
+              @click="cancel_invitation(invite.id)"
+              class="btn btn-danger btn-sm"
+            >
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -77,13 +108,42 @@ export default {
     is_project_manager: null,
   },
   methods: {
+    remove_contributor(user_ids) {
+      axios
+        .post(`project/${this.project_id}/remove-contributor/`, {
+          contributors: user_ids,
+        })
+        .then((e) => {
+          if (e.data.success) {
+            this.fetch_project_contributors();
+          } else {
+            this.error_message = e.data.message;
+            console.log(e.data);
+          }
+        })
+        .catch((e) => {
+          this.error_message = "Could not remove contributor";
+          console.log(e);
+        });
+    },
+    cancel_invitation(invite_id) {
+      axios.get(`/invitation/${invite_id}/decline/`).then((e) => {
+        if (e.data.success) {
+          this.fetch_project_contributors()
+        } else {
+          this.error_message = e.data.message
+        }
+      }).catch(e => {
+        console.log(e);
+        this.error_message = "Sorry could not cancel invitation.";
+      });
+    },
     add_selected_user() {
       if (this.selected_user) {
         if (isNaN(this.selected_user)) {
           this.selected_user_id = this.all_users.filter(
             (user) => user.email == this.selected_user
           )[0].id;
-          alert(this.selected_user_id);
         }
         axios
           .post(`project/${this.project_id}/add-contributor/`, {
@@ -94,7 +154,7 @@ export default {
               this.fetch_project_contributors();
             } else {
               this.error_message = e.data.message;
-              console.log(e.data)
+              console.log(e.data);
             }
           })
           .catch((e) => {

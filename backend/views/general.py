@@ -124,6 +124,32 @@ def get_tasks():
     }
 
 
+@mod.post("/project/<int:project_id>/remove-contributor/")
+@requires_api_login
+def remove_contributors_from_project(project_id: int):
+    data = request.get_json()
+    contributor_ids = data['contributors']
+    project = Project.query.filter_by(id=project_id, manager_id=g.user.id).first()
+    if not project:
+        abort(405, "Not permitted")
+    permission = is_project_manager(project, g.user)
+    for contributor_id in contributor_ids:
+        contributor = User.query.filter_by(id=contributor_id).first()
+        if contributor:
+            try:
+                project.contributors.remove(contributor)
+                invitation  = Invitation.query.filter_by(project=project, user=contributor).first()
+                if invitation:
+                    db_session.delete(invitation)
+            except:
+                print(f"Error occurred removing user f{contributor.id} from project {project.id}")
+    db_session.add(project)
+    db_session.commit()
+    return {
+        'success': True, 
+        'result': project_schema.dump(project),
+        'message': "Successfully updated project",
+    }
 @mod.post("/project/<int:project_id>/add-contributor/")
 @requires_api_login
 def add_contributors_to_project(project_id: int):
@@ -204,9 +230,13 @@ def get_invitations():
 @mod.get('/invitation/<int:invitation_id>/decline/')
 @requires_api_login
 def decline_invitation(invitation_id):
-    invitation  = Invitation.query.filter_by(id=invitation_id, user_id=g.user.id).first()
-    if not invitation:
+    invitation: Invitation  = Invitation.query.filter_by(id=invitation_id).first()
+    if (not invitation) :
         abort(404, f"Invitation with id {invitation_id} was not found.")
+    if all([(g.user != invitation.user), (g.user != invitation.project.manager)]):
+        print(g.user != invitation.user)
+        print(g.user != invitation.project.manager)
+        abort(405, "Permission denied")
     db_session.delete(invitation)
     db_session.commit()
     return {
