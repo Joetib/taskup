@@ -112,15 +112,23 @@ export default {
   },
   methods: {
     fetchProject(project_id) {
-      axios.get(`/project/${project_id}/`).then((e) => {
-        console.log(e.data);
-        if (e.data.success) {
-          this.project = e.data.result;
-          this.is_project_manager = e.data.is_project_manager;
-        } else {
-          this.error = e.data.message;
-        }
-      });
+      this.$store.commit("setIsLoading", true);
+      axios
+        .get(`/project/${project_id}/`)
+        .then((e) => {
+          if (e.data.success) {
+            this.project = e.data.result;
+            this.is_project_manager = e.data.is_project_manager;
+          } else {
+            this.error = e.data.message;
+          }
+          this.$store.commit("setIsLoading", false);
+        })
+        .catch((e) => {
+          console.log(e);
+          this.error = "Sorry, could not fetch project";
+          this.$store.commit("setIsLoading", false);
+        });
     },
     create_task_done() {
       this.fetchProject(this.project.id);

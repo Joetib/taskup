@@ -61,13 +61,22 @@ export default {
       this.open_create_project_dialog = !this.open_create_project_dialog;
     },
     fetchProjects() {
-      axios.get("/project/").then((e) => {
-        if (e.data.success) {
-          this.projects = e.data.result.all;
-        } else {
+      this.$store.commit("setIsLoading", true);
+      axios
+        .get("/project/")
+        .then((e) => {
+          if (e.data.success) {
+            this.projects = e.data.result.all;
+          } else {
+            alert("Sorry there was an error fetching projects");
+          }
+          this.$store.commit("setIsLoading", false);
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$store.commit("setIsLoading", false);
           alert("Sorry there was an error fetching projects");
-        }
-      });
+        });
     },
     create_project_done(isSuccessful) {
       this.enable_create_project();
