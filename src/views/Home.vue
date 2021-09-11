@@ -149,13 +149,13 @@ export default {
   height: 60px;
   margin: 2em;
   margin-left: 0.5em;
-  font-size: 1.2em;
+  font-size: 20px;
   font-weight: bold;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: montserrat;
   border:none;
   border-radius:15px;
   color:white;
-  background-color:#1976D2;
+  background-color:#2164a7;
 }
 
 #btn-gst:active {
@@ -182,6 +182,7 @@ export default {
 .footer {
   font-style: oblique;
   font-weight: bolder;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: montserrat;
+  font-size: 20px;
 }
 </style>

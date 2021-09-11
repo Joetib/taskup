@@ -27,3 +27,9 @@
   </div>
 </template>
 
+<style>
+    .container text-center animate_animated animated_bounce py-5{
+        font-family: montserrat;
+    }
+
+</style>
