@@ -4,7 +4,7 @@
         <!-- <SidePanel /> -->
       <div class=" px-0" id="nav">
         <NavBar />
-        <div class="loading sticky-top" v-if="$store.state.is_loading" >
+        <div class="loading sticky-top" v-if="!$store.state.is_loading" >
           <span class="load-item"></span>
           <span class="load-item"></span>
           <span class="load-item"></span>
