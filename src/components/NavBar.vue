@@ -55,7 +55,7 @@
               >Dashboard</router-link
             >
           </li>
-          <li class="nav-item ms-md-auto" v-if="!isLoggedIn">
+          <li class="nav-item ms-md-auto" v-if="isLoggedIn">
             <a
               @click="logout"
               class="nav-link text-white btn btn-sm btn-danger"
