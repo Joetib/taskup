@@ -2,27 +2,26 @@
   <div class="container py-5" style="max-width: 500px">
     <form class="my-bg-dark" @submit.prevent="login">
       <div>
-        <h3>Enter details to Log In</h3>
-        <p class="lead">so we can show you that world you dream of...</p>
-        <div class="text-danger py-2">
+        <h3>Log in to your dashboard</h3>
+        <p class="lead">so we can show you that world you dream of . . .</p>
+        <div id="fixerr" class=" p-2 rounded btn btn-outline-danger text-danger" v-if="error">
           {{ error }}
         </div>
 
         <div class="form-group py-2">
           <label>Email</label>
-          <input type="email" v-model="email" class="form-control" placeholder="example@gmail.com" />
+          <input id="id2" type="email" v-model="email" class="form-control" required />
         </div>
         <div class="form-group py-2">
           <label>Password</label>
-          <input type="password" v-model="password" class="form-control" />
+          <input id="id3" type="password" v-model="password" class="form-control" required />
         </div>
         <div class="form-group py-2">
-          <button class="btn btn-primary" @click="login">Login</button>
+          <button class="btn btn-primary" @click="login">Log In</button>
         </div>
         <div class="form-group">
-          <p>
-            Kindly <router-link id="link1" to="/signup">signup</router-link> if you do not
-            already have an account.
+          <p id="link1_1">
+            please <router-link id="link1" to="/signup"><span id="link1_11"> Sign Up </span></router-link> to create a new account.
           </p>
         </div>
       </div>
@@ -45,11 +44,10 @@ export default {
   },
   methods: {
     login() {
-      if (!this.email.length > 3) {
-        this.error = "Please enter an email address.";
-      } else if (this.password.length < 5) {
-        this.error = "Password must be at least 5 characters long";
-      } else {
+      this.error = null
+      const email = document.getElementById("id2");
+      const password = document.getElementById("id3");
+      if(email.checkValidity() && password.checkValidity()){
         this.$store.commit("setIsLoading", true);
         axios
           .post("/auth/login/", {
@@ -77,7 +75,7 @@ export default {
           })
           .catch((e) => {
             this.error =
-              "Sorry that didn't work, check if your username and password are correct.";
+              "Sorry, an error occured! Try again";
             console.log(e);
             this.$store.commit("setIsLoading", false);
           });
@@ -90,15 +88,33 @@ export default {
 <!--styling-->
 
 <style scoped>
-#link1 {
-  color:blue;
+#fixerr{
+  background: transparent !important;
+  position:relative;
+  width: 100%;
+  margin: auto;
+  font-weight: bold;
 }
+
 .btn-primary{
-  border-radius: 15px;
-  border: none;
+  border-radius: 10px;
+  font-family: montserrat;
+  margin-left: .2em;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  font-size: 1.2em;
+  font-weight: bold;
 }
-.btn-primary:hover{
-  background-color:rgb(95, 12, 95);
+
+#link1_1{
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#link1_11{
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #1275d8;
 }
 
 .container{
@@ -111,7 +127,7 @@ export default {
 
 @media screen and (min-width: 770px) {
   .container{
-  background-color:rgba(73, 62, 218, 0.267);
+  background-color:rgba(89, 128, 146, 0.15);
 }
 }
 </style>

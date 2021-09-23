@@ -9,15 +9,15 @@
         </div>
         <div class="form-group py-2">
           <label>Name</label>
-          <input type="text" v-model="name" class="form-control" required minlength="3"/>
+          <input id="id1_0" type="text" v-model="name" class="form-control" required minlength="3"/>
         </div>
         <div class="form-group py-2">
           <label>Email</label>
-          <input type="email" v-model="email" class="form-control" required/>
+          <input id="id1" type="email" v-model="email" class="form-control" required/>
         </div>
         <div class="form-group py-2">
           <label>Password</label>
-          <input type="password" v-model="password" class="form-control" required minlength="5"/>
+          <input id="id1_1" type="password" v-model="password" class="form-control" required minlength="5"/>
         </div>
         <div class="form-group py-2">
           <button class="btn btn-primary" @click="signup">Sign Up</button>
@@ -25,7 +25,7 @@
         <div class="form-group">
           <br><br>
           <p id="link1_1">
-            Kindly <router-link id="link1" to="/login"><span id="link1_11"> login </span></router-link> if you already
+            please <router-link id="link1" to="/login"><span id="link1_11"> Log In </span></router-link> if you already
             have an account.
           </p>
         </div>
@@ -51,7 +51,12 @@ export default {
   methods: {
     signup() {   
       this.error = null
-      if(this.name.length > 1 && this.email.length > 1 && this.password.length > 1){
+      
+      const name = document.getElementById("id1_0");
+      const email = document.getElementById("id1");
+      const password = document.getElementById("id1_1");
+
+      if(name.checkValidity() && email.checkValidity() && password.checkValidity()){
         this.$store.commit("setIsLoading", true);
         axios
           .post("/auth/signup/", {
