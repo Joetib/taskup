@@ -12,7 +12,6 @@
      height: 100px;
      width: 100%;
      background: lightgray;
-     margin-top: 4.5em;
  }
 
  #copyright{

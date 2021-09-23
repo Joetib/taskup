@@ -2,7 +2,7 @@
   <div class="container py-5" style="max-width: 500px">
     <form class="my-bg-dark" @submit.prevent="login">
       <div>
-        <h3>Log in to your dashboard</h3>
+        <h3 id="hding">Log in to your dashboard</h3>
         <p class="lead">so we can show you that world you dream of . . .</p>
         <div id="fixerr" class=" p-2 rounded btn btn-outline-danger text-danger" v-if="error">
           {{ error }}
@@ -115,6 +115,10 @@ export default {
   font-size: 1.4em;
   font-weight: bold;
   color: #1275d8;
+}
+
+#hding{
+  color: #2e2d2de0;
 }
 
 .container{

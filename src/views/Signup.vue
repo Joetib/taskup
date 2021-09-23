@@ -2,7 +2,7 @@
   <div class="container py-5" style="max-width: 500px">
     <form @submit.prevent="signup">
       <div>
-        <h3>Enter details to Sign Up</h3>
+        <h3 id="hding">Enter details to Sign Up</h3>
         <p class="lead">so we can show you that world you dream of . . . </p>
         <div id="fixerr" class=" p-2 rounded btn btn-outline-danger text-danger" v-if="error">
           {{ error }}
@@ -133,6 +133,9 @@ export default {
   color: #1275d8;
 }
 
+#hding{
+  color: #2e2d2de0;
+}
 @media screen and (min-width: 770px) {
   .container{
   background-color:rgba(97, 78, 78, 0.15);

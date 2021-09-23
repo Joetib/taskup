@@ -63,7 +63,7 @@ export default {
 <!--STYLING-->
 <style>
 .display-1 {
-  color: black;
+  color: #2e2d2de0;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-weight: bolder;
 }
