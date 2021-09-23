@@ -59,11 +59,10 @@ window.addEventListener('scroll', function(){
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Sofia&effect=emboss|Rampart+One&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Rampart+One&display=swap");
 
 :root{
   --accent-color:rgb(114, 198, 250);
-  --custom-font: 'Rampart One', cursive;
+  --custom-font: Arial, Helvetica, sans-serif;
   --taskup-font: "Sofia", sans-serif; 
 }
 

@@ -109,7 +109,6 @@ export default {
 }
 
 #logoutBtn {  
-  font-family: Arial, Helvetica, sans-serif !important;
   font-weight: bolder;
   font-size: 1em;
 }
@@ -136,7 +135,7 @@ export default {
 
 #navbarSupportedContent {
   font-weight: bolder;
-  font-family: "Rampart One", cursive;
+  
 }
 
 @media screen and (max-width: 770px) {
