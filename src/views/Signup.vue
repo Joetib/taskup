@@ -3,7 +3,7 @@
     <form @submit.prevent="signup">
       <div>
         <h3>Enter details to Sign Up</h3>
-        <p class="lead">so we can show you that world you dream of...</p>
+        <p class="lead">so we can show you that world you dream of . . . </p>
         <div id="fixerr" class=" p-2 rounded btn btn-outline-danger text-danger" v-if="error">
           {{ error }}
         </div>
