@@ -9,7 +9,7 @@
     </section>
     
     <section>
-        <div class="container text-center animate_animated animated_bounce p-5">
+        <div class="container text-center animate_animated animated_bounce py-5">
             <p>Taskup is an online tool for managing projects and personal tasks. That may sound rather prosaic. But this increasingly popular app often inspires the sort of passion usually reserved for consumer apps like Pinterest or Instagram. <br><br>It’s the kind of business software that slips into businesses through the backdoor, just because individual employees like how it works.</p>
         </div>
     </section>
