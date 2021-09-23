@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="section-1 container">
+    <section class="section-1 container-fluid">
       <article class="pt-5">
         <h1 class="display-1">Project <br />management just got easier!</h1>
         <p>
