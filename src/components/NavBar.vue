@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-light transition sticky-top">
-    <div class="container p-0">
+    <div class="container-fluid p-0">
       <router-link
         class="navbar-brand font-effect-emboss"
         to="/"
@@ -46,9 +46,6 @@
             <router-link class="nav-link" to="/login" @click="toggle"
               >Log In</router-link
             >
-          </li>
-          <li class="nav-item" v-if="!isLoggedIn">
-            <router-link class="nav-link" to="/signup">Sign Up</router-link>
           </li>
           <li class="nav-item" v-if="isLoggedIn">
             <router-link class="nav-link" to="/dashboard" @click="toggle"
