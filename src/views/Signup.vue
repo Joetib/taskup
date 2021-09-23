@@ -4,27 +4,28 @@
       <div>
         <h3>Enter details to Sign Up</h3>
         <p class="lead">so we can show you that world you dream of...</p>
-        <div class=" p-2 rounded btn btn-outline-danger text-danger" v-if="error">
+        <div id="fixerr" class=" p-2 rounded btn btn-outline-danger text-danger" v-if="error">
           {{ error }}
         </div>
         <div class="form-group py-2">
           <label>Name</label>
-          <input type="text" v-model="name" class="form-control" />
+          <input type="text" v-model="name" class="form-control" required minlength="3"/>
         </div>
         <div class="form-group py-2">
           <label>Email</label>
-          <input type="email" v-model="email" class="form-control" placeholder="example@gmail.com" />
+          <input type="email" v-model="email" class="form-control" required/>
         </div>
         <div class="form-group py-2">
           <label>Password</label>
-          <input type="password" v-model="password" class="form-control" />
+          <input type="password" v-model="password" class="form-control" required minlength="5"/>
         </div>
         <div class="form-group py-2">
           <button class="btn btn-primary" @click="signup">Sign Up</button>
         </div>
         <div class="form-group">
-          <p>
-            Kindly <router-link id="link1" to="/login">login</router-link> if you already
+          <br><br>
+          <p id="link1_1">
+            Kindly <router-link id="link1" to="/login"><span id="link1_11"> login </span></router-link> if you already
             have an account.
           </p>
         </div>
@@ -48,15 +49,9 @@ export default {
     };
   },
   methods: {
-    signup() {
-      if (!this.name.length > 3) {
-        this.error = "Please enter a name.";
-      }
-      if (!this.email.length > 3) {
-        this.error = "Please enter an email address.";
-      } else if (this.password.length < 5) {
-        this.error = "Password must be at least 5 characters long";
-      } else {
+    signup() {   
+      this.error = null
+      if(this.name.length > 1 && this.email.length > 1 && this.password.length > 1){
         this.$store.commit("setIsLoading", true);
         axios
           .post("/auth/signup/", {
@@ -84,28 +79,35 @@ export default {
           })
           .catch((e) => {
             this.error =
-              "Sorry that didn't work, check if your username and password are correct.";
+              "Sorry, an error occured! Try again";
             console.log(e);
             this.$store.commit("setIsLoading", false);
           });
       }
-    },
+  } 
   },
-};
+  };
+
 </script>
 
 <style scoped>
-#link1{
-  color: blue;
-}
+
 .btn-primary{
-  border-radius: 15px;
-  border: none;
-}
-.btn-primary:hover{
-  background-color:rgb(95, 12, 95);
+  border-radius: 10px;
+  font-family: montserrat;
+  margin-left: .2em;
+  margin-top: 1em;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
+#fixerr{
+  background: transparent !important;
+  position:relative;
+  width: 100%;
+  margin: auto;
+  font-weight: bold;
+}
 .container{
   border-radius: 2em;
   margin-top: 50px;
@@ -114,9 +116,20 @@ export default {
   margin-bottom: 4.5em;
 }
 
+#link1_1{
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#link1_11{
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #1275d8;
+}
+
 @media screen and (min-width: 770px) {
   .container{
-  background-color:rgba(224, 46, 40, 0.267);
+  background-color:rgba(97, 78, 78, 0.15);
 }
 }
 </style>
