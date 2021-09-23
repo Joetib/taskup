@@ -75,6 +75,7 @@ export default {
               }
             }else {
                 this.error = e.data.message;
+                this.$store.commit("setIsLoading", false);
             }
           })
           .catch((e) => {
