@@ -21,7 +21,7 @@
       </button>
       <div class="collapse navbar-collapse p-1" id="navbarSupportedContent">
         <div class="ms-md-auto">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav" :class="applyFix" >
             <li class="nav-item">
               <router-link
                 class="nav-link"
@@ -75,6 +75,10 @@ export default {
     isLoggedIn() {
       return this.$store.state.token !== null && this.$store.state.token !== "";
     },
+    applyFix(){
+       if (this.isLoggedIn) return "applifix"
+      return ""
+    },
   },
   methods: {
     logout() {
@@ -96,6 +100,10 @@ export default {
   padding-left: 15px;
   font-size: 28px;
   font-family: var(--taskup-font);
+}
+
+.applifix{
+  margin-left: 65px !important;
 }
 
 .navbar-toggler {

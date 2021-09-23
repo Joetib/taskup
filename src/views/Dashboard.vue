@@ -5,15 +5,10 @@
       <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
         <div class="container-fluid position-relative">
           <div class="container">
-            <h2 class="mb-2">Welcome to your dashboard</h2>
-            <p class="mb-5">
-              Here you will find projects you have created and contribute to.
-            </p>
-
-            <div class="">
-              <a class="btn btn-primary btn-lg" @click="enable_create_project"
-                ><i class="fa fa-plus pe-2"></i>Create Project</a
-              >
+            <div id="id_5">
+            <a class="btn btn-primary btn-lg" @click="enable_create_project"
+                ><i class="fa fa-plus pe-2"></i>Create Project
+            </a>
             </div>
             <div class="row py-4">
               <div class="col-12">
@@ -48,7 +43,7 @@ export default {
   components: {
     CreateProject,
     ProjectCard,
-    SidePanel,
+     SidePanel,
   },
   data() {
     return {
@@ -106,5 +101,13 @@ export default {
 }
 .h-100vh {
   height: 100vh;
+}
+
+#id_5{
+  font-weight: bold;
+  position: relative;
+  margin: auto;
+  margin-top: 50px;
+  width: 35%;
 }
 </style>

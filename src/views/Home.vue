@@ -155,12 +155,9 @@ export default {
   border:none;
   border-radius:15px;
   color:white;
-  background-color:#2164a7;
+  background-color:#24a0ed;
 }
 
-#btn-gst:active {
-  background-color: rgb(250, 203, 203);
-}
 
 
 .img-1 {
