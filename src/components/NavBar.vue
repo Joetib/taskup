@@ -55,7 +55,7 @@
               >Dashboard</router-link
             >
           </li>
-          <li class="nav-item ms-md-auto" v-if="isLoggedIn">
+          <li class="nav-item ms-md-auto" v-if="!isLoggedIn">
             <a
               @click="logout"
               class="nav-link text-white btn btn-sm btn-danger"
@@ -111,8 +111,10 @@ export default {
   }
 }
 
-#logoutBtn {
-  color: black !important;
+#logoutBtn {  
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: bolder;
+  font-size: 1em;
 }
 @media screen and (min-width: 770px) {
   #logoutBtn {

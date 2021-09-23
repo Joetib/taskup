@@ -162,9 +162,6 @@ export default {
   background-color: rgb(250, 203, 203);
 }
 
-#btn-gst:hover{
-  background-color:red;
-}
 
 .img-1 {
   width: 50%;
