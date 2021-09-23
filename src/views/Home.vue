@@ -21,9 +21,9 @@
             <h1 class="mb-5">Our Approach</h1>
             <p>Encouraging Agile practices with a focus on <span class="fw-bold">Scrum</span> architecture</p> 
         </div> -->
+      <!-- <article class="transition-2"></article>
       <article class="transition-2"></article>
-      <article class="transition-2"></article>
-      <article class="transition-2"></article>
+      <article class="transition-2"></article> -->
     </section>
 
     <section class="section-3 container">
@@ -31,12 +31,12 @@
             Collaborate, manage projects, and reach new productivity peaks. From high rises to the home office, the way your team works is unique—accomplish it all with Taskup.
             Let the robots do the work—so your team can focus on work that matters. With Trello’s built-in automation, Butler, reduce the number of tedious tasks (and clicks) on your project board by harnessing the power of automation across your entire team.
             </div> -->
-      <article class="transition-2"></article>
-      <article class="transition-2"></article>
+      <!-- <article class="transition-2"></article>
+      <article class="transition-2"></article> -->
     </section>
 
     <div class="container text-center py-5 footer">
-      <div class="col-md-6 m-auto">
+      <div class="col-md-12 m-auto">
         Powering a productive team means using a powerful tool (and plenty of
         snacks). From meetings and projects to events and goal setting, Taskup's
         intuitive features give any team the ability to quickly set up and
@@ -177,8 +177,6 @@ export default {
   }
 }
 .footer {
-  font-style: oblique;
-  font-weight: bolder;
   font-family: montserrat;
   font-size: 20px;
 }
