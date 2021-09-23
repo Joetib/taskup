@@ -35,7 +35,7 @@
       <article class="transition-2"></article> -->
     </section>
 
-    <div class="container text-center py-5 footer">
+    <div class="container text-center py-5 comments">
       <div class="col-md-12 m-auto">
         Powering a productive team means using a powerful tool (and plenty of
         snacks). From meetings and projects to events and goal setting, Taskup's
@@ -176,7 +176,7 @@ export default {
     width: 65%;
   }
 }
-.footer {
+.comments {
   font-family: montserrat;
   font-size: 20px;
 }

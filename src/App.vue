@@ -1,7 +1,6 @@
 <template>
   <div id="top">
     <div class="h-min-100vh">
-        <!-- <SidePanel /> -->
       <div class=" px-0" id="nav">
         <NavBar />
         <div class="loading sticky-top" v-if="$store.state.is_loading" >
@@ -10,6 +9,7 @@
           <span class="load-item"></span>
         </div>
         <router-view />
+        <Footer />
       </div>
     </div>
   </div>
@@ -18,14 +18,16 @@
 
 <script>
 import NavBar from "./components/NavBar.vue";
-// import SidePanel from "./components/SidePanel.vue";
+import Footer from "./components/Footer.vue"
+
+
 
 
 export default {
   name: "App",
   components: {
     NavBar,
-   // SidePanel,
+    Footer
   },
   beforeCreate() {
     this.$store.commit("initializeStore");
@@ -50,7 +52,6 @@ window.addEventListener('scroll', function(){
        navbar.classList.remove('bg-light')
     }
 });
-
 
 </script>
 
@@ -82,6 +83,17 @@ window.addEventListener('scroll', function(){
 
 body{
   background-color:#f9f9f9;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .loading {
