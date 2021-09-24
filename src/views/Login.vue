@@ -10,11 +10,11 @@
 
         <div class="form-group py-2">
           <label>Email</label>
-          <input id="id2" type="email" v-model="email" class="form-control" required />
+          <input id="id2" placeholder="Please enter your mail" type="email" v-model="email" class="form-control" required />
         </div>
         <div class="form-group py-2">
           <label>Password</label>
-          <input id="id3" type="password" v-model="password" class="form-control" required />
+          <input id="id3" placeholder="Please enter your password" type="password" v-model="password" class="form-control" required />
         </div>
         <div class="form-group py-2">
           <button class="btn btn-primary" @click="login">Log In</button>
