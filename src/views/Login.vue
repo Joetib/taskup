@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
           <p id="link1_1">
-            please <router-link id="link1" to="/signup"><span id="link1_11"> Sign Up </span></router-link> to create a new account.
+            Please <router-link id="link1" to="/signup"><span id="link1_11"> Sign Up </span></router-link> to create a new account.
           </p>
         </div>
       </div>
