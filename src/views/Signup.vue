@@ -9,15 +9,15 @@
         </div>
         <div class="form-group py-2">
           <label>Name</label>
-          <input id="id1_0" type="text" v-model="name" class="form-control" required minlength="3"/>
+          <input id="id1_0" type="text" placeholder="Enter your name" v-model="name" class="form-control" required minlength="3"/>
         </div>
         <div class="form-group py-2">
           <label>Email</label>
-          <input id="id1" type="email" v-model="email" class="form-control" required/>
+          <input id="id1" placeholder="Enter a valid mail" type="email" v-model="email" class="form-control" required/>
         </div>
         <div class="form-group py-2">
           <label>Password</label>
-          <input id="id1_1" type="password" v-model="password" class="form-control" required minlength="5"/>
+          <input id="id1_1" placeholder="Your Password" type="password" v-model="password" class="form-control" required minlength="5"/>
         </div>
         <div class="form-group py-2">
           <button class="btn btn-primary" @click="signup">Sign Up</button>
