@@ -116,7 +116,7 @@ export default {
     display: none;
   }
   #id_5{
-    margin: 50px 0% 20px 20%;
+    /* margin: 50px 0% 20px 20%; */
     width: 80%;
   }
 }
