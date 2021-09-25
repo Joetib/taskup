@@ -25,7 +25,7 @@
         <div class="form-group">
           <br><br>
           <p id="link1_1">
-            please <router-link id="link1" to="/login"><span id="link1_11"> Log In </span></router-link> if you already
+            Please <router-link id="link1" to="/login"><span id="link1_11"> Log In </span></router-link> if you already
             have an account.
           </p>
         </div>
