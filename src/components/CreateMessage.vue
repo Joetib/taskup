@@ -2,7 +2,7 @@
     <form @submit.prevent="create_task" class="form">
     
       <div class="py-4">
-        <h4 class="pb-">Enter details to create Message</h4>
+        <h4 class="pb-">Enter message details</h4>
 
       <div class="form-group py-2">
         <label for="message">Message</label>

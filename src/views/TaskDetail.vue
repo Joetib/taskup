@@ -1,7 +1,7 @@
 <template>
-  <div class="container-fluid h-min-100vh">
+  <div id="id_11" class="container-fluid h-min-100vh">
     <div class="row h-min-100vh">
-      <side-panel></side-panel>
+      <side-panel id="id_10"></side-panel>
       <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10 px-0 px-md-2">
         <div class="row">
           <div class="col-lg-8 px-0 px-md-2">
@@ -281,4 +281,12 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 770px) {
+  #id_10{
+    display: none;
+  }
+}
+#id_11{
+  min-height: 100vh;
+}
 </style>

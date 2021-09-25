@@ -1,7 +1,7 @@
 <template>
-  <div class="container-fluid h-min-100vh">
+  <div id="id_11" class="container-fluid h-min-100vh">
     <div class="row h-min-100vh">
-      <side-panel></side-panel>
+      <side-panel id="id_10"></side-panel>
       <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10 px-0 px-md-2">
         <div class="row">
           <div class="col-lg-12 col-xl-8">
@@ -27,12 +27,12 @@
               <div
                 class="d-flex justify-content-start gap-2 align-items-center"
               >
-                <a class="btn btn-primary btn-lg" @click="enable_create_task">
+                <a class="btn btn-primary btn-md" @click="enable_create_task">
                   <i class="fa fa-plus pe-2"></i>Create Task
                 </a>
                 <a
                   v-if="is_project_manager"
-                  class="btn btn-primary btn-lg me-4"
+                  class="btn btn-primary btn-md me-4"
                   @click="enable_edit_project"
                 >
                   <i class="fa fa-plus pe-2"></i>Edit Project
@@ -160,4 +160,12 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 770px) {
+  #id_10{
+    display: none;
+  }
+}
+#id_11{
+  min-height: 100vh;
+}
 </style>

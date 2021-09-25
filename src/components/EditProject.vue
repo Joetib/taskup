@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="p-md-5 p-4">
-        <h4 class="pb-">Enter details to edit project</h4>
+        <h4 class="pb-">Enter project details</h4>
 
       <div class="form-group py-2">
         <label for="name">Name</label>

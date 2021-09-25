@@ -43,8 +43,10 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (min-width: 770px) {
 .pjboard:hover,.pjboard:active{
   transform: translateY(-5px);
   box-shadow: 0 0 20px 5px rgb(161, 77, 77,0.5) !important;
+}
 }
 </style>
