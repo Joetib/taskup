@@ -1,8 +1,5 @@
 <template>
   <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2 px-0 pnel">
-    <!-- <button class="btn toggle-btn btn-dark d-block d-sm-none" @click="toggle_show">
-      Toggle
-      </button> -->
     <div class="side-panel"  v-bind:class="{ 'show': show}">
     <div class="">
       <div class="container" style="font-weight:bold;text-align:center;color:#2e2d2de0">
@@ -66,7 +63,7 @@ export default {
 </script>
 
 <style>
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 770px) {
   .toggle-btn{
     position: fixed;
     left: 0px;
@@ -92,7 +89,7 @@ export default {
 }
 
 .pnel{
-min-height:90vh;
+min-height:100vh;
 background:rgba(15, 170, 231, 0.144);
 background-image: linear-gradient(to left,rgba(15, 170, 231, 0), rgba(45, 110, 126, 0.4));
 padding: 2em;

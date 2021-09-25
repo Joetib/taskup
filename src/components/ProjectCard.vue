@@ -41,10 +41,16 @@ export default {
   width: 100%;
 }
 
+@media screen and (max-width:770px) {
+  .card-image {
+  display: none;
+}
+}
 
+@media screen and (min-width: 770px) {
 .pjboard:hover,.pjboard:active{
   transform: translateY(-5px);
   box-shadow: 0 0 20px 5px rgb(161, 77, 77,0.5) !important;
 }
-
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <div class="container-fluid h-min-100vh">
+  <div id="id_11" class="container-fluid h-min-100vh">
     <div class="row h-min-100vh">
-      <side-panel></side-panel>
+      <side-panel id="id_10" ></side-panel>
       <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
         <div class="container-fluid position-relative">
           <div class="container">
@@ -9,16 +9,16 @@
             <a class="btn btn-primary btn-lg" @click="enable_create_project"
                 ><i class="fa fa-plus pe-2"></i>Create Project
             </a>
-            </div>
+            </div><hr>
             <div class="row py-4">
-              <div class="col-12">
-                <h2>Projects</h2>
-              </div>
               <ProjectCard
                 v-for="project in projects"
                 :key="project.id"
                 :project="project"
               />
+              <div class="col-12 py-3" v-if="!projects.length">
+              <p class="text-danger">No projects available at the moment.</p>
+            </div>
             </div>
           </div>
           <div
@@ -110,4 +110,24 @@ export default {
   margin-top: 50px;
   width: 35%;
 }
+
+@media screen and (max-width: 770px) {
+  #id_10{
+    display: none;
+  }
+  #id_5{
+    margin: 50px 0% 20px 20%;
+    width: 80%;
+  }
+}
+
+#id_11{
+  min-height: 100vh;
+}
+
+/* #id_12:empty:before{
+  content:attr(data-placeholder);
+  color:red;
+} */
+
 </style>

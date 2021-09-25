@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="p-md-5 p-4">
-        <h4 class="pb-" style="font-weight:bold">Enter project details</h4>
+        <h4 class="pb-" style="font-weight:bold;color:#2e2d2de0">Enter project details</h4>
 
       <div class="form-group py-2">
         <label for="name">Name</label>
@@ -90,7 +90,7 @@ form {
  background: rgba(0,0,0,0.4);
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 770px) {
   form {
     width: 90%;
   }

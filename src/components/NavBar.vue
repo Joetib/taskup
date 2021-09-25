@@ -47,9 +47,24 @@
               >Log In</router-link
             >
           </li>
-          <li class="nav-item" v-if="isLoggedIn">
+          <li class="nav-item" v-if="dashboardFix">
             <router-link class="nav-link" to="/dashboard" @click="toggle"
               >Dashboard</router-link
+            >
+          </li>
+          <li class="nav-item" v-if="mobileMenuDisplay">
+            <router-link class="nav-link" to="/dashboard" @click="toggle"
+              >Projects</router-link
+            >
+          </li>
+          <li class="nav-item" v-if="mobileMenuDisplay">
+            <router-link class="nav-link"  to="/tasks/" @click="toggle"
+              >Tasks</router-link
+            >
+          </li>
+          <li class="nav-item" v-if="mobileMenuDisplay">
+            <router-link class="nav-link" to="/invites/" @click="toggle"
+              >Invites</router-link
             >
           </li>
           <li class="nav-item ms-md-auto" v-if="isLoggedIn">
@@ -79,6 +94,12 @@ export default {
        if (this.isLoggedIn) return "applifix"
       return ""
     },
+    mobileMenuDisplay(){
+      return this.isLoggedIn && window.matchMedia("screen and (max-width: 770px)").matches;
+    },
+    dashboardFix(){
+      return this.isLoggedIn && window.matchMedia("screen and (min-width: 770px)").matches;
+    }
   },
   methods: {
     logout() {
