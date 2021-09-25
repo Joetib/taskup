@@ -2,7 +2,7 @@
   <div id="id_11" class="container-fluid h-min-100vh">
     <div class="row h-min-100vh">
       <side-panel id="id_10"></side-panel>
-      <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
+      <div class="col-lg-10 col-xl-10">
         <div class="container py-5">
           <div class="row">
             <InviteCard
