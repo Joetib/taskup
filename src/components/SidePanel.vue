@@ -94,6 +94,7 @@ export default {
 .pnel{
 min-height:90vh;
 background:rgba(15, 170, 231, 0.144);
+background-image: linear-gradient(to left,rgba(15, 170, 231, 0), rgba(45, 110, 126, 0.4));
 padding: 2em;
 border-radius: 0 .8em 0 0;
 }

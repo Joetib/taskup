@@ -45,5 +45,6 @@ export default {
 <style scoped>
 .pjboard:hover,.pjboard:active{
   transform: translateY(-5px);
+  box-shadow: 0 0 20px 5px rgb(161, 77, 77,0.5) !important;
 }
 </style>
