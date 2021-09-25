@@ -102,9 +102,6 @@ export default {
   font-family: var(--taskup-font);
 }
 
-.applifix{
-  margin-left: 65px !important;
-}
 
 .navbar-toggler {
   margin-right: 1em !important;
@@ -124,6 +121,9 @@ export default {
   #logoutBtn {
     margin-left: 2em;
   }
+  .applifix{
+  margin-left: 65px !important;
+}
 }
 
 .navbar-nav .router-link-exact-active {

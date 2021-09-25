@@ -1,6 +1,6 @@
 <template>
   <div class="col-xl-4 col-6">
-    <div class="shadow">
+    <div class="shadow pjboard transition-2">
       <div class="card-body">
         <h5>{{ invite.project.name }}</h5>
         <p>{{ invite.project.description }}</p>
@@ -41,3 +41,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.pjboard:hover,.pjboard:active{
+  transform: translateY(-5px);
+}
+</style>
