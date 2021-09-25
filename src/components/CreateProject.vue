@@ -17,7 +17,7 @@
           type="text"
           required 
           maxlength="100"
-          minlength="5"
+          minlength="3"
           v-model="project_name"
           class="form-control form-control-lg"
         />
