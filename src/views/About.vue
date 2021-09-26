@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about" style="min-height:100vh">
 
       <section>
         <div class="container text-center animate_animated animated_bounce py-5">

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="min-height:100vh">
     <section class="section-1 container">
       <article class="pt-5">
         <h1 class="display-1">Project <br />management just got easier!</h1>
