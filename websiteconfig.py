@@ -12,5 +12,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}
 ADMINS = frozenset(['http://taskup.com'])
 
+if os.environ.get('DATABASE_URI'):
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URI']
 
 del os
