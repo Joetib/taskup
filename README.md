@@ -21,6 +21,14 @@ npm install
 ```
 
 ### Runs the backend server
+Create and activate a virtual environment.
+Install all needed requirements by running
+
+```
+pip install -r devrequirements.txt
+```
+
+Then run the development server using
 ```
 python run.py
 ```
