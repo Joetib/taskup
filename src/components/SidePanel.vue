@@ -1,11 +1,9 @@
 <template>
   <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2 px-0 pnel">
     <div class="side-panel"  v-bind:class="{ 'show': show}">
-    <div class="">
-      <div class="container" style="font-weight:bold;text-align:center;color:#2e2d2de0">
+      <div class="container text-truncate" style="font-weight:bold;text-align:center;color:#2e2d2de0">
         <h3>{{ this.$store.state.username }}</h3>
-        <p class="">{{ this.$store.state.email }}</p>
-      </div>
+        <p class="text-truncate">{{ this.$store.state.email }}</p>
     </div>
     <div class="container h-100 px-2 pt-5" style="font-weight:bold;" id="id_7">
       <nav>
