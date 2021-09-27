@@ -47,6 +47,11 @@
               >Log In</router-link
             >
           </li>
+          <li class="nav-item" v-if="!isLoggedIn">
+            <router-link class="nav-link" to="/signup" @click="toggle"
+              >Sign Up</router-link
+            >
+          </li>
           <li class="nav-item" v-if="dashboardFix">
             <router-link class="nav-link" to="/dashboard" @click="toggle"
               >Dashboard</router-link
