@@ -115,6 +115,7 @@ export default {
       );
     },
     dashboardFix() {
+      return true;
       return (
         this.isLoggedIn && this.windowWidth &&
         window.matchMedia("screen and (min-width: 770px)").matches
