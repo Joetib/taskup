@@ -1,6 +1,6 @@
 <template>
-  <div class="about" style="min-height:100vh">
-
+  <div class="about" style="min-height: 100vh">
+    <div class="container" style="max-width: 650px">
       <section>
         <div
           class="container text-center animate_animated animated_bounce py-5"
@@ -11,9 +11,7 @@
       </section>
 
       <section>
-        <div
-          class="container text-cener animate_animated animated_bounce py-5"
-        >
+        <div class="container text-cener animate_animated animated_bounce py-5">
           <p>
             Taskup is an online tool for managing projects and personal tasks.
             That may sound rather prosaic. But this increasingly popular app
@@ -26,9 +24,7 @@
       </section>
 
       <section>
-        <div
-          class="container text-cener animate_animated animated_bounce py-5"
-        >
+        <div class="container text-cener animate_animated animated_bounce py-5">
           It reminds us of the early traction that Dropbox…and other apps up
           there had that have grabbed individuals and caused them to start using
           it and bring it to work and convince teams and colleagues to use it
@@ -38,9 +34,7 @@
       </section>
 
       <section>
-        <div
-          class="container text-centr animate_animated animated_bounce py-5"
-        >
+        <div class="container text-centr animate_animated animated_bounce py-5">
           The visual organizing software has amassed some 4.6 million registered
           users — now with one million monthly actives — turning their projects,
           whether household to-do lists or corporate realignment plans, into
