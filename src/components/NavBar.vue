@@ -115,7 +115,10 @@ export default {
       );
     },
     dashboardFix() {
-      return true;
+      if (this.isLoggedIn){
+        return true;
+      }
+      return false;
       
     },
   },
