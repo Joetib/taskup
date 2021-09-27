@@ -61,7 +61,7 @@ export default {
 </script>
 
 <!--STYLING-->
-<style>
+<style scoped>
 .display-1 {
   color: #2e2d2de0;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
