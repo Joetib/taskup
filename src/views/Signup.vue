@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-5" style="max-width: 500px">
+  <div class="container py-5" style="max-width: 500px;margin-bottom:60vh">
     <form @submit.prevent="signup">
       <div>
         <h3 id="hding">Enter details to Sign Up</h3>
