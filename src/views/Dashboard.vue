@@ -5,6 +5,7 @@
       <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
         <div class="container-fluid position-relative">
           <div class="container">
+            <h1 class="pb-3">Projects</h1>
             <div id="id_5">
             <a class="btn btn-primary btn-lg" @click="enable_create_project"
                 ><i class="fa fa-plus pe-2"></i>Create Project

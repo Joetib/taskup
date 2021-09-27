@@ -4,6 +4,8 @@
       <side-panel id="id_10"></side-panel>
       <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
         <div class="container py-5">
+            <h1 class="pb-3">Invites</h1>
+
           <div class="row">
             <InviteCard
               @deleted="fetch_invites"
