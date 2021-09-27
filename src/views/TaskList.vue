@@ -4,6 +4,8 @@
       <side-panel id="id_10"></side-panel>
       <div class="col-sm-9 col-md-9 col-lg-9 col-xl-10">
         <div class="container py-5">
+            <h1 class="pb-3">Tasks</h1>
+
           <div class="row">
             <TaskCard
               v-for="task in tasks"
@@ -58,7 +60,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @media screen and (max-width: 770px) {
   #id_10{
     display: none;

@@ -13,7 +13,7 @@
           </button>
         </p>
       </article>
-      <img src="./../assets/img2.png" alt="" class="img-1 img-fluid" />
+      <img src="./../assets/img2.png" alt="" class="img-1 img-fluid " style="object-fit:contain;" />
     </section>
 
     <section class="section-2 container">
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <!--STYLING-->
-<style>
+<style scoped>
 .display-1 {
   color: #2e2d2de0;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;

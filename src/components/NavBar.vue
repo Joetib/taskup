@@ -21,7 +21,7 @@
       </button>
       <div class="collapse navbar-collapse p-1" id="navbarSupportedContent">
         <div class="ms-md-auto">
-          <ul class="navbar-nav" :class="applyFix" >
+          <ul class="navbar-nav" :class="applyFix">
             <li class="nav-item">
               <router-link
                 class="nav-link"
@@ -47,6 +47,11 @@
               >Log In</router-link
             >
           </li>
+          <li class="nav-item" v-if="!isLoggedIn">
+            <router-link class="nav-link" to="/signup" @click="toggle"
+              >Sign Up</router-link
+            >
+          </li>
           <li class="nav-item" v-if="dashboardFix">
             <router-link class="nav-link" to="/dashboard" @click="toggle"
               >Dashboard</router-link
@@ -58,7 +63,7 @@
             >
           </li>
           <li class="nav-item" v-if="mobileMenuDisplay">
-            <router-link class="nav-link"  to="/tasks/" @click="toggle"
+            <router-link class="nav-link" to="/tasks/" @click="toggle"
               >Tasks</router-link
             >
           </li>
@@ -83,25 +88,45 @@
 <script>
 export default {
   name: "NavBar",
+  data(){
+    return {windowWidth: "",};
+  },
   beforeCreate() {
     this.$store.commit("initializeStore");
+  },
+  created() {
+    window.addEventListener("resize", this.setWindowWidth);
+    console.log("setting event")
   },
   computed: {
     isLoggedIn() {
       return this.$store.state.token !== null && this.$store.state.token !== "";
     },
-    applyFix(){
-       if (this.isLoggedIn) return "applifix"
-      return ""
+    applyFix() {
+      if (this.isLoggedIn) return "applifix";
+      return "";
     },
-    mobileMenuDisplay(){
-      return this.isLoggedIn && window.matchMedia("screen and (max-width: 770px)").matches;
+    mobileMenuDisplay() {
+      console.log("checking resizes")
+      
+      return (
+        this.isLoggedIn && this.windowWidth &&
+        window.matchMedia("screen and (max-width: 770px)").matches
+      );
     },
-    dashboardFix(){
-      return this.isLoggedIn && window.matchMedia("screen and (min-width: 770px)").matches;
-    }
+    dashboardFix() {
+      if (this.isLoggedIn){
+        return true;
+      }
+      return false;
+      
+    },
   },
   methods: {
+    setWindowWidth(){
+      this.windowWidth = window.innerWidth
+      console.log("setting window width")
+    },
     logout() {
       this.$store.commit("logout");
       this.$router.push("/");
@@ -123,7 +148,6 @@ export default {
   font-family: var(--taskup-font);
 }
 
-
 .navbar-toggler {
   margin-right: 1em !important;
 }
@@ -134,7 +158,7 @@ export default {
   }
 }
 
-#logoutBtn {  
+#logoutBtn {
   font-weight: bolder;
   font-size: 1em;
 }
@@ -142,9 +166,9 @@ export default {
   #logoutBtn {
     margin-left: 2em;
   }
-  .applifix{
-  margin-left: 65px !important;
-}
+  .applifix {
+    margin-left: 65px !important;
+  }
 }
 
 .navbar-nav .router-link-exact-active {
@@ -164,7 +188,6 @@ export default {
 
 #navbarSupportedContent {
   font-weight: bolder;
-  
 }
 
 @media screen and (max-width: 770px) {
